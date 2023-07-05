@@ -8,7 +8,7 @@ void    ft_builtin_export(t_env **env, char   **argv)
     if(!argv)
         return ;
     if(!argv[1])
-        print_export(env);
+        print_export(*env);
     else
     {
         while (argv[i])
@@ -21,7 +21,7 @@ void    ft_builtin_export(t_env **env, char   **argv)
                 ft_change_var(env, argv[i]);
             i++;
         }
-        print_export(env);
+        print_export(*env);
     }
     return ;
 }
@@ -53,15 +53,15 @@ void    ft_change_var(t_env **env, char *str)
         free(tmp);
 }
 
-void    print_export(t_env **env)
+void    print_export(t_env *env)
 {
 	if (!env)
 		perror("env");
-	while (*env)
+	while (env)
 	{
         ft_printf("declare -x ");
-		ft_printf("%s\n", (*env)->str);
-		env = (*env)->next;
+		ft_printf("%s\n", env->str);
+		env = env->next;
 	}
 }
 

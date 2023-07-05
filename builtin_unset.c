@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/03 15:35:10 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:54:51 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 t_env *builtin_unset(t_env *env, char **argv)
 {
+    int i;
+    
     if (env == NULL || argv[0] == NULL || argv == NULL)
         return env;
 
-    while (*argv)
+    i = 1;
+    while (argv[i])
     {
-        env = remove_env_var(env, *argv);
-        argv++;
+        env = remove_env_var(env, argv[i]);
+        i++;
     }
-
+    builtin_env(env);
     return env;
 }
 
