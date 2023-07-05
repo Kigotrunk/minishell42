@@ -21,8 +21,7 @@ int is_builtin(char *cmd)
     int     i;
 
     i = 0;
-    all_cmd = malloc(ft_strlen("export unset exit env cd pwd echo") * sizeof(char));
-    all_cmd = "export unset exit env cd pwd echo";
+    all_cmd = ft_strdup("export unset exit env cd pwd echo");
     tab_cmd = ft_split(all_cmd, ' ');
     while (tab_cmd[i] && i <= 2)
     {
@@ -37,6 +36,8 @@ int is_builtin(char *cmd)
             return (1);
         i++; 
     }
+    free(all_cmd);
+    free_tab(tab_cmd);
     return (0);
 }
 
@@ -63,8 +64,11 @@ char    *ft_str_lower(char *cmd)
 {
     int i;
 
-    i = -1;
-    while (cmd[i++])
-        cmd [i] = ft_tolower(cmd[i]);
+    i = 0;
+    while (cmd[i])
+    {
+        cmd[i] = ft_tolower(cmd[i]);
+        i++;
+    }
     return (cmd);
 }

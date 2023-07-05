@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/03 17:13:17 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:37:25 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,18 @@ void	path_error(char *str)
 {
 	int	i;
 
+	dup2(2, 1);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '/')
 		{
-			ft_printf("minishell: %s: No such file or directory\n", str);
-			err_code = 127;
+			ft_printf("minishell: No such file or directory: %s\n", str);
 			return ;
 		}
 		i++;
 	}
-	ft_printf("minishell: %s: command not found\n", str);
-	err_code = 127;
+	ft_printf("minishell: command not found: %s\n", str);
 }
 
 char	*ft_strjoin2(char const *s1, char const *s2)

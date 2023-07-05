@@ -6,7 +6,7 @@
 #    By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/07/05 10:01:16 by kortolan         ###   ########.fr        #
+#    Updated: 2023/07/05 14:33:41 by kortolan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS     =  main.c \
 			lexer_utils.c \
 			utils.c \
 			pipex.c \
+			redirection.c \
 			pipex_utils.c \
 			builtin_unset.c \
 			builtin_exit.c \

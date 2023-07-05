@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/03 19:24:02 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:30:28 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main(int argc, char **argv, char **envp)
         input = NULL;
         free_tab(args);
         args = NULL;
+        ft_printf("\n%d\n", err_code);
     }
     ft_lstclear(&env, &free);
     env = NULL;
@@ -50,8 +51,8 @@ int main(int argc, char **argv, char **envp)
 
 int    minishell(char **argv, t_env **env)
 {
-    char ***cmd_tab;
-    char **io_tab;
+    char    ***cmd_tab;
+    char    **io_tab;
 
     if (argv == NULL)
         return (0);
@@ -66,9 +67,10 @@ int    minishell(char **argv, t_env **env)
         ft_printf("Format error\n");
         return (1);
     }
-    cmd_tab = ft_fix_args(cmd_tab, env); //leak
+    //cmd_tab = ft_fix_args(cmd_tab, env); //leak
     io_tab = get_io(argv);
-    pipex(cmd_tab, io_tab, env);
+    //cmd_tab = get_new_var(cmd_tab, env);
+    err_code = pipex(cmd_tab, io_tab, env);
     free_tab_tab(cmd_tab);
     free_tab(io_tab);
     return (0);
