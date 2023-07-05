@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/03 19:24:41 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 11:37:42 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	cmd(t_env **env, t_vars va, int k)
 	int		errfile;
 	char	*path;
 
-	if (!is_builtin(va.argv[k][0]))
-		path = pathfinder(va.argv[k][0], va.envp);
 	if (va.io_lst[2][0])
 	{
 		errfile = open(end_ope(va.io_lst[2]), O_WRONLY | O_CREAT, 0666);
@@ -96,6 +94,7 @@ void	cmd(t_env **env, t_vars va, int k)
 		do_builtin(va.argv[k], env, va.envp);
 	else
 	{
+		path = pathfinder(va.argv[k][0], va.envp);
 		execve(path, va.argv[k], va.envp);
 		free(path);
 	}
