@@ -6,7 +6,7 @@
 #    By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/06/20 15:15:18 by kortolan         ###   ########.fr        #
+#    Updated: 2023/07/05 10:01:16 by kortolan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRCS     =  main.c \
 			builtin_unset.c \
 			builtin_exit.c \
 			builtin_cd.c \
+			builtin_export.c \
+			builtin_env.c \
 											
 
 OBJS    = $(SRCS:.c=.o)

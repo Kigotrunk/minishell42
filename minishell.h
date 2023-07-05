@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/03 19:25:17 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:02:05 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,15 @@ t_env   *cpy_env(char **envp);
 void	ft_unset_utils(t_env **env, char *var, int index);
 int		ft_strlen_env(char *env);
 void    ft_print_echo(char **argv, int index);
-void	ft_putstr_echo(char *str, int i); 
+void	ft_putstr_echo(char *str, int i);
+
+//builtin_export
+void    ft_builtin_export(t_env **env, char   **argv);
+void    ft_change_var(t_env **env, char *str);
+void    print_export(t_env *env);
+int is_var(t_env *env, char *str);
+
+
 
 //parsing without quote and $
 char	***ft_fix_args(char ***args, t_env **env);
@@ -129,5 +137,8 @@ char	*ft_str_add(char *str, char c);
 int 	ft_is_quote(char c);
 void    print_tab(char **argv);
 char	*ft_size_var(int *n, t_env *env);
+int		var_with_value(char *str);
+void    builtin_env(t_env *env);
+
 
 #endif

@@ -54,6 +54,8 @@ void    do_builtin(char **cmd, t_env **env, char **envp)
         *env = builtin_unset(*env, cmd);
     if (ft_strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
         builtin_echo(cmd);
+    if (ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
+        ft_builtin_export(env, cmd);
     
 }
 

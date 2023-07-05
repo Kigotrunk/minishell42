@@ -29,17 +29,3 @@ void    builtin_pwd(char **cmd)
     	else
         	printf("%s\n", pwd);
 }
-
-void    builtin_env(t_env *env)
-{
-	int	x;
-
-	x = 0;
-	if (!env)
-		perror("env");
-	while (env)
-	{
-		ft_printf("%s\n", env->str);
-		env = env->next;
-	}
-}
