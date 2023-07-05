@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/05 14:37:39 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:22:16 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ int	exec_cmd(t_env **env, t_vars va)
 	i = 0;
 	while (i < va.n)
 	{
-		va.envp = get_tab_env(*env);
+		//va.envp = get_tab_env(*env);
 		va.pid[i] = fork();
 		if (va.pid[i] < 0)
 			return (1);
 		if (va.pid[i] == 0)
 			cmd(env, va, i);
 		i++;
-		free_tab(va.envp);
+		//free_tab(va.envp);
 	}
 	close_all(va.n, va.fd);
 	free_fd(va.fd, va.n);

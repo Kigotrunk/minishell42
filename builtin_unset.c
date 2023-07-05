@@ -3,75 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 14:54:51 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:20:41 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env *builtin_unset(t_env *env, char **argv)
+void    builtin_unset(t_env **env, char **argv)
 {
     int i;
     
-    if (env == NULL || argv[0] == NULL || argv == NULL)
-        return env;
-
+    if (env == NULL || argv == NULL || argv[0] == NULL)
+        return ;
     i = 1;
     while (argv[i])
     {
-        env = remove_env_var(env, argv[i]);
+        remove_env_var(env, argv[i]);
         i++;
     }
-    builtin_env(env);
-    return env;
+    builtin_env(*env);
 }
 
-t_env *remove_env_var(t_env *env, char *var)
+void    remove_env_var(t_env **env, char *var)
 {
-	char *str;
+    t_env   *i_lst;
 
-    str = ft_strjoin(var, "=");
-    env = remove_first(env, str);
-    env = remove_next(env, str);
-    free(str);
-
-    return env;
-}
-
-t_env *remove_first(t_env *env, char *str)
-{
-	t_env	*next;
-
-    if (!strncmp(env->str, str, ft_strlen(str)))
+    i_lst = *env;
+    if (ft_strncmp(i_lst->str, var, ft_strlen(var)) == 0)
     {
-        next = env->next;
-        free(env->str);
-        free(env);
-        env = next;
+        ft_lstdelone(*env, &free);
+        *env = i_lst->next;
+        return ;
     }
-    return env;
-}
-
-t_env *remove_next(t_env *env, char *str)
-{
-	t_env *current;
-	t_env *delete;
-
-    current = env;
-    while (current->next)
+    while (i_lst->next)
     {
-        if (!strncmp(current->next->str, str, ft_strlen(str)))
+        if(ft_strncmp(i_lst->next->str, var, ft_strlen(var)) == 0)
         {
-            delete = current->next;
-            current->next = delete->next;
-            free(delete->str);
-            free(delete);
-            break;
+            ft_lstdelone(i_lst->next, &free);
+            i_lst->next = i_lst->next->next;
         }
-        current = current->next;
+        i_lst = i_lst->next;
     }
-    return env;
 }

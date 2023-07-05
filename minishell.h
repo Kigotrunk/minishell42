@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 14:55:07 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 14:59:58 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ char    *ft_str_lower(char *cmd);
 
 
 //ft_builtin_unset
-t_env	*builtin_unset(t_env *env, char **argv);
-t_env *remove_env_var(t_env *env, char *var);
-t_env *remove_first(t_env *env, char *str);
-t_env *remove_next(t_env *env, char *str);
+void	builtin_unset(t_env **env, char **argv);
+void	remove_env_var(t_env **env, char *var);
 
 //ft_builtin_echo
 void	builtin_echo(char **argv);
