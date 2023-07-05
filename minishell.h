@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/03 19:25:17 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:50:02 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ void	get_doc(char *argv[], t_vars va);
 int		here_doc(int argc, char *argv[], char *envp[]);
 int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
 void	free_fd(int **fd, int n);
+void    redir_err(t_vars va);
+void    redir_input(t_vars va, int k);
+void    redir_output(t_vars va, int k);
 
 //lst
 int     ft_lstsize(t_env *lst);
@@ -110,6 +113,7 @@ void	echo_d_quote(int *in);
 void	echo_s_quote(int *in);
 void 	number_quote (char **argv, int index, int *count_s_quote, int *count_d_quote);
 
+int	var_with_value(char *str);
 
 //ft_utils
 t_env   *cpy_env(char **envp);

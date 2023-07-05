@@ -39,7 +39,7 @@ void    builtin_env(t_env *env)
 		perror("env");
 	while (env)
 	{
-		if(var_with_value((*env)->str))
+		if(var_with_value(env->str))
 			ft_printf("%s\n", env->str);
 		env = env->next;
 	}
