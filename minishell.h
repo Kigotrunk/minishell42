@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 14:55:07 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:22:28 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char    ***cmd_tab_init(int n);
 char    **io_init();
 char    *ft_stradd(char *s1, char *s2);
 int     syntax_error(char **argv);
-int    minishell(char **argv, t_env **envp);
+int		minishell(char **argv, t_env **envp);
+void	rl_replace_line(const char *text, int clear_undo);
+void    ft_sig(int code);
 
 //pipex
 int	    pipex(char ***argv, char **io_list, t_env **env);
