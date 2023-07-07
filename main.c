@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/05 15:20:42 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/07 22:39:20 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int    minishell(char **argv, t_env **env)
     io_tab = get_io(argv);
     //cmd_tab = get_new_var(cmd_tab, env);
     err_code = pipex(cmd_tab, io_tab, env);
+    builtin_unset(env, cmd_tab[0]);
     free_tab_tab(cmd_tab);
     free_tab(io_tab);
     return (0);
