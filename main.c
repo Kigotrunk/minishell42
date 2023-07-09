@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 14:12:52 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:01:38 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int main(int argc, char **argv, char **envp)
         input = NULL;
         free_tab(args);
         args = NULL;
-        ft_printf("\n%d\n", err_code);
     }
     ft_lstclear(&env, &free);
     //system("leaks minishell");
