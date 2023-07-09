@@ -23,7 +23,7 @@ t_env   *cpy_env(char **envp)
     while (envp[i])
     {
         split = ft_split(envp[i], '=');
-        ft_lstadd_back(&new_env, ft_lstnew(split[0], split[1], 2));
+        ft_lstadd_back(&new_env, ft_lstnew(split[0], split[1], 1));
         i++;
     }
     //leak_test(new_env);

@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:00:37 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 16:44:44 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:44:28 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void    builtin_env()
 		perror("env");
 	while (first)
 	{
-		if(first->print == 2)
+		if(first->print == 1 && first->value)
 			ft_printf("%s=%s\n", first->name, first->value);
 		first = first->next;
 	}

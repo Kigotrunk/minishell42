@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 16:29:53 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 17:54:40 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_global
 }		t_global;
  
 t_env   *env;
+int		err_code;
  
 void    free_tab(char **tab);
 void	free_tab_tab(char ***tab);
@@ -137,6 +138,7 @@ void	ft_unset_utils(t_env **env, char *var, int index);
 int		ft_strlen_env(char *env);
 void    ft_print_echo(char **argv, int index);
 void	ft_putstr_echo(char *str, int i);
+void	ft_change_pwd();
 
 //builtin_export
 void	ft_builtin_export(char   **argv);

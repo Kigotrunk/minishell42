@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:52 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:08:07 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_size(char *arg, int	*in_quote)
 		else if (arg[i] == '$')
 		{
 			new_str = ft_strjoin(new_str, ft_is_dollars(arg, *in_quote, i));
-			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && *in_quote != 1)
+			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && *in_quote != 1 && arg[i + 1] != '$')
 				i++;
 		}
 		i++;
@@ -105,29 +105,30 @@ char	*ft_dollars(int *n, char *arg, int i)
 	tmp = ft_strdup("");
 	if (!arg[i + 1] || ft_is_space(arg[i + 1]) == 1 || ft_is_quote(arg[i + 1]))
 		return ("$");
+	if(arg[i + 1] == '?')
+		return(ft_itoa(err_code));
 	i++;
 	j = 0;
 	while (arg[i])
 	{
-		if (!ft_is_space(arg[i]) && !ft_is_quote(arg[i]))
+		if (!ft_is_space(arg[i]) && !ft_is_quote(arg[i]) && arg[i] != '$')
 			tmp = ft_str_add(tmp, arg[i]);
 		else
 			break;
 		i++;	
 	}
-	while (env->name)
+	while (first->name)
 	{
-		if(strncmp(tmp, env->name, ft_strlen(tmp)) == 0)
+		if(strncmp(tmp, first->name, ft_strlen(tmp)) == 0)
 		{
 			new_str = ft_strdup(ft_size_var(n));
-			env = first;
+			free(tmp);
 			return (new_str);
 		}
-		env = env->next;
+		first = first->next;
 	}
 	if (tmp)
 		free(tmp);
-		env = first;
 	return ("");	
 }
 
