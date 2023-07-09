@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/03 18:47:50 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:12:16 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int     syntax_error(char **argv)
             return (1);
         i++;
     }
-    if (argv[i][0] == '|')
+    if (is_ope(argv[i]))
         return (1);
     return (0);
 }
@@ -127,8 +127,6 @@ char    **get_io(char **argv)
     {
         if (is_ope(argv[i]) && argv[i][0] != '|')
         {
-            if (!argv[i + 1])
-                return (NULL);
             if (argv[i][0] == '<') {
                 free(io_tab[0]);
                 io_tab[0] = ft_strjoin(argv[i], argv[i + 1]);

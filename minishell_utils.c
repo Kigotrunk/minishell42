@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:53:46 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 14:33:28 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:34:29 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ void	ft_putstr_echo(char *str, int i)
 	}
 }
 
-t_env  *ft_lstnew(void *str)
+t_env  *ft_lstnew(char *name, char *value, int print)
 {
         t_env  *new;
 
         new = malloc(sizeof(t_env));
         if (new == NULL)
                 return (NULL);
-        new->str = ft_strdup(str);
+        new->name = name;
+        new->value = value;
+        new->print = print;
         new->next = NULL;
         return (new);
 }
