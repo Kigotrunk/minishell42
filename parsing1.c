@@ -43,6 +43,7 @@ char	*ft_str_replace(char *arg, int *in_quote)
 	if (!arg)
 		return (NULL);
 	other = ft_size(arg, in_quote);
+	free(arg);
 	return (other);
 }
 
@@ -77,6 +78,7 @@ char	*ft_size(char *arg, int	*in_quote)
 		}
 		i++;
 	}
+	free(arg);
 	return (new_str);
 }
 
