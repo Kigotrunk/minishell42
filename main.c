@@ -6,19 +6,17 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 17:54:53 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:24:52 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_env    *env;
-
 int main(int argc, char **argv, char **envp)
 {
+    t_env   *env;
     char    *input;
     char    **args;
-    //int     err_code;
 
     (void)argc;
     (void)argv;
@@ -39,19 +37,18 @@ int main(int argc, char **argv, char **envp)
             continue ;
         }
         args = split_args(input);
-        err_code = minishell(args);
+        err_code = minishell(&env, args);
         free(input);
         input = NULL;
         free_tab(args);
         args = NULL;
-        ft_printf("\n%d\n", err_code);
     }
     ft_lstclear(&env, &free);
     //system("leaks minishell");
     return (0);
 }
 
-int    minishell(char **argv)
+int    minishell(t_env **env, char **argv)
 {
     char    ***cmd_tab;
     char    **io_tab;
@@ -59,7 +56,10 @@ int    minishell(char **argv)
 
     if (argv == NULL)
         return (0);
-    argv = get_new_var(argv);
+    //argv = get_new_var(argv, *env);
+    argv = get_new_var(argv, *env);
+    if (argv == NULL)
+        return (0);
     if (syntax_error(argv))
     {
         ft_printf("Syntax error\n");
@@ -68,7 +68,7 @@ int    minishell(char **argv)
     cmd_tab = get_cmd_tab(argv);
     cmd_tab = ft_fix_args(cmd_tab); //leak
     io_tab = get_io(argv);
-    err_code = pipex(cmd_tab, io_tab);
+    err_code = pipex(env, cmd_tab, io_tab);
     free_tab_tab(cmd_tab);
     free_tab(io_tab);
     return (err_code);

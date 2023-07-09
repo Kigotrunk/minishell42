@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 16:49:38 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:31:07 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    builtin_unset(char **argv)
+void    builtin_unset(char **argv, t_env **env)
 {
     int i;
     
@@ -21,21 +21,21 @@ void    builtin_unset(char **argv)
     i = 1;
     while (argv[i])
     {
-        remove_env_var(argv[i]);
+        remove_env_var(env, argv[i]);
         i++;
     }
-    builtin_env();
+    builtin_env(*env);
 }
 
-void    remove_env_var(char *var)
+void    remove_env_var(t_env **env, char *var)
 {
     t_env   *i_lst;
 
-    i_lst = env;
+    i_lst = *env;
     if (ft_strncmp(i_lst->name, var, ft_strlen(var)) == 0)
     {
-        ft_lstdelone(env, &free);
-        env = i_lst->next;
+        ft_lstdelone(*env, &free);
+        *env = i_lst->next;
         return ;
     }
     while (i_lst->next)

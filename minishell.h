@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 17:54:40 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:23:27 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,20 @@ char    ***cmd_tab_init(int n);
 char    **io_init();
 char    *ft_stradd(char *s1, char *s2);
 int     syntax_error(char **argv);
-int		minishell(char **argv);
+int		minishell(t_env **env, char **argv);
 void	rl_replace_line(const char *text, int clear_undo);
 void    ft_sig(int code);
 
 //pipex
-int	    pipex(char ***argv, char **io_list);
+int	    pipex(t_env **env, char ***argv, char **io_list);
 char	*pathfinder(char *str, char **envp);
 void	path_error(char *str);
 char	*ft_strjoin2(char const *s1, char const *s2);
-void	cmd(t_vars va, int k);
+void	cmd(t_env **env, t_vars va, int k);
 void	close_all(int n, int **fd);
 int		check_errors(int *pid, int n);
 char    **get_tab_env(t_env *lst);
-int		exec_cmd(t_vars va);
+int		exec_cmd(t_env **env, t_vars va);
 void	get_doc(char *argv[], t_vars va);
 int		here_doc(int argc, char *argv[], char *envp[]);
 int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
@@ -95,7 +95,7 @@ void    redir_input(t_vars va, int k);
 void    redir_output(t_vars va, int k);
 
 //new_var
-char    **get_new_var(char **argv);
+char    **get_new_var(char **argv, t_env *env);
 char     *get_value(char *str);
 char    *get_name(char *str);
 int 	is_new_var(char *arg);
@@ -110,18 +110,18 @@ t_env  *ft_lstnew(char *name, char *value, int print);
 
 //is_builtin && called ft_builtins
 int     is_builtin(char *cmd);
-void    do_builtin(char **cmd, char **envp);
+void    do_builtin(char **cmd, t_env **env, char **envp);
 
 //ft_builtin
 void    builtin_cd(char	**cmd);
 void    builtin_pwd(char **cmd);
-void    builtin_env();
+void    builtin_env(t_env *env);
 char    *ft_str_lower(char *cmd);
 
 
 //ft_builtin_unset
-void	builtin_unset(char **argv);
-void	remove_env_var(char *var);
+void	builtin_unset(char **argv, t_env **env);
+void	remove_env_var(t_env **env, char *var);
 
 //ft_builtin_echo
 void	builtin_echo(char **argv);

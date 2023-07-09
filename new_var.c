@@ -6,13 +6,11 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 13:49:45 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 14:39:31 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:58:44 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env   *env;
 
 int is_new_var(char *arg)
 {
@@ -71,7 +69,7 @@ char     *get_value(char *str)
     return (value);
 }
 
-char    **get_new_var(char **argv)
+char    **get_new_var(char **argv, t_env *env)
 {
     char    *name;
     char    *value;
@@ -83,7 +81,10 @@ char    **get_new_var(char **argv)
         name = get_name(argv[i]);
         value = get_value(argv[i]);
         ft_lstadd_back(&env, ft_lstnew(name, value, 0));
+        free(name);
+        free(value);
         i++;
+        printf("%d\n", i);
     }
-    return (&argv[i]);
+    return (argv + i);
 }

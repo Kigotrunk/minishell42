@@ -41,7 +41,7 @@ int is_builtin(char *cmd)
     return (0);
 }
 
-void    do_builtin(char **cmd, char **envp)
+void    do_builtin(char **cmd, t_env **env, char **envp)
 {
     if(!envp)
         return ;
@@ -50,14 +50,14 @@ void    do_builtin(char **cmd, char **envp)
     if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0 || ft_strncmp(cmd[0], "PWD", ft_strlen(cmd[0])) == 0)
         builtin_pwd(cmd);
     if (ft_strncmp(cmd[0], "env", ft_strlen("env")) == 0)
-        builtin_env();
+        builtin_env(*env);
     if (ft_strncmp(cmd[0], "unset", ft_strlen(cmd[0])) == 0)
-        builtin_unset(cmd);
+        builtin_unset(cmd, env);
     if (ft_strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
         builtin_echo(cmd);
     if (ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
         ft_builtin_export(cmd);
-    exit(0);
+    //exit(0);
 }
 
 char    *ft_str_lower(char *cmd)

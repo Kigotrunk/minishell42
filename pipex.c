@@ -6,15 +6,13 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 18:35:32 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:25:05 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env  *env;
-
-int	pipex(char ***argv, char **io_list)
+int	pipex(t_env **env, char ***argv, char **io_list)
 {
 	t_vars	va;
 	int		i;
@@ -32,6 +30,13 @@ int	pipex(char ***argv, char **io_list)
 	va.n = tab_size(argv);
 	if (va.n == 0)
 		return(0);
+	if (va.n == 1 && is_builtin(argv[0][0]))
+	{
+		va.envp = get_tab_env(*env);
+		do_builtin(argv[0], env, va.envp);
+		free_tab(va.envp);
+		return (0);
+	}
 	va.fd = (int **)malloc(sizeof(int *) * (va.n - 1));
 	i = 0;
 	while (i < va.n - 1)
@@ -42,22 +47,22 @@ int	pipex(char ***argv, char **io_list)
 		i++;
 	}
 	va.pid = (int *)malloc(sizeof(int) * va.n);
-	return (exec_cmd(va));
+	return (exec_cmd(env, va));
 }
 
-int	exec_cmd(t_vars va)
+int	exec_cmd(t_env **env, t_vars va)
 {
 	int		i;
 
 	i = 0;
 	while (i < va.n)
 	{
-		va.envp = get_tab_env(env);
+		va.envp = get_tab_env(*env);
 		va.pid[i] = fork();
 		if (va.pid[i] < 0)
 			return (1);
 		if (va.pid[i] == 0)
-			cmd(va, i);
+			cmd(env, va, i);
 		i++;
 		free_tab(va.envp);
 	}
@@ -66,7 +71,7 @@ int	exec_cmd(t_vars va)
 	return (check_errors(va.pid, va.n));
 }
 
-void	cmd(t_vars va, int k)
+void	cmd(t_env **env, t_vars va, int k)
 {
 	char	*path;
 
@@ -77,7 +82,7 @@ void	cmd(t_vars va, int k)
 	redir_output(va, k);
 	close_all(va.n, va.fd);
 	if (is_builtin(va.argv[k][0]))
-		do_builtin(va.argv[k], va.envp);
+		do_builtin(va.argv[k], env, va.envp);
 	else
 	{
 		execve(path, va.argv[k], va.envp);
