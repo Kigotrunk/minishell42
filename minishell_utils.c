@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:53:46 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 14:34:29 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:42:17 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_env  *ft_lstnew(char *name, char *value, int print)
         new = malloc(sizeof(t_env));
         if (new == NULL)
                 return (NULL);
-        new->name = name;
-        new->value = value;
+        new->name = ft_strdup(name);
+        new->value = ft_strdup(value);
         new->print = print;
         new->next = NULL;
         return (new);
@@ -67,7 +67,8 @@ void    ft_lstdelone(t_env *lst, void (*del)(void*))
 {
         if (!lst)
                 return ;
-        del(lst->str);
+        del(lst->name);
+        del(lst->value);
         free(lst);
 }
 

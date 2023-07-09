@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:58:39 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/03 19:10:16 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:15:56 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 char    **get_tab_env(t_env *lst)
 {
     char    **env;
+    char    *tmp;
     int     i;
     
     i = 0;
     env = (char **)malloc((ft_lstsize(lst) + 1) * sizeof(char *));
     while (lst)
     {
-        env[i] = ft_strdup(lst->str);
+        tmp = ft_strjoin(lst->name, "=");
+        env[i] = ft_strjoin(tmp, lst->value);
+        free(tmp);
         i++;
         lst = lst->next;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:00:37 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 10:02:28 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:45:49 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 void    builtin_env(t_env *env)
 {
-	int	x;
+	int		x;
+	t_env	*first;
 
+	first = env;
 	x = 0;
-	if (!env)
+	if (!first)
 		perror("env");
-	while (env)
+	while (first)
 	{
-		if(var_with_value(env->str))
-			ft_printf("%s\n", env->str);
-		env = env->next;
+		//if(first->print == 1)
+			ft_printf("%s=%s\n", first->name, first->value);
+		first = first->next;
 	}
 }
 
