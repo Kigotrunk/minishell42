@@ -6,13 +6,13 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:00:37 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/05 10:02:28 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:18:15 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    builtin_env(t_env *env)
+void    builtin_env()
 {
 	int	x;
 

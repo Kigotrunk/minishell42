@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/07 22:39:36 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:29:21 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,25 @@ typedef struct s_vars
 
 typedef struct s_env
 {
-	char			*str;
+	char			*name;
+	char			*value;
+	int				print;
 	struct s_env	*next;
 }		t_env;
+
+typedef struct s_global
+{
+	typedef struct s_env
+	{
+		char			*name;
+		char			*value;
+		int				print;
+		struct s_env	*next;
+	}		t_env;
+	int		fork;
+}		t_global;
+ 
+t_env   *env;
  
 void    free_tab(char **tab);
 void	free_tab_tab(char ***tab);
@@ -93,17 +109,17 @@ t_env  *ft_lstnew(void *str);
 
 //is_builtin && called ft_builtins
 int     is_builtin(char *cmd);
-void    do_builtin(char **cmd, t_env **env, char **envp);
+void    do_builtin(char **cmd, char **envp);
 
 //ft_builtin
-void    builtin_cd(char	**cmd, t_env **env);
+void    builtin_cd(char	**cmd);
 void    builtin_pwd(char **cmd);
-void    builtin_env(t_env *envp);
+void    builtin_env();
 char    *ft_str_lower(char *cmd);
 
 
 //ft_builtin_unset
-void	builtin_unset(t_env **env, char **argv);
+void	builtin_unset(char **argv);
 void	remove_env_var(t_env **env, char *var);
 
 //ft_builtin_echo
@@ -123,7 +139,7 @@ void    ft_print_echo(char **argv, int index);
 void	ft_putstr_echo(char *str, int i);
 
 //builtin_export
-void	ft_builtin_export(t_env **env, char   **argv);
+void	ft_builtin_export(char   **argv);
 void    ft_change_var(t_env **env, char *str);
 void    print_export(t_env *env);
 int is_var(t_env *env, char *str);
@@ -142,7 +158,6 @@ int 	ft_is_quote(char c);
 void    print_tab(char **argv);
 char	*ft_size_var(int *n, t_env *env);
 int		var_with_value(char *str);
-void    builtin_env(t_env *env);
 
 
 #endif

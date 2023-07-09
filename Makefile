@@ -6,7 +6,7 @@
 #    By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/07/05 15:02:04 by kortolan         ###   ########.fr        #
+#    Updated: 2023/07/09 14:07:58 by kortolan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SRCS     =  main.c \
 			minishell_utils.c \
 			builtin_echo.c \
 			parsing1.c \
-			parsing2.c \
 			builtin_parsing_utils.c \
 			parser.c \
 			lexer.c \

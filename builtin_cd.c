@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    builtin_cd(char **argv, t_env **env)
+void    builtin_cd(char **argv)
 {
     char    *path;
     char    *pwd;

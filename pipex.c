@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/05 15:22:16 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:19:59 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	exec_cmd(t_env **env, t_vars va)
 	i = 0;
 	while (i < va.n)
 	{
-		//va.envp = get_tab_env(*env);
+		//va.envp = get_ab_env(*env);
 		va.pid[i] = fork();
 		if (va.pid[i] < 0)
 			return (1);
@@ -75,7 +75,7 @@ void	cmd(t_env **env, t_vars va, int k)
 	redir_output(va, k);
 	close_all(va.n, va.fd);
 	if (is_builtin(va.argv[k][0]))
-		do_builtin(va.argv[k], env, va.envp);
+		do_builtin(va.argv[k], va.envp);
 	else
 	{
 		execve(path, va.argv[k], va.envp);

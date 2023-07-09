@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    ft_builtin_export(t_env **env, char   **argv)
+void    ft_builtin_export(char   **argv)
 {
     int i;
 
@@ -21,12 +21,12 @@ void    ft_builtin_export(t_env **env, char   **argv)
                 ft_change_var(env, argv[i]);
             i++;
         }
-        print_export(*env);
+        //print_export(*env);
     }
     return ;
 }
 
-void    ft_change_var(t_env **env, char *str)
+void    ft_change_var(char *str)
 {
     int i;
     char    *tmp;
@@ -88,6 +88,5 @@ int is_var(t_env *env, char *str)
         env = env->next;
     }
     free(tmp);
-    ft_printf("test1\n");
     return (0);
 }

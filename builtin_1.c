@@ -41,22 +41,22 @@ int is_builtin(char *cmd)
     return (0);
 }
 
-void    do_builtin(char **cmd, t_env **env, char **envp)
+void    do_builtin(char **cmd, char **envp)
 {
     if(!envp)
         return ;
     if (ft_strncmp(cmd[0], "cd", ft_strlen("cd")) == 0)
-        builtin_cd(cmd, env);
+        builtin_cd(cmd);
     if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0 || ft_strncmp(cmd[0], "PWD", ft_strlen(cmd[0])) == 0)
         builtin_pwd(cmd);
     if (ft_strncmp(cmd[0], "env", ft_strlen("env")) == 0)
-        builtin_env(*env);
+        builtin_env();
     if (ft_strncmp(cmd[0], "unset", ft_strlen(cmd[0])) == 0)
-        *env = builtin_unset(*env, cmd);
+        builtin_unset(cmd);
     if (ft_strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
         builtin_echo(cmd);
     if (ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
-        ft_builtin_export(env, cmd);
+        ft_builtin_export(cmd);
     exit(0);
 }
 
