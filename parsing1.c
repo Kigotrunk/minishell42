@@ -6,13 +6,13 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/03 19:25:09 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:52 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	***ft_fix_args(char ***args, t_env **env)
+char	***ft_fix_args(char ***args)
 {
 	int	in_quote;
 	int	j;
@@ -26,7 +26,7 @@ char	***ft_fix_args(char ***args, t_env **env)
 		i = 0;
 		while (args[j][i])
 		{
-			new_str = ft_str_replace(args[j][i], &in_quote, env);
+			new_str = ft_str_replace(args[j][i], &in_quote);
 			free(args[j][i]);
 			args[j][i] = new_str;
 			i++;
@@ -36,22 +36,22 @@ char	***ft_fix_args(char ***args, t_env **env)
 	return (args);
 }
 
-char	*ft_str_replace(char *arg, int *in_quote, t_env **env)
+char	*ft_str_replace(char *arg, int *in_quote)
 {
 	char	*other;
 	
 	if (!arg)
 		return (NULL);
-	other = ft_size(arg, in_quote, env);
+	other = ft_size(arg, in_quote);
 	return (other);
 }
 
-char	*ft_size(char *arg, int	*in_quote, t_env **env)
+char	*ft_size(char *arg, int	*in_quote)
 {
 	int	n;
 	int	i;
 	char	*new_str;
-	if(!*env)
+	if(!env)
 		return NULL;
 
 	n = 0;
@@ -71,7 +71,7 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 			new_str = ft_str_add(new_str, arg[i]);
 		else if (arg[i] == '$')
 		{
-			new_str = ft_strjoin(new_str, ft_is_dollars(arg, *in_quote, i, env));
+			new_str = ft_strjoin(new_str, ft_is_dollars(arg, *in_quote, i));
 			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && *in_quote != 1)
 				i++;
 		}
@@ -80,7 +80,7 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 	return (new_str);
 }
 
-char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env)
+char	*ft_is_dollars(char *arg, int in_quote, int i)
 {
 	char	*new_str;
 	int	n;
@@ -88,18 +88,20 @@ char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env)
 	n = 0;
 	if (in_quote != 1)
 	{
-		new_str = ft_dollars(&n, arg, i, env);
+		new_str = ft_dollars(&n, arg, i);
 		return (new_str);
 	}
 	return ("$");
 }
 
-char	*ft_dollars(int *n, char *arg, int i, t_env **env)
+char	*ft_dollars(int *n, char *arg, int i)
 {
 	char	*tmp;
 	char	*new_str;
 	int		j;
+	t_env	*first;
 
+	first = env;
 	tmp = ft_strdup("");
 	if (!arg[i + 1] || ft_is_space(arg[i + 1]) == 1 || ft_is_quote(arg[i + 1]))
 		return ("$");
@@ -113,34 +115,34 @@ char	*ft_dollars(int *n, char *arg, int i, t_env **env)
 			break;
 		i++;	
 	}
-	while ((*env)->str)
+	while (env->name)
 	{
-		if(strncmp(tmp, (*env)->str, ft_strlen(tmp)) == 0)
+		if(strncmp(tmp, env->name, ft_strlen(tmp)) == 0)
 		{
-			new_str = ft_strdup(ft_size_var(n, *env));
+			new_str = ft_strdup(ft_size_var(n));
+			env = first;
 			return (new_str);
 		}
-		*env = (*env)->next;
+		env = env->next;
 	}
 	if (tmp)
 		free(tmp);
+		env = first;
 	return ("");	
 }
 
-char	*ft_size_var(int *n, t_env *env)
+char	*ft_size_var(int *n)
 {
 	char	*new_str;
 	int	i;
 
 	new_str = ft_strdup("");
 	i = 0;
-	while (env->str[i] != '=')
-		i++;
-	while (env->str[i])
+	while (env->value[i])
 	{
-		i++;
-		new_str = ft_str_add(new_str, env->str[i]);
+		new_str = ft_str_add(new_str, env->value[i]);
 		*n += 1;
+		i++;
 	}
 	return (new_str);
 }

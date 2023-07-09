@@ -1,75 +1,85 @@
 #include "minishell.h"
 
-void    ft_builtin_export(char   **argv)
+void    ft_builtin_export(char **argv)
 {
-    int i;
+    int     i;
+    char    **split;
 
     i = 1;
     if(!argv)
         return ;
     if(!argv[1])
-        print_export(*env);
+        print_export();
     else
     {
         while (argv[i])
         {
-            if(!is_var(*env, argv[i]))
+            split = ft_split(argv[i], '=');
+            if(!is_var(split[0]))
             {
-                ft_lstadd_back(env, ft_lstnew(argv[i]));
+                if(split[1])
+                    ft_lstadd_back(&env, ft_lstnew(split[0], split[1], 2));
+                else
+                    ft_lstadd_back(&env, ft_lstnew(split[0], NULL, 1));
             }
             else
-                ft_change_var(env, argv[i]);
+            {
+                if(split[1])
+                    ft_change_var(split[0], split[1]);
+                else
+                    ft_change_var(split[0], NULL);
+            }
             i++;
+            free_tab(split);
         }
-        //print_export(*env);
     }
     return ;
 }
 
-void    ft_change_var(char *str)
+void    ft_change_var(char *name, char *value)
 {
-    int i;
-    char    *tmp;
+    t_env   *first;
 
-    i = 0;
-    tmp = ft_strdup("");
-    while(str[i] != '=' && str[i])
+    first = env;
+    while(first->name)
     {
-        tmp = ft_str_add(tmp, str[i]);
-        i++;
-    }
-    while((*env)->str)
-    {
-        if(!ft_strncmp((*env)->str, tmp, ft_strlen(tmp)))
+        if(!ft_strncmp(first->name, name, ft_strlen(name) + 1))
         {
-            free((*env)->str);
-            (*env)->str = ft_strdup(str);
-            free(tmp);
+            free(first->value);
+            first->name = ft_strdup(name);
+            first->value = ft_strdup(value);
             break;
         }
-        *env = (*env)->next;
+        env = env->next;
     }
-    if(tmp)
-        free(tmp);
 }
 
-void    print_export(t_env *env)
+void    print_export()
 {
-	if (!env)
-		perror("env");
-	while (env)
+    t_env   *first;
+
+    if (!env)
+	    perror("env");
+    first = env;
+	while (first)
 	{
-        ft_printf("declare -x ");
-		ft_printf("%s\n", env->str);
-		env = env->next;
+        if(first->value || first->print == 1)
+        {
+            ft_printf("declare -x ");
+		    ft_printf("%s=", first->name);
+            ft_printf("%s\n", first->value);
+        }
+		first = first->next;
 	}
 }
 
-int is_var(t_env *env, char *str)
+int is_var(char *str)
 {
     int i;
     char    *tmp;
+    t_env   *first;
 
+    first = env;
     i = 0;
     tmp = ft_strdup("");
     while(str[i] != '=' && str[i])
@@ -77,15 +87,15 @@ int is_var(t_env *env, char *str)
         tmp = ft_str_add(tmp, str[i]);
         i++;
     }
-    while(env)
+    while(first)
     {
-        if(!ft_strncmp(env->str, tmp, ft_strlen(tmp)))
+        if(!ft_strncmp(first->name, tmp, ft_strlen(tmp)))
         {
             ft_printf("var_connu\n");
             free(tmp);
             return (1);
         }
-        env = env->next;
+        first = first->next;
     }
     free(tmp);
     return (0);

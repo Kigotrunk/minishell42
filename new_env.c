@@ -15,14 +15,15 @@
 t_env   *cpy_env(char **envp)
 {
     t_env   *new_env;
+    char    **split;
     int     i;
 
     i = 0;
-    new_env = ft_lstnew(envp[i]);
-    i++;
+    new_env = NULL;
     while (envp[i])
     {
-        ft_lstadd_back(&new_env, ft_lstnew(envp[i]));
+        split = ft_split(envp[i], '=');
+        ft_lstadd_back(&new_env, ft_lstnew(split[0], split[1], 2));
         i++;
     }
     //leak_test(new_env);

@@ -6,13 +6,15 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 14:19:59 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:54:53 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pipex(char ***argv, char **io_list, t_env **env)
+t_env  *env;
+
+int	pipex(char ***argv, char **io_list)
 {
 	t_vars	va;
 	int		i;
@@ -40,31 +42,31 @@ int	pipex(char ***argv, char **io_list, t_env **env)
 		i++;
 	}
 	va.pid = (int *)malloc(sizeof(int) * va.n);
-	return (exec_cmd(env, va));
+	return (exec_cmd(va));
 }
 
-int	exec_cmd(t_env **env, t_vars va)
+int	exec_cmd(t_vars va)
 {
 	int		i;
 
 	i = 0;
 	while (i < va.n)
 	{
-		//va.envp = get_ab_env(*env);
+		va.envp = get_tab_env(env);
 		va.pid[i] = fork();
 		if (va.pid[i] < 0)
 			return (1);
 		if (va.pid[i] == 0)
-			cmd(env, va, i);
+			cmd(va, i);
 		i++;
-		//free_tab(va.envp);
+		free_tab(va.envp);
 	}
 	close_all(va.n, va.fd);
 	free_fd(va.fd, va.n);
 	return (check_errors(va.pid, va.n));
 }
 
-void	cmd(t_env **env, t_vars va, int k)
+void	cmd(t_vars va, int k)
 {
 	char	*path;
 

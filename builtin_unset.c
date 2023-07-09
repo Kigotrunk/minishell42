@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 14:17:02 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:49:38 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void    builtin_unset(char **argv)
         remove_env_var(argv[i]);
         i++;
     }
+    builtin_env();
 }
 
 void    remove_env_var(char *var)
@@ -31,7 +32,7 @@ void    remove_env_var(char *var)
     t_env   *i_lst;
 
     i_lst = env;
-    if (ft_strncmp(i_lst->str, var, ft_strlen(var)) == 0)
+    if (ft_strncmp(i_lst->name, var, ft_strlen(var)) == 0)
     {
         ft_lstdelone(env, &free);
         env = i_lst->next;
@@ -39,7 +40,7 @@ void    remove_env_var(char *var)
     }
     while (i_lst->next)
     {
-        if(ft_strncmp(i_lst->next->str, var, ft_strlen(var)) == 0)
+        if(ft_strncmp(i_lst->next->name, var, ft_strlen(var)) == 0)
         {
             ft_lstdelone(i_lst->next, &free);
             i_lst->next = i_lst->next->next;
