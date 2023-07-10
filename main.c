@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 18:57:37 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:26:50 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ int    minishell(t_env **env, char **argv)
     char    **io_tab;
     int     err_code;
 
-    if (argv == NULL)
-        return (0);
-    //argv = get_new_var(argv, *env);
-    argv = get_new_var(argv, *env);
     if (argv == NULL)
         return (0);
     if (syntax_error(argv))

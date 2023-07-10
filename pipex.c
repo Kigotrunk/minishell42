@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 18:29:12 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:45:11 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	pipex(t_env **env, char ***argv, char **io_list)
 {
 	t_vars	va;
+	char	**ptr;
 	int		i;
 
 	if (io_list[0][0])
@@ -30,12 +31,20 @@ int	pipex(t_env **env, char ***argv, char **io_list)
 	va.n = tab_size(argv);
 	if (va.n == 0)
 		return(0);
-	if (va.n == 1 && is_builtin(argv[0][0]))
+	if (va.n == 1)
 	{
-		va.envp = get_tab_env(*env);
-		do_builtin(argv[0], env, va.envp);
-		free_tab(va.envp);
-		return (0);
+		ptr = argv[0];
+		ptr = get_new_var(ptr, *env);
+		if (ptr[0] == NULL)
+			return (0);
+		va.argv = &ptr;
+		if (is_builtin(ptr[0]))
+		{
+			va.envp = get_tab_env(*env);
+			do_builtin(ptr, env, va.envp);
+			free_tab(va.envp);
+			return (0);
+		}
 	}
 	va.fd = (int **)malloc(sizeof(int *) * (va.n - 1));
 	i = 0;

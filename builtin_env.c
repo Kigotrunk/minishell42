@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:00:37 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 18:45:49 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:36:51 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 void    builtin_env(t_env *env)
 {
 	int		x;
-	t_env	*first;
+	t_env	*ptr;
 
-	first = env;
+	ptr = env;
 	x = 0;
-	if (!first)
+	if (!ptr)
 		perror("env");
-	while (first)
+	while (ptr)
 	{
-		//if(first->print == 1)
-			ft_printf("%s=%s\n", first->name, first->value);
-		first = first->next;
+		if(ptr->print == 1 && ptr->value != NULL)
+			ft_printf("%s=%s\n", ptr->name, ptr->value);
+		ptr = ptr->next;
 	}
 }
 

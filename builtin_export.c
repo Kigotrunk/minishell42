@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    ft_builtin_export(char **argv)
+void    ft_builtin_export(char **argv, t_env **env)
 {
     int     i;
     char    **split;
@@ -9,25 +9,25 @@ void    ft_builtin_export(char **argv)
     if(!argv)
         return ;
     if(!argv[1])
-        print_export();
+        print_export(*env);
     else
     {
         while (argv[i])
         {
             split = ft_split(argv[i], '=');
-            if(!is_var(split[0]))
+            if(!is_var(*env, split[0]))
             {
                 if(split[1])
-                    ft_lstadd_back(&env, ft_lstnew(split[0], split[1], 2));
+                    ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
                 else
-                    ft_lstadd_back(&env, ft_lstnew(split[0], NULL, 1));
+                    ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
             }
             else
             {
                 if(split[1])
-                    ft_change_var(split[0], split[1]);
+                    ft_change_var(env, split[0], split[1]);
                 else
-                    ft_change_var(split[0], NULL);
+                    ft_change_var(env, split[0], NULL);
             }
             i++;
             free_tab(split);
@@ -36,50 +36,55 @@ void    ft_builtin_export(char **argv)
     return ;
 }
 
-void    ft_change_var(char *name, char *value)
+void    ft_change_var(t_env **env, char *name, char *value)
 {
-    t_env   *first;
+    t_env   *ptr;
 
-    first = env;
-    while(first->name)
+    ptr = *env;
+    while(ptr->name)
     {
-        if(!ft_strncmp(first->name, name, ft_strlen(name) + 1))
+        if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
         {
-            free(first->value);
-            first->name = ft_strdup(name);
-            first->value = ft_strdup(value);
-            break;
+            if (ptr->print == 0)
+            {
+                ptr->print = 1;
+                return ;
+            }
+            free(ptr->value);
+            //first->name = ft_strdup(name);
+            ptr->value = ft_strdup(value);
+            return ;
         }
-        env = env->next;
+        ptr = ptr->next;
     }
 }
 
-void    print_export()
+void    print_export(t_env *env)
 {
-    t_env   *first;
+    t_env   *ptr;
 
     if (!env)
 	    perror("env");
-    first = env;
-	while (first)
+    ptr = env;
+	while (ptr)
 	{
-        if(first->value || first->print == 1)
+        if(ptr->value || ptr->print == 1)
         {
             ft_printf("declare -x ");
-		    ft_printf("%s=", first->name);
-            ft_printf("%s\n", first->value);
+		    ft_printf("%s=", ptr->name);
+            ft_printf("%s\n", ptr->value);
         }
-		first = first->next;
+		ptr = ptr->next;
 	}
 }
 
-int is_var(char *str)
+int is_var(t_env *env, char *str)
 {
     int i;
     char    *tmp;
-    t_env   *first;
+    t_env   *ptr;
 
-    first = env;
+    ptr = env;
     i = 0;
     tmp = ft_strdup("");
     while(str[i] != '=' && str[i])
@@ -87,15 +92,15 @@ int is_var(char *str)
         tmp = ft_str_add(tmp, str[i]);
         i++;
     }
-    while(first)
+    while(ptr)
     {
-        if(!ft_strncmp(first->name, tmp, ft_strlen(tmp)))
+        if(!ft_strncmp(ptr->name, tmp, ft_strlen(tmp)))
         {
             ft_printf("var_connu\n");
             free(tmp);
             return (1);
         }
-        first = first->next;
+        ptr = ptr->next;
     }
     free(tmp);
     return (0);

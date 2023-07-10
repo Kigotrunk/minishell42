@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 18:49:38 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:35:30 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ void    ft_print_echo(char **argv, int index);
 void	ft_putstr_echo(char *str, int i);
 
 //builtin_export
-void	ft_builtin_export(char   **argv);
-void    ft_change_var(char *name, char *value);
-void    print_export();
-int is_var(char *str);
+void	ft_builtin_export(char **argv, t_env **env);
+void    ft_change_var(t_env **env, char *name, char *value);
+void    print_export(t_env *env);
+int 	is_var(t_env *env, char *str);
 
 
 

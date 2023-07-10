@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 13:49:45 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/09 18:58:44 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:45:46 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ char    **get_new_var(char **argv, t_env *env)
         free(name);
         free(value);
         i++;
-        printf("%d\n", i);
     }
     return (argv + i);
 }
