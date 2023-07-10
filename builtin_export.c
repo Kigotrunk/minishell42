@@ -18,7 +18,7 @@ void    ft_builtin_export(char **argv, t_env **env)
             if(!is_var(*env, split[0]))
             {
                 if(split[1])
-                    ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
+                    ft_lstadd_back(&env, ft_lstnew(split[0], split[1], 1));
                 else
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
             }
@@ -68,7 +68,7 @@ void    print_export(t_env *env)
     ptr = env;
 	while (ptr)
 	{
-        if(ptr->value || ptr->print == 1)
+        if(ptr->print == 1)
         {
             ft_printf("declare -x ");
 		    ft_printf("%s=", ptr->name);

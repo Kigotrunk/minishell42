@@ -15,7 +15,6 @@
 void    builtin_cd(char **argv)
 {
     char    *path;
-    char    *pwd;
     if(!env)
         return ;
     if (!argv[1])
@@ -29,16 +28,21 @@ void    builtin_cd(char **argv)
         perror("path");
         return ;
     }
-    pwd = (char *)malloc(2048 * sizeof(char));
-    pwd = getcwd(pwd, 2048);
-    //ft_change_pwd(env, pwd);
+    ft_change_pwd();
 }
 
-/*void    ft_change_pwd(t_env **env, char *pwd)
+void    ft_change_pwd()
 {
-    t_env   *tmp;
-    while ((*env)->next)
+    t_env   *first;
+
+    first = env;
+    while (first->next)
     {
-        if (())
+        if (!ft_strncmp(first->name, "PWD", ft_strlen("PWD")))
+        {
+            free(first->value);
+            first->value = getcwd(first->value, 2048);
+        }
+        first = first->next;
     }
-}*/
+}

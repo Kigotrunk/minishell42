@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/10 11:26:50 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:55:14 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int main(int argc, char **argv, char **envp)
     t_env   *env;
     char    *input;
     char    **args;
-    int     err_code;
 
     (void)argc;
     (void)argv;
     env = cpy_env(envp);
+    err_code = 0;
     signal(SIGINT, ft_sig);
     signal(SIGQUIT, ft_sig);
     while ((input = readline("minishell$ ")))
@@ -52,7 +52,7 @@ int    minishell(t_env **env, char **argv)
 {
     char    ***cmd_tab;
     char    **io_tab;
-    int     err_code;
+    //int     err_code;
 
     if (argv == NULL)
         return (0);
@@ -62,7 +62,7 @@ int    minishell(t_env **env, char **argv)
         return (258);
     }
     cmd_tab = get_cmd_tab(argv);
-    //cmd_tab = ft_fix_args(cmd_tab, env); //leak
+    cmd_tab = ft_fix_args(cmd_tab); //leak
     io_tab = get_io(argv);
     err_code = pipex(env, cmd_tab, io_tab);
     free_tab_tab(cmd_tab);
