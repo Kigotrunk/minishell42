@@ -18,7 +18,7 @@ void    ft_builtin_export(char **argv, t_env **env)
             if(!is_var(*env, split[0]))
             {
                 if(split[1])
-                    ft_lstadd_back(&env, ft_lstnew(split[0], split[1], 1));
+                    ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
                 else
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
             }
