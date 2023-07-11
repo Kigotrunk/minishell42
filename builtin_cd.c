@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void    builtin_cd(char **argv, t_env **env)
+void    builtin_cd(char **argv, t_env *env)
 {
     char    *path;
     if(!env)
@@ -31,15 +31,18 @@ void    builtin_cd(char **argv, t_env **env)
     ft_change_pwd(env);
 }
 
-void    ft_change_pwd(t_env **env)
+void    ft_change_pwd(t_env *env)
 {
-    while ((*env)->next)
+    t_env   *ptr;
+
+    ptr = env;
+    while (ptr->next)
     {
-        if (!ft_strncmp((*env)->name, "PWD", ft_strlen("PWD")))
+        if (!ft_strncmp(ptr->name, "PWD", ft_strlen("PWD")))
         {
-            free((*env)->value);
-            (*env)->value = getcwd((*env)->value, 2048);
+            free(ptr->value);
+            ptr->value = getcwd(ptr->value, 2048);
         }
-        (*env) = (*env)->next;
+        ptr = ptr->next;
     }
 }

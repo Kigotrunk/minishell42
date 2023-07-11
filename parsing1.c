@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/11 16:31:17 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:11:04 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 	int	n;
 	int	i;
 	char	*new_str;
+	
 	if(!env)
-		return NULL;
-
+		return (NULL);
 	n = 0;
 	i = 0;
 	new_str = ft_strdup("");
@@ -101,7 +101,9 @@ char	*ft_dollars(int *n, char *arg, int i, t_env **env)
 	char	*tmp;
 	char	*new_str;
 	int		j;
+	t_env	*ptr;
 
+	ptr = *env;
 	tmp = ft_strdup("");
 	if (!arg[i + 1] || ft_is_space(arg[i + 1]) == 1 || ft_is_quote(arg[i + 1]))
 		return ("$");
@@ -117,22 +119,22 @@ char	*ft_dollars(int *n, char *arg, int i, t_env **env)
 			break;
 		i++;	
 	}
-	while ((*env)->name)
+	while (ptr->name)
 	{
-		if(strncmp(tmp, (*env)->name, ft_strlen(tmp)) == 0)
+		if(strncmp(tmp, ptr->name, ft_strlen(tmp)) == 0)
 		{
-			new_str = ft_strdup(ft_size_var(n, env));
+			new_str = ft_strdup(ft_size_var(n, *env));
 			free(tmp);
 			return (new_str);
 		}
-		(*env) = (*env)->next;
+		ptr = ptr->next;
 	}
 	if (tmp)
 		free(tmp);
 	return ("");	
 }
 
-char	*ft_size_var(int *n, t_env **env)
+char	*ft_size_var(int *n, t_env *env)
 {
 	char	*new_str;
 	int	i;
