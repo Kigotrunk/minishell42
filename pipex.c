@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/10 11:56:47 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/12 14:34:45 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	cmd(t_env **env, t_vars va, int k)
 	redir_output(va, k);
 	close_all(va.n, va.fd);
 	if (is_builtin(va.argv[k][0]))
-		do_builtin(va.argv[k], env, va.envp);
+		exit(do_builtin(va.argv[k], env, va.envp));
 	else
 	{
 		execve(path, va.argv[k], va.envp);
