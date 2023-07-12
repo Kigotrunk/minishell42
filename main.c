@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/10 12:13:09 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/12 01:27:41 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int    minishell(t_env **env, char **argv)
         return (258);
     }
     cmd_tab = get_cmd_tab(argv);
-    //cmd_tab = ft_fix_args(cmd_tab); //leak
+    cmd_tab = ft_fix_args(cmd_tab, env); //leak
     io_tab = get_io(argv);
     err_code = pipex(env, cmd_tab, io_tab);
     free_tab_tab(cmd_tab);

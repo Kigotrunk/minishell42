@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/11 17:11:04 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/12 01:11:31 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_str_replace(char *arg, int *in_quote, t_env **env)
 	if (!arg)
 		return (NULL);
 	other = ft_size(arg, in_quote, env);
-	free(arg);
+	//free(arg);
 	return (other);
 }
 
@@ -78,7 +78,7 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 		}
 		i++;
 	}
-	free(arg);
+	//free(arg);
 	return (new_str);
 }
 
@@ -90,23 +90,25 @@ char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env)
 	n = 0;
 	if (in_quote != 1)
 	{
-		new_str = ft_dollars(&n, arg, i, env);
+		new_str = ft_dollars(&n, arg, i, *env);
 		return (new_str);
 	}
 	return ("$");
 }
 
-char	*ft_dollars(int *n, char *arg, int i, t_env **env)
+char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 {
 	char	*tmp;
 	char	*new_str;
 	int		j;
-	t_env	*ptr;
+	//t_env	*ptr;
 
-	ptr = *env;
+	//ptr = *env;
 	tmp = ft_strdup("");
 	if (!arg[i + 1] || ft_is_space(arg[i + 1]) == 1 || ft_is_quote(arg[i + 1]))
 		return ("$");
+	if(arg[i + 1] == '$')
+		return ("");
 	if(arg[i + 1] == '?')
 		return(ft_itoa(err_code));
 	i++;
@@ -119,15 +121,15 @@ char	*ft_dollars(int *n, char *arg, int i, t_env **env)
 			break;
 		i++;	
 	}
-	while (ptr->name)
+	while ((env))
 	{
-		if(strncmp(tmp, ptr->name, ft_strlen(tmp)) == 0)
+		if(strncmp(tmp, (env)->name, ft_strlen(tmp) + 1) == 0)
 		{
-			new_str = ft_strdup(ft_size_var(n, *env));
+			new_str = ft_strdup(ft_size_var(n, env));
 			free(tmp);
 			return (new_str);
 		}
-		ptr = ptr->next;
+		env = (env)->next;
 	}
 	if (tmp)
 		free(tmp);
@@ -141,9 +143,9 @@ char	*ft_size_var(int *n, t_env *env)
 
 	new_str = ft_strdup("");
 	i = 0;
-	while ((*env)->value[i])
+	while (env->value[i])
 	{
-		new_str = ft_str_add(new_str, (*env)->value[i]);
+		new_str = ft_str_add(new_str, env->value[i]);
 		*n += 1;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/09 18:31:07 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:51:04 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void    builtin_unset(char **argv, t_env **env)
         remove_env_var(env, argv[i]);
         i++;
     }
-    builtin_env(*env);
 }
 
 void    remove_env_var(t_env **env, char *var)

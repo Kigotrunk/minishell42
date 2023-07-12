@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/11 17:09:53 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/12 01:02:02 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int     is_builtin(char *cmd);
 void    do_builtin(char **cmd, t_env **env, char **envp);
 
 //ft_builtin
-void    builtin_cd(char	**cmd, t_env **env);
+void    builtin_cd(char	**cmd, t_env *env);
 void    builtin_pwd(char **cmd);
 void    builtin_env(t_env *env);
 char    *ft_str_lower(char *cmd);
@@ -152,7 +152,7 @@ char	***ft_fix_args(char ***args, t_env **env);
 char	*ft_str_replace(char *arg, int *in_quote, t_env **env);
 char	*ft_size(char *arg, int	*in_quote, t_env **env);
 char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env);
-char	*ft_dollars(int *n, char *arg, int i, t_env **env);
+char	*ft_dollars(int *n, char *arg, int i, t_env *env);
 int		ft_is_space(char c);
 char	*ft_str_add(char *str, char c);
 int 	ft_is_quote(char c);

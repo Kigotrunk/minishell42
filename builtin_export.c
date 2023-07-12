@@ -15,12 +15,14 @@ void    ft_builtin_export(char **argv, t_env **env)
         while (argv[i])
         {
             split = ft_split(argv[i], '=');
+            ft_printf("%s\n", split[0]);
             if(!is_var(*env, split[0]))
             {
                 if(split[1])
                     ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
                 else
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
+                ft_printf("%s\n", "test");
             }
             else
             {
@@ -96,7 +98,6 @@ int is_var(t_env *env, char *str)
     {
         if(!ft_strncmp(ptr->name, tmp, ft_strlen(tmp)))
         {
-            ft_printf("var_connu\n");
             free(tmp);
             return (1);
         }
