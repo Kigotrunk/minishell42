@@ -40,24 +40,24 @@ void    ft_builtin_export(char **argv, t_env **env)
 
 void    ft_change_var(t_env **env, char *name, char *value)
 {
-    t_env   *ptr;
+    //t_env   *ptr;
 
-    ptr = *env;
-    while(ptr->name)
+    //ptr = *env;
+    while((*env))
     {
-        if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
+        if(ft_strncmp((*env)->name, name, ft_strlen(name) + 1) == 0)
         {
-            if (ptr->print == 0)
+            if ((*env)->print == 0)
             {
-                ptr->print = 1;
+                (*env)->print = 1;
                 return ;
             }
-            free(ptr->value);
+            free((*env)->value);
             //first->name = ft_strdup(name);
-            ptr->value = ft_strdup(value);
+            (*env)->value = ft_strdup(value);
             return ;
         }
-        ptr = ptr->next;
+        *env = (*env)->next;
     }
 }
 
@@ -84,9 +84,9 @@ int is_var(t_env *env, char *str)
 {
     int i;
     char    *tmp;
-    t_env   *ptr;
+    //t_env   *ptr;
 
-    ptr = env;
+    //ptr = env;
     i = 0;
     tmp = ft_strdup("");
     while(str[i] != '=' && str[i])
@@ -94,14 +94,14 @@ int is_var(t_env *env, char *str)
         tmp = ft_str_add(tmp, str[i]);
         i++;
     }
-    while(ptr)
+    while(env)
     {
-        if(!ft_strncmp(ptr->name, tmp, ft_strlen(tmp)))
+        if(!ft_strncmp(env->name, tmp, ft_strlen(tmp)))
         {
             free(tmp);
             return (1);
         }
-        ptr = ptr->next;
+        env = env->next;
     }
     free(tmp);
     return (0);

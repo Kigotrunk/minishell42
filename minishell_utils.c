@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:53:46 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/12 01:37:02 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/12 13:36:55 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_env  *ft_lstnew(char *name, char *value, int print)
         new->name = ft_strdup(name);
         if (!value)
             new->value = NULL;
-		else
-        	new->value = ft_strdup(value);
+	else
+                new->value = ft_strdup(value);
         new->print = print;
         new->next = NULL;
         return (new);
