@@ -6,7 +6,7 @@ void    ft_builtin_export(char **argv, t_env **env)
     char    **split;
 
     i = 1;
-    if(!argv)
+    if(!argv || argv == NULL)
         return ;
     if(!argv[1])
         print_export(*env);
@@ -15,14 +15,14 @@ void    ft_builtin_export(char **argv, t_env **env)
         while (argv[i])
         {
             split = ft_split(argv[i], '=');
-            ft_printf("%s\n", split[0]);
+            if (split[0] == NULL)
+                return ;
             if(!is_var(*env, split[0]))
             {
                 if(split[1])
                     ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
                 else
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
-                ft_printf("%s\n", "test");
             }
             else
             {
@@ -40,43 +40,47 @@ void    ft_builtin_export(char **argv, t_env **env)
 
 void    ft_change_var(t_env **env, char *name, char *value)
 {
-    //t_env   *ptr;
+    t_env   *ptr;
 
-    //ptr = *env;
-    while((*env))
+    ptr = *env;
+    if(value == NULL)
+        return ;
+    while((ptr))
     {
-        if(ft_strncmp((*env)->name, name, ft_strlen(name) + 1) == 0)
+        if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
         {
-            if ((*env)->print == 0)
+            if (ptr->print == 0)
             {
-                (*env)->print = 1;
+                ptr->print = 1;
                 return ;
             }
-            free((*env)->value);
-            //first->name = ft_strdup(name);
-            (*env)->value = ft_strdup(value);
+            free(ptr->value);
+            ptr->value = ft_strdup(value);
             return ;
         }
-        *env = (*env)->next;
+        ptr = ptr->next;
     }
 }
 
 void    print_export(t_env *env)
 {
-    t_env   *ptr;
+    //t_env   *ptr;
 
     if (!env)
 	    perror("env");
-    ptr = env;
-	while (ptr)
+    //ptr = env;
+	while (env)
 	{
-        if(ptr->print == 1)
+        if(env->print == 1)
         {
             ft_printf("declare -x ");
-		    ft_printf("%s=", ptr->name);
-            ft_printf("%s\n", ptr->value);
+		    ft_printf("%s", env->name);
+            if (env->value != NULL)
+                ft_printf("=\"%s\"\n", env->value);
+            else
+                ft_printf("\n");
         }
-		ptr = ptr->next;
+		env = env->next;
 	}
 }
 
@@ -87,6 +91,9 @@ int is_var(t_env *env, char *str)
     //t_env   *ptr;
 
     //ptr = env;
+    ft_printf("test19\n");
+    if (str == NULL)
+        return (0);
     i = 0;
     tmp = ft_strdup("");
     while(str[i] != '=' && str[i])
