@@ -34,14 +34,15 @@ void    builtin_cd(char **argv, t_env *env)
 void    ft_change_pwd(t_env *env)
 {
     t_env   *ptr;
+    char    *tmp;
 
     ptr = env;
     while (ptr->next)
     {
         if (!ft_strncmp(ptr->name, "PWD", ft_strlen("PWD")))
         {
-            //if(ptr->value != NULL)
-                //free(ptr->value);
+            tmp = ft_strdup(ptr->value);
+            change_oldpwd(tmp);
             ptr->value = getcwd(ptr->value, 2048);
             ft_printf("%s\n", ptr->value);
             break;

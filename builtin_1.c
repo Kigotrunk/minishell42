@@ -32,7 +32,7 @@ int is_builtin(char *cmd)
     cmd = ft_str_lower(cmd);
     while (tab_cmd[i])
     {
-        if (ft_strncmp(tab_cmd[i], cmd, ft_strlen(cmd)) == 0)
+        if (ft_strncmp(tab_cmd[i], cmd, ft_strlen(cmd) + 1) == 0)
             return (1);
         i++; 
     }

@@ -19,17 +19,21 @@ void    ft_builtin_export(char **argv, t_env **env)
                 return ;
             if(!is_var(*env, split[0]))
             {
-                if(split[1])
+                if(split[1] && var_name(split[0]))
                     ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
-                else
+                else if(var_name(split[0]))
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
+                else
+                ft_printf("invalid var Name\n");
             }
             else
             {
-                if(split[1])
+                if(split[1] && var_name(split[0]))
                     ft_change_var(env, split[0], split[1]);
-                else
+                else if (var_name(split[0]))
                     ft_change_var(env, split[0], NULL);
+                else 
+                ft_printf("invalid var Name\n");
             }
             i++;
             free_tab(split);
@@ -91,7 +95,6 @@ int is_var(t_env *env, char *str)
     //t_env   *ptr;
 
     //ptr = env;
-    ft_printf("test19\n");
     if (str == NULL)
         return (0);
     i = 0;
@@ -112,4 +115,21 @@ int is_var(t_env *env, char *str)
     }
     free(tmp);
     return (0);
+}
+
+int var_name(char *str)
+{
+    int i;
+
+    i = 0;
+    if(!ft_isalpha(str[i]) && str[i] != '_')
+        return (0);
+    i++;
+    while (str[i])
+    {
+        if(!ft_isalnum(str[i]) && str[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
 }

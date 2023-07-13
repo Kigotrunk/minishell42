@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 13:49:45 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/10 11:45:46 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:47:22 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char    *get_name(char *str)
 {
     char    *name;
     int     i;
+    
 
     i = 0;
     while (str[i] != '=')
@@ -79,6 +80,12 @@ char    **get_new_var(char **argv, t_env *env)
     while (is_new_var(argv[i]))
     {
         name = get_name(argv[i]);
+        /*if(!var_name(name))
+        {
+            ft_printf("command not found\n");
+            free(name);
+            return NULL;
+        }*/
         value = get_value(argv[i]);
         ft_lstadd_back(&env, ft_lstnew(name, value, 0));
         free(name);

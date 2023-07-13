@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/12 21:20:23 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/13 10:40:00 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	pipex(t_env **env, char ***argv, char **io_list)
 	{
 		ptr = argv[0];
 		ptr = get_new_var(ptr, *env);
-		if (ptr[0] == NULL)
+		if (ptr == NULL || ptr[0] == NULL)
 			return (0);
 		va.argv = &ptr;
 		if (is_builtin(ptr[0]))

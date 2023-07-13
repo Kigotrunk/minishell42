@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/12 20:27:24 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:49:54 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	ft_builtin_export(char **argv, t_env **env);
 void    ft_change_var(t_env **env, char *name, char *value);
 void    print_export(t_env *env);
 int 	is_var(t_env *env, char *str);
+int		var_name(char *str);
 
 
 
