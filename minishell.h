@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/13 09:49:54 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:13:55 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	free_fd(int **fd, int n);
 void    redir_err(t_vars va);
 void    redir_input(t_vars va, int k);
 void    redir_output(t_vars va, int k);
+char	**remove_wrg_arg(char **argv);
 
 //new_var
 char    **get_new_var(char **argv, t_env *env);
