@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/13 12:02:22 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:07:17 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_env
 
 typedef struct s_global
 {
-	t_env	*env;
+	//t_env	*env;
 	int		fork;
 }		t_global;
  

@@ -6,7 +6,7 @@ void    ft_builtin_export(char **argv, t_env **env)
     char    **split;
 
     i = 1;
-    if(!argv)
+    if(!argv || argv == NULL)
         return ;
     if(!argv[1])
         print_export(*env);
@@ -15,14 +15,14 @@ void    ft_builtin_export(char **argv, t_env **env)
         while (argv[i])
         {
             split = ft_split(argv[i], '=');
-            ft_printf("%s\n", split[0]);
+            if (split[0] == NULL)
+                return ;
             if(!is_var(*env, split[0]))
             {
                 if(split[1])
                     ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
                 else
                     ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
-                ft_printf("%s\n", "test");
             }
             else
             {
@@ -43,7 +43,9 @@ void    ft_change_var(t_env **env, char *name, char *value)
     t_env   *ptr;
 
     ptr = *env;
-    while(ptr->name)
+    if(value == NULL)
+        return ;
+    while((ptr))
     {
         if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
         {
@@ -53,7 +55,6 @@ void    ft_change_var(t_env **env, char *name, char *value)
                 return ;
             }
             free(ptr->value);
-            //first->name = ft_strdup(name);
             ptr->value = ft_strdup(value);
             return ;
         }
@@ -63,20 +64,23 @@ void    ft_change_var(t_env **env, char *name, char *value)
 
 void    print_export(t_env *env)
 {
-    t_env   *ptr;
+    //t_env   *ptr;
 
     if (!env)
 	    perror("env");
-    ptr = env;
-	while (ptr)
+    //ptr = env;
+	while (env)
 	{
-        if(ptr->print == 1)
+        if(env->print == 1)
         {
             ft_printf("declare -x ");
-		    ft_printf("%s=", ptr->name);
-            ft_printf("%s\n", ptr->value);
+		    ft_printf("%s", env->name);
+            if (env->value != NULL)
+                ft_printf("=\"%s\"\n", env->value);
+            else
+                ft_printf("\n");
         }
-		ptr = ptr->next;
+		env = env->next;
 	}
 }
 
@@ -84,9 +88,12 @@ int is_var(t_env *env, char *str)
 {
     int i;
     char    *tmp;
-    t_env   *ptr;
+    //t_env   *ptr;
 
-    ptr = env;
+    //ptr = env;
+    ft_printf("test19\n");
+    if (str == NULL)
+        return (0);
     i = 0;
     tmp = ft_strdup("");
     while(str[i] != '=' && str[i])
@@ -94,14 +101,14 @@ int is_var(t_env *env, char *str)
         tmp = ft_str_add(tmp, str[i]);
         i++;
     }
-    while(ptr)
+    while(env)
     {
-        if(!ft_strncmp(ptr->name, tmp, ft_strlen(tmp)))
+        if(!ft_strncmp(env->name, tmp, ft_strlen(tmp)))
         {
             free(tmp);
             return (1);
         }
-        ptr = ptr->next;
+        env = env->next;
     }
     free(tmp);
     return (0);

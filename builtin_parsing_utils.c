@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:18:15 by kortolan          #+#    #+#             */
-/*   Updated: 2023/06/20 15:12:15 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/12 21:36:26 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_str_add(char *str, char c)
 {
 	char	*add_str;
 	char	*str2;
-
+	
 	str2 = malloc(sizeof(char) * 2);
 	str2[0] = c;
 	str2[1] = '\0';

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:58:39 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/10 11:26:32 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/12 22:21:06 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ char    **get_tab_env(t_env *lst)
     while (lst)
     {
         tmp = ft_strjoin(lst->name, "=");
-        env[i] = ft_strjoin(tmp, lst->value);
-        free(tmp);
+        if(lst->value == NULL)
+            env[i] = tmp;
+        else
+        {
+            env[i] = ft_strjoin(tmp, lst->value);
+            free(tmp);
+        }
         i++;
         lst = lst->next;
     }

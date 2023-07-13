@@ -40,8 +40,11 @@ void    ft_change_pwd(t_env *env)
     {
         if (!ft_strncmp(ptr->name, "PWD", ft_strlen("PWD")))
         {
-            free(ptr->value);
+            //if(ptr->value != NULL)
+                //free(ptr->value);
             ptr->value = getcwd(ptr->value, 2048);
+            ft_printf("%s\n", ptr->value);
+            break;
         }
         ptr = ptr->next;
     }

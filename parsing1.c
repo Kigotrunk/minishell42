@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/12 01:11:31 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/12 22:39:57 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 	int	n;
 	int	i;
 	char	*new_str;
+	char	*tmp;
 	
 	if(!env)
 		return (NULL);
@@ -72,7 +73,9 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 			new_str = ft_str_add(new_str, arg[i]);
 		else if (arg[i] == '$')
 		{
-			new_str = ft_strjoin(new_str, ft_is_dollars(arg, *in_quote, i, env));
+			tmp = ft_is_dollars(arg, *in_quote, i, env);
+			if(tmp != NULL)
+				new_str = ft_strjoin(new_str, tmp);
 			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && *in_quote != 1 && arg[i + 1] != '$')
 				i++;
 		}
@@ -125,6 +128,8 @@ char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 	{
 		if(strncmp(tmp, (env)->name, ft_strlen(tmp) + 1) == 0)
 		{
+			if(env->value == NULL)
+				return (NULL);
 			new_str = ft_strdup(ft_size_var(n, env));
 			free(tmp);
 			return (new_str);
@@ -133,7 +138,7 @@ char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 	}
 	if (tmp)
 		free(tmp);
-	return ("");	
+	return (NULL);	
 }
 
 char	*ft_size_var(int *n, t_env *env)
@@ -141,6 +146,8 @@ char	*ft_size_var(int *n, t_env *env)
 	char	*new_str;
 	int	i;
 
+	if(env->value == NULL)
+		return(NULL);
 	new_str = ft_strdup("");
 	i = 0;
 	while (env->value[i])
