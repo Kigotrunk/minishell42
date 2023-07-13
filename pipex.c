@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/12 14:34:45 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:05:20 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ int	exec_cmd(t_env **env, t_vars va)
 
 void	cmd(t_env **env, t_vars va, int k)
 {
+	int		code;
+	char	**argv;
 	char	*path;
 
+	argv = remove_wrg_arg(va.argv[k]);
 	redir_err(va);
 	if (!is_builtin(va.argv[k][0]))
 		path = pathfinder(va.argv[k][0], va.envp);
@@ -91,10 +94,11 @@ void	cmd(t_env **env, t_vars va, int k)
 	redir_output(va, k);
 	close_all(va.n, va.fd);
 	if (is_builtin(va.argv[k][0]))
-		exit(do_builtin(va.argv[k], env, va.envp));
-	else
 	{
-		execve(path, va.argv[k], va.envp);
-		free(path);
+		code = do_builtin(argv, env, va.envp);
+		free_tab(argv);
+		exit(code);
 	}
+	else
+		execve(path, argv, va.envp);
 }

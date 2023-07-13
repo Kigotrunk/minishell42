@@ -6,13 +6,43 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/05 12:37:25 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:02:51 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	err_code;
+char	**remove_wrg_arg(char **argv)
+{
+	char	**new_argv;
+	int		new_len;
+	int		i;
+	int		j;
+
+	new_len = 0;
+	i = 0;
+	while (argv[i])
+	{
+		if (argv[i] != NULL && argv[i][0] != '\0')
+			new_len++;
+		i++;
+	}
+	new_argv = (char **)malloc((sizeof(char *) + 1) * new_len);
+	i = 0;
+	j = 0;
+	while (argv[i])
+	{
+		if (argv[i] != NULL && argv[i][0] != '\0')
+		{
+			new_argv[j] = (char *)malloc(ft_strlen(argv[i]));
+			new_argv[j] = ft_strdup(argv[i]);
+			j++;
+		}
+		i++;
+	}
+	new_argv[j] = NULL;
+	return (new_argv);		
+}
 
 char	*pathfinder(char *str, char **envp)
 {
