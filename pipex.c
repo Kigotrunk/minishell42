@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/13 13:14:31 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/13 13:32:07 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	pipex(t_env **env, char ***argv, char **io_list)
 		return(0);
 	if (va.n == 1)
 	{
-		ptr = argv[0];
+		ptr = remove_wrg_arg(argv[0]);
 		ptr = get_new_var(ptr, *env);
 		if (ptr == NULL || ptr[0] == NULL)
 			return (0);
@@ -42,6 +42,7 @@ int	pipex(t_env **env, char ***argv, char **io_list)
 		{
 			va.envp = get_tab_env(*env);
 			do_builtin(ptr, env, va.envp);
+			//free_tab(ptr);
 			free_tab(va.envp);
 			return (0);
 		}

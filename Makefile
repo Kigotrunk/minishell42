@@ -6,7 +6,7 @@
 #    By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/07/09 16:32:54 by kortolan         ###   ########.fr        #
+#    Updated: 2023/07/13 23:56:23 by kortolan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,4 +62,11 @@ fclean: clean
 	rm -rf ft_printf/libftprintf.a
 	rm -rf $(NAME)
 
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "\033[1mcompiling\033[0m: $<                     \r"
+#	@say "compiling file $<, please stand by"
+
 re: fclean all
+
+.PHONY:	clean fclean re all

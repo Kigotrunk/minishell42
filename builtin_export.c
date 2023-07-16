@@ -47,17 +47,14 @@ void    ft_change_var(t_env **env, char *name, char *value)
     t_env   *ptr;
 
     ptr = *env;
-    if(value == NULL)
-        return ;
     while((ptr))
     {
         if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
         {
             if (ptr->print == 0)
-            {
                 ptr->print = 1;
+            if(value == NULL)
                 return ;
-            }
             free(ptr->value);
             ptr->value = ft_strdup(value);
             return ;

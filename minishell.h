@@ -6,7 +6,7 @@
 /*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/13 13:13:55 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:12:19 by kortolan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int		parsing_echo(char **argv, int index);
 void	echo_d_quote(int *in);
 void	echo_s_quote(int *in);
 void 	number_quote (char **argv, int index, int *count_s_quote, int *count_d_quote);
+int		option_n(char *argv);
+int		ft_print_echo(char **argv, int index);
 
 int	var_with_value(char *str);
 
@@ -136,7 +138,6 @@ int	var_with_value(char *str);
 t_env   *cpy_env(char **envp);
 void	ft_unset_utils(t_env **env, char *var, int index);
 int		ft_strlen_env(char *env);
-void    ft_print_echo(char **argv, int index);
 void	ft_putstr_echo(char *str, int i);
 void	ft_change_pwd(t_env *env);
 

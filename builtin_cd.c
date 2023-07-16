@@ -42,9 +42,7 @@ void    ft_change_pwd(t_env *env)
         if (!ft_strncmp(ptr->name, "PWD", ft_strlen("PWD")))
         {
             tmp = ft_strdup(ptr->value);
-            change_oldpwd(tmp);
             ptr->value = getcwd(ptr->value, 2048);
-            ft_printf("%s\n", ptr->value);
             break;
         }
         ptr = ptr->next;
