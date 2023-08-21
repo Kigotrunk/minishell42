@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int err_code;
+
 char	***ft_fix_args(char ***args, t_env **env)
 {
 	int	in_quote;
@@ -49,14 +51,12 @@ char	*ft_str_replace(char *arg, int *in_quote, t_env **env)
 
 char	*ft_size(char *arg, int	*in_quote, t_env **env)
 {
-	int	n;
 	int	i;
 	char	*new_str;
 	char	*tmp;
 	
 	if(!env)
 		return (NULL);
-	n = 0;
 	i = 0;
 	new_str = ft_strdup("");
 	while (arg[i])
@@ -103,7 +103,6 @@ char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 {
 	char	*tmp;
 	char	*new_str;
-	int		j;
 	//t_env	*ptr;
 
 	//ptr = *env;
@@ -113,9 +112,11 @@ char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 	if(arg[i + 1] == '$')
 		return ("");
 	if(arg[i + 1] == '?')
-		return(ft_itoa(err_code));
+	{
+		ft_printf("%d\n", err_code);
+		return ("");
+	}
 	i++;
-	j = 0;
 	while (arg[i])
 	{
 		if (!ft_is_space(arg[i]) && !ft_is_quote(arg[i]) && arg[i] != '$')

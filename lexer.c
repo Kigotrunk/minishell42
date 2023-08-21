@@ -21,13 +21,13 @@ int	arg_c(char *str)
 	{
 		while (*str == ' ')
 			str++;
-        if (*str == '\n' || *str == '\0')
-            return (n);
-        else if (is_ope(str))
-        {
-            n++;
-            str = end_ope(str);
-        }
+		if (*str == '\n' || *str == '\0')
+			return (n);
+		else if (is_ope(str))
+		{
+			n++;
+			str = end_ope(str);
+		}
 		else if (*str == '\"' || *str == '\'')
 		{
 			n++;
@@ -44,19 +44,19 @@ int	arg_c(char *str)
 
 int arg_len(char *str)
 {
-    int     i;
+	int     i;
 
-    i = 0;
-    if (*str == '\'' || *str == '\"')
-        i = eoa_quote(str, *str) - str;
-    else if (is_ope(str))
-        i = end_ope(str) - str;
-    else
-        i = eoa_str(str) - str;
-    //readline?
-    if (str[i - 1] == '\n')
-        i--;
-    return (i);
+	i = 0;
+	if (*str == '\'' || *str == '\"')
+		i = eoa_quote(str, *str) - str;
+	else if (is_ope(str))
+		i = end_ope(str) - str;
+	else
+		i = eoa_str(str) - str;
+	//readline?
+	if (str[i - 1] == '\n')
+		i--;
+	return (i);
 }
 
 char	*get_arg(char *str)
@@ -84,9 +84,10 @@ char	**split_args(char *str)
 	char	**tab;
 	int		ac;
 	int		i;
+
 	ac = arg_c(str);
-    if (ac == 0)
-        return (NULL);
+	if (ac == 0)
+		return (NULL);
 	tab = (char **)malloc((ac + 1) * sizeof(char *));
 	if (tab == NULL)
 		return (NULL);
@@ -101,12 +102,12 @@ char	**split_args(char *str)
 			str = eoa_quote(str, *str);
 			i++;
 		}
-        else if (is_ope(str))
-        {
-            tab[i] = get_arg(str);
-            str = end_ope(str);
-            i++;
-        }
+		else if (is_ope(str))
+		{
+			tab[i] = get_arg(str);
+			str = end_ope(str);
+			i++;
+		}
 		else
 		{
 			tab[i] = get_arg(str);

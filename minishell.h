@@ -49,8 +49,6 @@ typedef struct s_global
 	int		fork;
 }		t_global;
  
-int		err_code;
- 
 void    free_tab(char **tab);
 void	free_tab_tab(char ***tab);
 int     tab_size(char ***tab);

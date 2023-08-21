@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int err_code;
+
 int main(int argc, char **argv, char **envp)
 {
     t_env   *env;

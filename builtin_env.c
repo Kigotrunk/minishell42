@@ -14,11 +14,9 @@
 
 void    builtin_env(t_env *env)
 {
-	int		x;
 	t_env	*ptr;
 
 	ptr = env;
-	x = 0;
 	if (!ptr)
 		perror("env");
 	while (ptr)
