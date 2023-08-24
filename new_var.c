@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 13:49:45 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/13 10:47:22 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:21:52 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ char     *get_value(char *str)
         str++;
     str++;
     i = 0;
-    while (str[i])
+    while (str[i] != '\0' && str[i] != '\n')
         i++;
     value = (char *)malloc(i + 1);
     i = 0;
-    while (str[i])
+    while (str[i] != '\0' && str[i] != '\n')
     {
         value[i] = str[i];
         i++;

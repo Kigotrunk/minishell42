@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/13 13:28:39 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:46:58 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ char	**remove_wrg_arg(char **argv)
 			new_len++;
 		i++;
 	}
-	new_argv = (char **)malloc((sizeof(char *) + 1) * new_len);
+	new_argv = (char **)malloc(sizeof(char *) * (new_len + 1));
 	i = 0;
 	j = 0;
 	while (argv[i])
 	{
 		if (argv[i] != NULL && argv[i][0] != '\0' && argv[i][0] != ' ')
 		{
-			new_argv[j] = (char *)malloc(ft_strlen(argv[i]));
 			new_argv[j] = ft_strdup(argv[i]);
 			j++;
 		}

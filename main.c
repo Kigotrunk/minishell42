@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/13 12:07:25 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/24 12:27:53 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **envp)
     err_code = 0;
     signal(SIGINT, ft_sig);
     signal(SIGQUIT, ft_sig);
-    while ((input = readline("minishell$ ")))
+    while ((input = readline("\e[0;34mminishell$ \e[0m")))
     {
         if (input == NULL)
             exit(1);
@@ -46,7 +46,6 @@ int main(int argc, char **argv, char **envp)
         args = NULL;
     }
     ft_lstclear(&env, &free);
-    //system("leaks minishell");
     return (0);
 }
 

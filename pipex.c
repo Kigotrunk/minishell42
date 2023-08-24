@@ -3,50 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/13 13:32:07 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:51:19 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	only_builtin(t_vars *va, t_env **env)
+{
+	int	fd[3];
+
+	fd[0] = dup(0);
+	fd[1] = dup(1);
+	fd[2] = dup(2);
+	redir_err(*va);
+	redir_input(*va, 0);
+	redir_output(*va, 0);
+	va->envp = get_tab_env(*env);
+	do_builtin(va->argv[0], env, va->envp);
+	free_tab(va->envp);
+	dup2(fd[0], 0);
+	dup2(fd[1], 1);
+	dup2(fd[2], 2);
+	close(fd[0]);
+	close(fd[1]);
+	close(fd[2]);
+	return (0);
+}
+
 int	pipex(t_env **env, char ***argv, char **io_list)
 {
 	t_vars	va;
-	char	**ptr;
 	int		i;
 
-	if (io_list[0][0])
-	{
-		if (access(io_list[0], F_OK) == -1)
-		{
-			perror(io_list[0]);
-			return (1);
-		}
-	}
 	va.argv = argv;
 	va.io_lst = io_list;
 	va.n = tab_size(argv);
+	if (va.io_lst[0][0] && va.io_lst[0][1] == '<')
+		heredoc(&va, end_ope(va.io_lst[0]));
 	if (va.n == 0)
 		return(0);
-	if (va.n == 1)
-	{
-		ptr = remove_wrg_arg(argv[0]);
-		ptr = get_new_var(ptr, *env);
-		if (ptr == NULL || ptr[0] == NULL)
-			return (0);
-		va.argv = &ptr;
-		if (is_builtin(ptr[0]))
-		{
-			va.envp = get_tab_env(*env);
-			do_builtin(ptr, env, va.envp);
-			//free_tab(ptr);
-			free_tab(va.envp);
-			return (0);
-		}
-	}
+	if (va.n == 1 && is_builtin(argv[0][0]))
+		return (only_builtin(&va, env));
 	va.fd = (int **)malloc(sizeof(int *) * (va.n - 1));
 	i = 0;
 	while (i < va.n - 1)

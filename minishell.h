@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/13 19:12:19 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/24 12:09:59 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_vars
 {
 	int		n;
+	int		heredoc[2];
 	int		**fd;
 	int		*pid;
 	char	**envp;
@@ -63,6 +64,7 @@ char	*get_arg(char *str);
 char	**split_args(char *str);
 char    ***get_cmd_tab(char **tab);
 char    **get_io(char **argv);
+void	replace_io(char **io_tab, char *ope, char *filename);
 int     pipe_count(char **argv);
 int     redir_count(char **argv);
 char    ***cmd_tab_init(int n);
@@ -74,6 +76,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 void    ft_sig(int code);
 
 //pipex
+int		only_builtin(t_vars *va, t_env **env);
 int	    pipex(t_env **env, char ***argv, char **io_list);
 char	*pathfinder(char *str, char **envp);
 void	path_error(char *str);
@@ -84,7 +87,7 @@ int		check_errors(int *pid, int n);
 char    **get_tab_env(t_env *lst);
 int		exec_cmd(t_env **env, t_vars va);
 void	get_doc(char *argv[], t_vars va);
-int		here_doc(int argc, char *argv[], char *envp[]);
+int		heredoc(t_vars *va, char *delimiter);
 int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
 void	free_fd(int **fd, int n);
 void    redir_err(t_vars va);
