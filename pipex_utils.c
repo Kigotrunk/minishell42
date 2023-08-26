@@ -6,11 +6,13 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/23 12:46:58 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:00:15 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int err_code;
 
 char	**remove_wrg_arg(char **argv)
 {
@@ -49,7 +51,7 @@ char	*pathfinder(char *str, char **envp)
 	char	*temp;
 	int		i;
 
-	if (access(str, F_OK | X_OK) == 0)
+	if (access(str, F_OK | X_OK) == 0 && open(str, O_DIRECTORY) == -1)
 		return (str);
 	i = 0;
 	while (!ft_strnstr(envp[i], "PATH=", 5))
@@ -68,11 +70,11 @@ char	*pathfinder(char *str, char **envp)
 		i++;
 	}
 	free_tab(split);
-	path_error(str);
+	err_code = path_error(str);
 	exit(127);
 }
 
-void	path_error(char *str)
+int	path_error(char *str)
 {
 	int	i;
 
@@ -82,12 +84,15 @@ void	path_error(char *str)
 	{
 		if (str[i] == '/')
 		{
-			ft_printf("minishell: No such file or directory: %s\n", str);
-			return ;
+			if (access(str, F_OK | X_OK))
+				exit(126);
+			ft_printf("minishell: %s: No such file or directory\n", str);
+			exit(127);
 		}
 		i++;
 	}
-	ft_printf("minishell: command not found: %s\n", str);
+	ft_printf("%s: command not found\n", str);
+	exit(127);
 }
 
 char	*ft_strjoin2(char const *s1, char const *s2)

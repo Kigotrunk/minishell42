@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/23 12:51:19 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:47:11 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 int	only_builtin(t_vars *va, t_env **env)
 {
+	int	code;
 	int	fd[3];
 
+	//printf("in only_builtin function\n");
 	fd[0] = dup(0);
 	fd[1] = dup(1);
 	fd[2] = dup(2);
-	redir_err(*va);
-	redir_input(*va, 0);
-	redir_output(*va, 0);
+	one_redir_err(*va);
+	one_redir_input(*va, 0);
+	one_redir_output(*va, 0);
 	va->envp = get_tab_env(*env);
-	do_builtin(va->argv[0], env, va->envp);
+	code = do_builtin(va->argv[0], env, va->envp);
 	free_tab(va->envp);
 	dup2(fd[0], 0);
 	dup2(fd[1], 1);
@@ -31,7 +33,7 @@ int	only_builtin(t_vars *va, t_env **env)
 	close(fd[0]);
 	close(fd[1]);
 	close(fd[2]);
-	return (0);
+	return (code);
 }
 
 int	pipex(t_env **env, char ***argv, char **io_list)
@@ -44,7 +46,7 @@ int	pipex(t_env **env, char ***argv, char **io_list)
 	va.n = tab_size(argv);
 	if (va.io_lst[0][0] && va.io_lst[0][1] == '<')
 		heredoc(&va, end_ope(va.io_lst[0]));
-	if (va.n == 0)
+	if (va.n == 0 || va.io_lst[0][0] == '?' || va.io_lst[1][0] == '?' || va.io_lst[2][0] == '?')
 		return(0);
 	if (va.n == 1 && is_builtin(argv[0][0]))
 		return (only_builtin(&va, env));

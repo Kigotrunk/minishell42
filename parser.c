@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/24 12:09:02 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:26:08 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ char	**get_io(char **argv)
 	{
 		if (is_ope(argv[i]) && argv[i][0] != '|')
 		{
-			replace_io(io_tab, argv[i], argv[i + 1]);
+			if (replace_io(io_tab, argv[i], argv[i + 1]) == -1)
+				return (io_tab);
 			i++;
 		}
 		i++;
@@ -156,7 +157,7 @@ char	**get_io(char **argv)
 	return (io_tab);
 }
 
-void	replace_io(char **io_tab, char *ope, char *filename)
+int	replace_io(char **io_tab, char *ope, char *filename)
 {
 	int	tmp_fd;
 	int	k;
@@ -169,11 +170,14 @@ void	replace_io(char **io_tab, char *ope, char *filename)
 		k = 2;
 	free(io_tab[k]);
 	io_tab[k] = ft_strjoin(ope, filename);
-	if (k > 0)
-	{
-		tmp_fd = open(filename, O_CREAT, 0644);
-		close (tmp_fd);
-	}
+	if (k == 0)
+		tmp_fd = open(filename, O_RDONLY);
+	else
+		tmp_fd = open(filename, O_WRONLY | O_CREAT, 0644);
+	if (tmp_fd == -1)
+		return (-1);
+	close (tmp_fd);
+	return (0);
 }
 
 char	**io_init(void)

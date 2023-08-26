@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/24 12:09:59 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:24:43 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_arg(char *str);
 char	**split_args(char *str);
 char    ***get_cmd_tab(char **tab);
 char    **get_io(char **argv);
-void	replace_io(char **io_tab, char *ope, char *filename);
+int		replace_io(char **io_tab, char *ope, char *filename);
 int     pipe_count(char **argv);
 int     redir_count(char **argv);
 char    ***cmd_tab_init(int n);
@@ -79,7 +79,7 @@ void    ft_sig(int code);
 int		only_builtin(t_vars *va, t_env **env);
 int	    pipex(t_env **env, char ***argv, char **io_list);
 char	*pathfinder(char *str, char **envp);
-void	path_error(char *str);
+int		path_error(char *str);
 char	*ft_strjoin2(char const *s1, char const *s2);
 void	cmd(t_env **env, t_vars va, int k);
 void	close_all(int n, int **fd);
@@ -90,9 +90,12 @@ void	get_doc(char *argv[], t_vars va);
 int		heredoc(t_vars *va, char *delimiter);
 int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
 void	free_fd(int **fd, int n);
-void    redir_err(t_vars va);
-void    redir_input(t_vars va, int k);
-void    redir_output(t_vars va, int k);
+void	redir_err(t_vars va);
+void	redir_input(t_vars va, int k);
+void	redir_output(t_vars va, int k);
+int		one_redir_err(t_vars va);
+int		one_redir_input(t_vars va, int k);
+int		one_redir_output(t_vars va, int k);
 char	**remove_wrg_arg(char **argv);
 
 //new_var
@@ -149,7 +152,9 @@ void    print_export(t_env *env);
 int 	is_var(t_env *env, char *str);
 int		var_name(char *str);
 
-
+int builtin_exit(char **argv);
+int is_number(char *arg);
+int	check_longl(char *str);
 
 //parsing without quote and $
 char	***ft_fix_args(char ***args, t_env **env);

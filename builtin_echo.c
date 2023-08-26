@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 01:34:54 by marvin            #+#    #+#             */
-/*   Updated: 2023/07/13 19:23:52 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:47:41 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	builtin_echo(char **argv)
+{
+	int	i;
+	
+	i = 1;
+	if (argv[1][0] == '-' && argv[1][1] == 'n')
+		i++;
+	while (argv[i])
+	{
+		ft_printf("%s", argv[i]);
+		i++;
+		if (argv[i])
+			ft_printf(" ");
+	}
+	if (argv[1][0] != '-' && argv[1][0] != 'n')
+		ft_printf("\n");
+}/*
 
 void	builtin_echo(char **argv)
 {
@@ -64,3 +82,4 @@ int	option_n(char *argv)
 	}
 	return (1);
 }
+*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/12 22:39:57 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:31:33 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,29 @@ char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env)
 	return ("$");
 }
 
+char	*ft_itoa(int n)
+{
+	char	*str;
+	int		k;
+	int		i;
+
+	k = n;
+	i = 1;
+	while (k > 9)
+	{
+		k /= 10;
+		i++;
+	}
+	str = malloc(i + 1);
+	str[i] = '\0';
+	while (i--)
+	{
+		str[i] = n % 10 + '0';
+		n /= 10;
+	}
+	return (str);
+}
+
 char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 {
 	char	*tmp;
@@ -113,8 +136,8 @@ char	*ft_dollars(int *n, char *arg, int i, t_env *env)
 		return ("");
 	if(arg[i + 1] == '?')
 	{
-		ft_printf("%d\n", err_code);
-		return ("");
+		//ft_printf("%d\n", err_code);
+		return (ft_itoa(err_code));
 	}
 	i++;
 	while (arg[i])

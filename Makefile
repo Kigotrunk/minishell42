@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+         #
+#    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/07/13 23:56:23 by kortolan         ###   ########.fr        #
+#    Updated: 2023/08/26 11:47:47 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS     =  main.c \
 			utils.c \
 			pipex.c \
 			redirection.c \
+			single_redirection.c \
 			pipex_utils.c \
 			builtin_unset.c \
 			builtin_exit.c \
