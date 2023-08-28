@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/28 12:07:26 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:31:34 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ extern int err_code;
 
 char	**ft_fix_args(char **args, t_env **env)
 {
-	int	in_quote;
 	int	i;
 	char	*new_str;
 	
-	in_quote = 0;
 	i = 0;
 	while (args[i])
 	{
-		new_str = ft_str_replace(args[i], &in_quote, env);
+		new_str = ft_str_replace(args[i], env);
 		free(args[i]);
 		args[i] = new_str;
 		i++;
@@ -32,34 +30,36 @@ char	**ft_fix_args(char **args, t_env **env)
 	return (args);
 }
 
-char	*ft_str_replace(char *arg, int *in_quote, t_env **env)
+char	*ft_str_replace(char *arg, t_env **env)
 {
-	int	i;
+	int		in_quote;
+	int		i;
 	char	*new_str;
 	char	*tmp;
 	
 	if(!env)
 		return (NULL);
+	in_quote = 0;
 	i = 0;
 	new_str = ft_strdup("");
 	while (arg[i])
 	{
 		if (arg[i] != '\'' && arg[i] != '\"' && arg[i] != '$')
 			new_str = ft_str_add(new_str, arg[i]);
-		else if (arg[i] == '\'' && *in_quote != 2)
-			echo_s_quote(in_quote);
-		else if (arg[i] == '\'' && *in_quote == 2)
+		else if (arg[i] == '\'' && in_quote != 2)
+			echo_s_quote(&in_quote);
+		else if (arg[i] == '\'' && in_quote == 2)
 			new_str = ft_str_add(new_str, arg[i]);
-		else if (arg[i] == '\"' && *in_quote != 1)
-			echo_d_quote(in_quote);
-		else if (arg[i] == '\"' && *in_quote == 1)
+		else if (arg[i] == '\"' && in_quote != 1)
+			echo_d_quote(&in_quote);
+		else if (arg[i] == '\"' && in_quote == 1)
 			new_str = ft_str_add(new_str, arg[i]);
 		else if (arg[i] == '$')
 		{
-			tmp = ft_is_dollars(arg, *in_quote, i, env);
+			tmp = ft_is_dollars(arg, in_quote, i, env);
 			if(tmp != NULL)
 				new_str = ft_strjoin(new_str, tmp);
-			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && *in_quote != 1 && arg[i + 1] != '$')
+			while (!ft_is_space(arg[i + 1]) && !ft_is_quote(arg[i + 1]) && in_quote != 1 && arg[i + 1] != '$')
 				i++;
 		}
 		i++;

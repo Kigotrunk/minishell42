@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/28 12:25:03 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 23:48:07 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,21 @@ int    minishell(t_env **env, char **argv)
 		return (258);
 	}
 
-	argv = ft_fix_args(argv, env); //leak
-	cmd_tab = get_cmd_tab(argv);
+	//argv = ft_fix_args(argv, env); //leak
+	//cmd_tab = get_cmd_tab(argv);
 	
 	fd_save[0] = dup(0);
 	fd_save[1] = dup(1);
 	fd_save[2] = dup(2);
 	heredoc = NULL;
-	new_code = get_io(argv, &heredoc);
+	
+	new_code = 0;
+	new_code = get_io(argv, &heredoc, env);
+	
+	//argv = replace_quote_argv(argv, **env, err_code);
 	
 	//argv = ft_fix_args(argv, env); //leak
-	//cmd_tab = get_cmd_tab(argv);
+	cmd_tab = get_cmd_tab(argv, **env, err_code);
 	
 	if (new_code == 0)
 		new_code = pipex(env, cmd_tab, heredoc);

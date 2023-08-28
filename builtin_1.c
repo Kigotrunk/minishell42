@@ -27,6 +27,8 @@ int is_builtin(char *cmd)
     {
         if (ft_strncmp(tab_cmd[i], cmd, ft_strlen(cmd) + 1) == 0)
         {
+            free(all_cmd);
+            free_tab(tab_cmd);
             if (i < 3)
                 return (2);
             else
@@ -56,7 +58,7 @@ int do_builtin(char **cmd, t_env **env, char **envp)
     if (ft_strncmp(cmd[0], "export", ft_strlen(cmd[0]) + 1) == 0)
         ft_builtin_export(cmd, env);
     if (ft_strncmp(cmd[0], "exit", ft_strlen(cmd[0]) + 1) == 0)
-        builtin_exit(cmd);
+        return (builtin_exit(cmd));
     // return(ft_builtin_export(cmd, env));
     // ...
     return (0);

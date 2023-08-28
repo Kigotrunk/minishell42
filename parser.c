@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/28 12:24:55 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 23:30:29 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	args_count(char **tab)
 	return (count);
 }
 
-char	**get_argv(char **tab)
+char	**get_argv(char **tab, t_env env, int err_code)
 {
 	char	**argv;
 	int		ac;
@@ -99,7 +99,7 @@ char	**get_argv(char **tab)
 			i += 2;
 		else
 		{
-			argv[j] = ft_strdup(tab[i]);
+			argv[j] = replace_quote(tab[i], env, err_code);
 			j++;
 			i++;
 		}
@@ -108,7 +108,7 @@ char	**get_argv(char **tab)
 	return (argv);
 }
 
-char	***get_cmd_tab(char **tab)
+char	***get_cmd_tab(char **tab, t_env env, int err_code)
 {
 	char	***cmd_tab;
 	int		i;
@@ -128,7 +128,7 @@ char	***get_cmd_tab(char **tab)
 			i += 2;
 		else
 		{
-			cmd_tab[k] = get_argv(tab + i);
+			cmd_tab[k] = get_argv(tab + i, env, err_code);
 			while (tab[i] && tab[i][0] != '|')
 				i++;
 		}
@@ -137,7 +137,7 @@ char	***get_cmd_tab(char **tab)
 	return (cmd_tab);
 }
 
-int	get_io(char **argv, int **heredoc)
+int	get_io(char **argv, int **heredoc, t_env **env)
 {
 	int		code;
 	int		i;
@@ -148,7 +148,7 @@ int	get_io(char **argv, int **heredoc)
 	{
 		if (is_ope(argv[i]) && argv[i][0] != '|')
 		{
-			code = replace_io(argv[i], argv[i + 1], heredoc);
+			code = replace_io(argv[i], ft_str_replace(argv[i + 1], env), heredoc);
 			if (code)
 				return (code);
 			i++;
@@ -216,30 +216,13 @@ char	***cmd_tab_init(int n)
 	return (cmd_tab);
 }
 
-char	*ft_stradd(char *s1, char *s2)
+char	*ft_strjoin_free1(char *s1, char *s2)
 {
-	char	*s;
-	int		i;
+	char	*new;
 
-	s = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
-	if (s == NULL)
-		return (NULL);
-	i = 0;
-	while (*s1)
-	{
-		s[i] = *s1;
-		s1++;
-		i++;
-	}
-	free(s1 - i);
-	s[i] = ' ';
-	i++;
-	while (*s2)
-	{
-		s[i] = *s2;
-		s2++;
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
+	if (s1 == NULL || s2 == NULL)
+		return (s1);
+	new = ft_strjoin(s1, s2);
+	free(s1);
+	return (new);
 }

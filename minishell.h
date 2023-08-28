@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/28 11:55:17 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 23:30:04 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ typedef struct s_global
 	int		fork;
 }		t_global;
 
+char	**replace_quote_argv(char **argv, t_env env, int err_code);
+char	*replace_quote(char *arg, t_env env, int err_code);
+int 	var_size(char *str);
+char	*get_var(char *str, t_env env, int err_code);
+int		is_in_quote(char *str, int index);
+
 void	print_err(char *name, char *str);
 void    free_tab(char **tab);
 void	free_tab_tab(char ***tab);
@@ -62,14 +68,15 @@ char    *eoa_str(char *str);
 int     arg_len(char *str);
 char	*get_arg(char *str);
 char	**split_args(char *str);
-char    ***get_cmd_tab(char **tab);
-int		get_io(char **argv, int **heredoc);
+char    ***get_cmd_tab(char **tab, t_env env, int err_code);
+char	**get_argv(char **tab, t_env env, int err_code);
+int		get_io(char **argv, int **heredoc, t_env **env);
 int		replace_io(char *ope, char *filename, int **heredoc);
 int     pipe_count(char **argv);
 int     redir_count(char **argv);
 char    ***cmd_tab_init(int n);
 char    **io_init();
-char    *ft_stradd(char *s1, char *s2);
+char	*ft_strjoin_free1(char *s1, char *s2);
 int     syntax_error(char **argv);
 int		minishell(t_env **env, char **argv);
 void	rl_replace_line(const char *text, int clear_undo);
@@ -155,7 +162,7 @@ int	check_longl(char *str);
 
 //parsing without quote and $
 char	**ft_fix_args(char **args, t_env **env);
-char	*ft_str_replace(char *arg, int *in_quote, t_env **env);
+char	*ft_str_replace(char *arg, t_env **env);
 char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env);
 char	*ft_dollars(int *n, char *arg, int i, t_env *env);
 int		ft_is_space(char c);
