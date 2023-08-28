@@ -6,76 +6,70 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 11:34:06 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 11:36:34 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:13:19 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	one_redir_err(t_vars va)
+int	redir_err(char* ope, char *filename)
 {
 	int		errfile;
 
-	if (va.io_lst[2][0])
+	if (ope[1] == '>')
+		errfile = open(filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
+	else
+		errfile = open(filename, O_TRUNC | O_WRONLY | O_CREAT, 0644);
+	if (errfile == -1)
 	{
-		if (va.io_lst[1][2] == '>')
-			errfile = open(end_ope(va.io_lst[2]), O_APPEND | O_WRONLY | O_CREAT, 0644);
-		else
-			errfile = open(end_ope(va.io_lst[2]), O_TRUNC | O_WRONLY | O_CREAT, 0644);
-		if (errfile == -1)
-		{
-			perror(end_ope(va.io_lst[2]));
-			return (1);
-		}
-		dup2(errfile, 2);
-		close(errfile);
+		perror(filename);
+		return (1);
 	}
+	dup2(errfile, 2);
+	close(errfile);
 	return (0);
 }
 
-int	one_redir_input(t_vars va, int k)
+int	redir_in(char* ope, char *filename, int **heredoc)
 {
     int filein;
 
-    if (k == 0 && va.io_lst[0][0])
+	if (ope[1] == '<')
 	{
-		if (va.io_lst[0][1] == '<')
+		*heredoc = (int *)malloc(2 * sizeof(int));
+		if (get_heredoc(*heredoc, filename))
+			return (1);
+	}
+	else
+	{
+		free(*heredoc);
+		*heredoc = NULL;
+		filein = open(filename, O_RDONLY);
+		if (filein == -1)
 		{
-			dup2(va.heredoc[0], 0);
-			close(va.heredoc[0]);
+			perror(filename);
+			return (1);
 		}
-		else
-		{
-			filein = open(end_ope(va.io_lst[0]), O_RDONLY);
-			if (filein == -1)
-			{
-				perror(end_ope(va.io_lst[0]));
-				return (1);
-			}
-			dup2(filein, 0);
-			close(filein);
-		}
+		dup2(filein, 0);
+		close(filein);
 	}
 	return (0);
 }
 
-int	one_redir_output(t_vars va, int k)
+int	redir_out(char* ope, char *filename)
 {
     int fileout;
 
-    if (k == va.n - 1 && va.io_lst[1][0])
+	if (ope[1] == '>')
+		fileout = open(filename, O_APPEND | O_WRONLY | O_CREAT, 0644);
+	else
+		fileout = open(filename, O_TRUNC | O_WRONLY | O_CREAT, 0644);
+	if (fileout == -1)
 	{
-		if (va.io_lst[1][1] == '>')
-			fileout = open(end_ope(va.io_lst[1]), O_APPEND | O_WRONLY | O_CREAT, 0644);
-		else
-			fileout = open(end_ope(va.io_lst[1]), O_TRUNC | O_WRONLY | O_CREAT, 0644);
-		if (fileout == -1)
-		{
-			perror(end_ope(va.io_lst[1]));
-			return (1);
-		}
-		dup2(fileout, 1);
-		close(fileout);
+		perror(filename);
+		return (1);
 	}
+	dup2(fileout, 1);
+	close(fileout);
 	return (0);
 }

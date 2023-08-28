@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:58:39 by kallegre          #+#    #+#             */
-/*   Updated: 2023/07/12 22:21:06 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:04:53 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void    free_tab(char **tab)
         i = 0;
         if (tab == NULL)
             return ;
-        //ft_printf("in free:\n");
         while (tab[i])
         {
-                //ft_printf("%p\n", &tab[i]);
                 free(tab[i]);
                 tab[i] = NULL;
                 i++;
@@ -62,10 +60,8 @@ void    free_tab_tab(char ***tab)
         i = 0;
         if (tab == NULL)
             return ;
-        //ft_printf("in free^2:\n");
         while (tab[i])
         {
-                //ft_printf("%p\n", &tab[i]);
                 free_tab(tab[i]);
                 tab[i] = NULL;
                 i++;

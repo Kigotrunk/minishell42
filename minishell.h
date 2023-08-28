@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/26 12:24:43 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:55:17 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@
 typedef struct s_vars
 {
 	int		n;
-	int		heredoc[2];
+	int		*heredoc;
 	int		**fd;
 	int		*pid;
 	char	**envp;
 	char	***argv;
-	char	**io_lst;
 }		t_vars;
 
 typedef struct s_env
@@ -49,7 +48,8 @@ typedef struct s_global
 	//t_env	*env;
 	int		fork;
 }		t_global;
- 
+
+void	print_err(char *name, char *str);
 void    free_tab(char **tab);
 void	free_tab_tab(char ***tab);
 int     tab_size(char ***tab);
@@ -63,8 +63,8 @@ int     arg_len(char *str);
 char	*get_arg(char *str);
 char	**split_args(char *str);
 char    ***get_cmd_tab(char **tab);
-char    **get_io(char **argv);
-int		replace_io(char **io_tab, char *ope, char *filename);
+int		get_io(char **argv, int **heredoc);
+int		replace_io(char *ope, char *filename, int **heredoc);
 int     pipe_count(char **argv);
 int     redir_count(char **argv);
 char    ***cmd_tab_init(int n);
@@ -77,7 +77,7 @@ void    ft_sig(int code);
 
 //pipex
 int		only_builtin(t_vars *va, t_env **env);
-int	    pipex(t_env **env, char ***argv, char **io_list);
+int	    pipex(t_env **env, char ***argv, int *heredoc);
 char	*pathfinder(char *str, char **envp);
 int		path_error(char *str);
 char	*ft_strjoin2(char const *s1, char const *s2);
@@ -87,15 +87,12 @@ int		check_errors(int *pid, int n);
 char    **get_tab_env(t_env *lst);
 int		exec_cmd(t_env **env, t_vars va);
 void	get_doc(char *argv[], t_vars va);
-int		heredoc(t_vars *va, char *delimiter);
+int		get_heredoc(int *heredoc, char *delimiter);
 int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
 void	free_fd(int **fd, int n);
-void	redir_err(t_vars va);
-void	redir_input(t_vars va, int k);
-void	redir_output(t_vars va, int k);
-int		one_redir_err(t_vars va);
-int		one_redir_input(t_vars va, int k);
-int		one_redir_output(t_vars va, int k);
+int		redir_err(char* ope, char *filename);
+int		redir_out(char* ope, char *filename);
+int		redir_in(char* ope, char *filename, int **heredoc);
 char	**remove_wrg_arg(char **argv);
 
 //new_var
@@ -118,7 +115,7 @@ int		do_builtin(char **cmd, t_env **env, char **envp);
 
 //ft_builtin
 void    builtin_cd(char	**cmd, t_env *env);
-void    builtin_pwd(char **cmd);
+void	builtin_pwd(void);
 void    builtin_env(t_env *env);
 char    *ft_str_lower(char *cmd);
 
@@ -157,9 +154,8 @@ int is_number(char *arg);
 int	check_longl(char *str);
 
 //parsing without quote and $
-char	***ft_fix_args(char ***args, t_env **env);
+char	**ft_fix_args(char **args, t_env **env);
 char	*ft_str_replace(char *arg, int *in_quote, t_env **env);
-char	*ft_size(char *arg, int	*in_quote, t_env **env);
 char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env);
 char	*ft_dollars(int *n, char *arg, int i, t_env *env);
 int		ft_is_space(char c);

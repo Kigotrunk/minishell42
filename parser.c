@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 11:26:08 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:24:55 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,46 +137,50 @@ char	***get_cmd_tab(char **tab)
 	return (cmd_tab);
 }
 
-char	**get_io(char **argv)
+int	get_io(char **argv, int **heredoc)
 {
-	char	**io_tab;
+	int		code;
 	int		i;
 
-	io_tab = io_init();
+	code = 0;
 	i = 0;
 	while (argv[i])
 	{
 		if (is_ope(argv[i]) && argv[i][0] != '|')
 		{
-			if (replace_io(io_tab, argv[i], argv[i + 1]) == -1)
-				return (io_tab);
+			code = replace_io(argv[i], argv[i + 1], heredoc);
+			if (code)
+				return (code);
 			i++;
 		}
 		i++;
 	}
-	return (io_tab);
+	return (0);
 }
 
-int	replace_io(char **io_tab, char *ope, char *filename)
+int	replace_io(char *ope, char *filename, int **heredoc)
 {
-	int	tmp_fd;
-	int	k;
+	int	code;
 
+	code = 0;
 	if (ope[0] == '<')
-		k = 0;
+	{
+		code = redir_in(ope, filename, heredoc);
+		if (code)
+			return (code);
+	}
 	if (ope[0] == '>')
-		k = 1;
+	{
+		code = redir_out(ope, filename);
+		if (code)
+			return (code);
+	}
 	if (ope[0] == '2' && ope[1] == '>')
-		k = 2;
-	free(io_tab[k]);
-	io_tab[k] = ft_strjoin(ope, filename);
-	if (k == 0)
-		tmp_fd = open(filename, O_RDONLY);
-	else
-		tmp_fd = open(filename, O_WRONLY | O_CREAT, 0644);
-	if (tmp_fd == -1)
-		return (-1);
-	close (tmp_fd);
+	{
+		code = redir_err(ope, filename);
+		if (code)
+			return (code);
+	}
 	return (0);
 }
 

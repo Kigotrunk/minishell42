@@ -46,7 +46,7 @@ int do_builtin(char **cmd, t_env **env, char **envp)
     if (ft_strncmp(cmd[0], "cd", ft_strlen("cd") + 1) == 0)
         builtin_cd(cmd, *env);
     if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0]) + 1) == 0 || ft_strncmp(cmd[0], "PWD", ft_strlen(cmd[0])) == 0)
-        builtin_pwd(cmd);
+        builtin_pwd();
     if (ft_strncmp(cmd[0], "env", ft_strlen("env") + 1) == 0)
         builtin_env(*env);
     if (ft_strncmp(cmd[0], "unset", ft_strlen(cmd[0]) + 1) == 0)

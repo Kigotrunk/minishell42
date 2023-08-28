@@ -6,17 +6,17 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:42:00 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 11:46:35 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/27 08:59:23 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc(t_vars *va, char *delimiter)
+int	get_heredoc(int* heredoc, char *delimiter)
 {
 	char	*line;
 
-	if (pipe(va->heredoc) == -1)
+	if (pipe(heredoc) == -1)
 		return (1);
 	while (1)
 	{
@@ -25,13 +25,13 @@ int	heredoc(t_vars *va, char *delimiter)
 		if (ft_strncmp(delimiter, line, ft_strlen(delimiter)) == 0
 			&& line[ft_strlen(delimiter)] == '\n')
 			break ;
-		write(va->heredoc[1], line, ft_strlen(line));
+		write(heredoc[1], line, ft_strlen(line));
 		free(line);
 	}
-	close(va->heredoc[1]);
+	close(heredoc[1]);
 	return (0);
 }
-
+/*
 void	redir_err(t_vars va)
 {
 	int		errfile;
@@ -100,3 +100,4 @@ void	redir_output(t_vars va, int k)
     if (k != va.n - 1)
 		dup2(va.fd[k][1], 1);
 }
+*/

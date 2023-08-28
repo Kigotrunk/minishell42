@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_parsing_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:18:15 by kortolan          #+#    #+#             */
-/*   Updated: 2023/07/12 21:36:26 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:03:51 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ int ft_is_quote(char c)
 
 char	*ft_str_add(char *str, char c)
 {
-	char	*add_str;
-	char	*str2;
+	char	*new;
+	int		i;
 	
-	str2 = malloc(sizeof(char) * 2);
-	str2[0] = c;
-	str2[1] = '\0';
-	if (!str)
-		str = ft_strdup("");
-	add_str = ft_strdup(str);
-	add_str = ft_strjoin(add_str, str2);
+	new = malloc(ft_strlen(str) + 2);
+	i = 0;
+	while (str[i])
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = c;
+	new[i + 1] = '\0';
 	free(str);
-	free(str2);
-	return (add_str);
+	return (new);
 }

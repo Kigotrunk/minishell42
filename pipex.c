@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 11:47:11 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/27 09:02:48 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ int	only_builtin(t_vars *va, t_env **env)
 	fd[0] = dup(0);
 	fd[1] = dup(1);
 	fd[2] = dup(2);
-	one_redir_err(*va);
-	one_redir_input(*va, 0);
-	one_redir_output(*va, 0);
 	va->envp = get_tab_env(*env);
 	code = do_builtin(va->argv[0], env, va->envp);
 	free_tab(va->envp);
@@ -36,17 +33,15 @@ int	only_builtin(t_vars *va, t_env **env)
 	return (code);
 }
 
-int	pipex(t_env **env, char ***argv, char **io_list)
+int	pipex(t_env **env, char ***argv, int *heredoc)
 {
 	t_vars	va;
 	int		i;
 
 	va.argv = argv;
-	va.io_lst = io_list;
 	va.n = tab_size(argv);
-	if (va.io_lst[0][0] && va.io_lst[0][1] == '<')
-		heredoc(&va, end_ope(va.io_lst[0]));
-	if (va.n == 0 || va.io_lst[0][0] == '?' || va.io_lst[1][0] == '?' || va.io_lst[2][0] == '?')
+	va.heredoc = heredoc;
+	if (va.n == 0)
 		return(0);
 	if (va.n == 1 && is_builtin(argv[0][0]))
 		return (only_builtin(&va, env));
@@ -91,11 +86,17 @@ void	cmd(t_env **env, t_vars va, int k)
 	char	*path;
 
 	argv = remove_wrg_arg(va.argv[k]);
-	redir_err(va);
 	if (!is_builtin(va.argv[k][0]))
 		path = pathfinder(va.argv[k][0], va.envp);
-	redir_input(va, k);
-	redir_output(va, k);
+	if (va.heredoc)
+	{
+		dup2(va.heredoc[0], 0);
+		close(va.heredoc[0]);
+	}
+	if (k != 0)
+		dup2(va.fd[k - 1][0], 0);
+	if (k != va.n - 1)
+		dup2(va.fd[k][1], 1);
 	close_all(va.n, va.fd);
 	if (is_builtin(va.argv[k][0]))
 	{

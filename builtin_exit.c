@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 12:02:00 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 12:31:04 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:14:06 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int builtin_exit(char **argv)
         exit(0);
     if (argv[2])
     {
-        printf("exit\nbash : exit : too many arguments\n");
-        exit(2);
+        print_err("exit", "too many arguments");
+        return (2);
     }
     if (!is_number(argv[1]) || check_longl(argv[1]))
     {
-        printf("exit\nbash : exit : numeric argument required\n");
+        print_err("exit", "numeric argument required");
         exit(2);
     }
     var_exit = ft_atoi(argv[1]);

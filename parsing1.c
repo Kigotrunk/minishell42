@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 17:19:33 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/25 17:31:33 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:07:26 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,25 @@
 
 extern int err_code;
 
-char	***ft_fix_args(char ***args, t_env **env)
+char	**ft_fix_args(char **args, t_env **env)
 {
 	int	in_quote;
-	int	j;
 	int	i;
 	char	*new_str;
 	
 	in_quote = 0;
-	j = 0;
-	while (args[j])
+	i = 0;
+	while (args[i])
 	{
-		i = 0;
-		while (args[j][i])
-		{
-			new_str = ft_str_replace(args[j][i], &in_quote, env);
-			free(args[j][i]);
-			args[j][i] = new_str;
-			i++;
-		}
-		j++;
+		new_str = ft_str_replace(args[i], &in_quote, env);
+		free(args[i]);
+		args[i] = new_str;
+		i++;
 	}
 	return (args);
 }
 
 char	*ft_str_replace(char *arg, int *in_quote, t_env **env)
-{
-	char	*other;
-	
-	if (!arg)
-		return (NULL);
-	other = ft_size(arg, in_quote, env);
-	//free(arg);
-	return (other);
-}
-
-char	*ft_size(char *arg, int	*in_quote, t_env **env)
 {
 	int	i;
 	char	*new_str;
@@ -81,7 +64,6 @@ char	*ft_size(char *arg, int	*in_quote, t_env **env)
 		}
 		i++;
 	}
-	//free(arg);
 	return (new_str);
 }
 

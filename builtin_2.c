@@ -12,20 +12,14 @@
 
 #include "minishell.h"
 
-void    builtin_pwd(char **cmd)
+void	builtin_pwd(void)
 {
-    char    *pwd;
+    char	*pwd;
 
-	(void)cmd;
-	if (cmd[1])
-	{
-		write(1, "too many arguments\n", 19);
-		return ;
-	}
-    	pwd = (char *)malloc(2048 * sizeof(char));
-    	pwd = getcwd(pwd, 2048);
-    	if (pwd == NULL)
-       		perror("path");
-    	else
-        	printf("%s\n", pwd);
+    pwd = (char *)malloc(2048 * sizeof(char));
+    pwd = getcwd(pwd, 2048);
+	if (pwd == NULL)
+     		perror("path");
+	else
+    	printf("%s\n", pwd);
 }

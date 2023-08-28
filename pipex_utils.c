@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/26 11:00:15 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:00:07 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,16 @@ int	path_error(char *str)
 	{
 		if (str[i] == '/')
 		{
-			if (access(str, F_OK | X_OK))
+			if (access(str, F_OK | X_OK) == 0)
+			{
+				printf("minishell: %s: Is a directory\n", str);
 				exit(126);
+			}
+			if (access(str, F_OK) == 0)
+			{
+				printf("minishell: %s: Permission denied\n", str);
+				exit(126);
+			}
 			ft_printf("minishell: %s: No such file or directory\n", str);
 			exit(127);
 		}
