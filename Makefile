@@ -6,7 +6,7 @@
 #    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/08/28 17:28:42 by kallegre         ###   ########.fr        #
+#    Updated: 2023/08/29 11:16:00 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,21 +19,18 @@ LIBFT    =    ft_printf/libftprintf.a
 SRCS     =  main.c \
 			get_next_line/get_next_line_bonus.c \
 			get_next_line/get_next_line_utils_bonus.c \
-			builtin_1.c \
-			builtin_2.c \
+			builtin.c \
 			new_env.c \
-			minishell_utils.c \
+			lst_utils.c \
 			builtin_echo.c \
-			parsing1.c \
-			builtin_parsing_utils.c \
 			parser.c \
 			lexer.c \
 			lexer_utils.c \
 			utils.c \
-			utils2.c \
+			utils_2.c \
 			pipex.c \
+			pathfinder.c \
 			redirection.c \
-			single_redirection.c \
 			pipex_utils.c \
 			builtin_unset.c \
 			builtin_exit.c \

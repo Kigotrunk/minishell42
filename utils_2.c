@@ -1,24 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/27 10:05:23 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/27 10:12:07 by kallegre         ###   ########.fr       */
+/*   Created: 2023/08/29 09:29:47 by kallegre          #+#    #+#             */
+/*   Updated: 2023/08/29 11:05:43 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*ft_str_add(char *str, char c)
+{
+	char	*new;
+	int		i;
+
+	new = malloc(ft_strlen(str) + 2);
+	i = 0;
+	while (str[i])
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = c;
+	new[i + 1] = '\0';
+	free(str);
+	return (new);
+}
+
 void	print_err(char *name, char *str)
 {
 	int	save_fd;
-	
+
 	save_fd = dup(1);
 	dup2(2, 1);
 	printf("minishell: %s: %s\n", name, str);
 	dup2(save_fd, 1);
 	close(save_fd);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	int		k;
+	int		i;
+
+	k = n;
+	i = 1;
+	while (k > 9)
+	{
+		k /= 10;
+		i++;
+	}
+	str = malloc(i + 1);
+	str[i] = '\0';
+	while (i--)
+	{
+		str[i] = n % 10 + '0';
+		n /= 10;
+	}
+	return (str);
+}
+
+void	fd_back(int fd[])
+{
+	dup2(fd[0], 0);
+	dup2(fd[1], 1);
+	dup2(fd[2], 2);
+	close(fd[0]);
+	close(fd[1]);
+	close(fd[2]);
 }

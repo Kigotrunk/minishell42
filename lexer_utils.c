@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils                                        :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:58:04 by kallegre          #+#    #+#             */
-/*   Updated: 2023/06/19 13:58:16 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 10:53:22 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int quote_check(char *str)
+int	quote_check(char *str)
 {
-	int b;
+	int	b;
 
 	b = 0;
-	while(*str)
+	while (*str)
 	{
 		if (*str == '\"' && b == 0)
 			b = 1;
@@ -29,12 +29,17 @@ int quote_check(char *str)
 			b = 0;
 		str++;
 	}
+	if (b)
+	{
+		free(str);
+		ft_printf("Error\n");
+	}
 	return (b);
 }
 
-int is_ope(char *str)
+int	is_ope(char *str)
 {
-	if (*str == '|' || *str == '<' || *str=='>')
+	if (*str == '|' || *str == '<' || *str == '>')
 		return (1);
 	else 
 	{
@@ -46,7 +51,7 @@ int is_ope(char *str)
 	return (0);
 }
 
-char    *end_ope(char *str)
+char	*end_ope(char *str)
 {
 	if (str[0] == '|')
 		return (str + 1);
@@ -62,7 +67,7 @@ char    *end_ope(char *str)
 		while (ft_isdigit(*str))
 			str++;
 	}
-		return (str + 1);
+	return (str + 1);
 }
 
 char	*eoa_quote(char *str, char c)
@@ -77,7 +82,7 @@ char	*eoa_quote(char *str, char c)
 	return (str);
 }
 
-char    *eoa_str(char *str)
+char	*eoa_str(char *str)
 {
 	while (*str != ' ' && *str != '\'' && *str != '\"' && *str && !is_ope(str))
 		str++;

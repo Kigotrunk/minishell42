@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/27 09:02:48 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 10:35:32 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	only_builtin(t_vars *va, t_env **env)
 	int	code;
 	int	fd[3];
 
-	//printf("in only_builtin function\n");
 	fd[0] = dup(0);
 	fd[1] = dup(1);
 	fd[2] = dup(2);
@@ -42,7 +41,7 @@ int	pipex(t_env **env, char ***argv, int *heredoc)
 	va.n = tab_size(argv);
 	va.heredoc = heredoc;
 	if (va.n == 0)
-		return(0);
+		return (0);
 	if (va.n == 1 && is_builtin(argv[0][0]))
 		return (only_builtin(&va, env));
 	va.fd = (int **)malloc(sizeof(int *) * (va.n - 1));
@@ -75,7 +74,7 @@ int	exec_cmd(t_env **env, t_vars va)
 		free_tab(va.envp);
 	}
 	close_all(va.n, va.fd);
-	free_fd(va.fd, va.n);
+	free_fd(va);
 	return (check_errors(va.pid, va.n));
 }
 

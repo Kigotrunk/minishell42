@@ -6,19 +6,18 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/28 23:48:07 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 09:31:36 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int err_code;
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_env   *env;
-	char    *input;
-	char    **args;
+	t_env	*env;
+	char	*input;
+	char	**args;
+	int		err_code;
 
 	(void)argc;
 	(void)argv;
@@ -26,69 +25,43 @@ int main(int argc, char **argv, char **envp)
 	err_code = 0;
 	signal(SIGINT, ft_sig);
 	signal(SIGQUIT, ft_sig);
-	while ((input = readline("\e[0;34mminishell$ \e[0m")))
+	while (1)
 	{
+		input = readline("\e[0;34mminishell$ \e[0m");
 		if (input == NULL)
-			exit(1);
+			break ;
 		add_history(input);
 		if (quote_check(input) != 0)
-		{
-			free(input);
-			input = NULL;
-			ft_printf("Error\n");
 			continue ;
-		}
 		args = split_args(input);
-		err_code = minishell(&env, args);
+		err_code = minishell(&env, args, err_code);
 		free(input);
-		input = NULL;
 		free_tab(args);
-		args = NULL;
 	}
-	ft_lstclear(&env, &free);
-	return (0);
+	return (ft_lstclear(&env, &free));
 }
 
-int    minishell(t_env **env, char **argv)
+int	minishell(t_env **env, char **argv, int err_code)
 {
-	char    ***cmd_tab;
-	int     fd_save[3];
-	int     *heredoc;
+	char	***cmd_tab;
+	int		fd_save[3];
+	int		*heredoc;
 	int		new_code;
 
 	if (argv == NULL)
 		return (0);
 	if (syntax_error(argv))
-	{
-		ft_printf("Syntax error\n");
 		return (258);
-	}
-
-	//argv = ft_fix_args(argv, env); //leak
-	//cmd_tab = get_cmd_tab(argv);
-	
 	fd_save[0] = dup(0);
 	fd_save[1] = dup(1);
 	fd_save[2] = dup(2);
 	heredoc = NULL;
-	
 	new_code = 0;
-	new_code = get_io(argv, &heredoc, env);
-	
-	//argv = replace_quote_argv(argv, **env, err_code);
-	
-	//argv = ft_fix_args(argv, env); //leak
+	new_code = get_io(argv, &heredoc, **env, err_code);
 	cmd_tab = get_cmd_tab(argv, **env, err_code);
-	
 	if (new_code == 0)
 		new_code = pipex(env, cmd_tab, heredoc);
-
-	dup2(fd_save[0], 0);
-	dup2(fd_save[1], 1);
-	dup2(fd_save[2], 2);
-	close(fd_save[0]);
-	close(fd_save[1]);
-	close(fd_save[2]);
+	fd_back(fd_save);
 	free_tab_tab(cmd_tab);
 	return (new_code);
 }

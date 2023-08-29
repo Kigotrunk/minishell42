@@ -12,31 +12,42 @@
 
 #include "minishell.h"
 
-t_env   *cpy_env(char **envp)
+t_env	*cpy_env(char **envp)
 {
-    t_env   *new_env;
-    int     i;
+	t_env	*new_env;
+	char	*tmp_name;
+	char	*tmp_value;
+	int		i;
 
-    i = 0;
-    new_env = NULL;
-    while (envp[i])
-    {
-        ft_lstadd_back(&new_env, ft_lstnew(get_name(envp[i]), get_value(envp[i]), 1));
-        i++;
-    }
-    //leak_test(new_env);
-    return (new_env);
+	i = 0;
+	new_env = NULL;
+	while (envp[i])
+	{
+		tmp_name = get_name(envp[i]);
+		tmp_value = get_value(envp[i]);
+		ft_lstadd_back(&new_env, ft_lstnew(tmp_name, tmp_value, 1));
+		free(tmp_name);
+		free(tmp_value);
+		i++;
+	}
+	return (new_env);
 }
 
-void    leak_test(t_env *lst)
+int	ft_lstclear(t_env **lst, void (*del)(void*))
 {
-    int i;
+	t_env	*end;
+	t_env	*a_lst;
+	t_env	*n_lst;
 
-    i = 1;
-    while (lst)
-    {
-        ft_printf("%i: %p\n", i, lst);
-        lst = lst->next;
-        i++;
-    }
+	a_lst = *lst;
+	end = ft_lstlast(a_lst);
+	while (a_lst != end)
+	{
+		n_lst = a_lst->next;
+		ft_lstdelone(a_lst, del);
+		a_lst = n_lst;
+	}
+	ft_lstdelone(a_lst, del);
+	*lst = NULL;
+	return (0);
 }

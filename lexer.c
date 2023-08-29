@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kortolan <kortolan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:55:47 by kallegre          #+#    #+#             */
-/*   Updated: 2023/06/19 18:17:36 by kortolan         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:13:36 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,23 @@ int	arg_c(char *str)
 			str++;
 		if (*str == '\n' || *str == '\0')
 			return (n);
-		else if (is_ope(str))
-		{
-			n++;
-			str = end_ope(str);
-		}
-		else if (*str == '\"' || *str == '\'')
-		{
-			n++;
-			str = eoa_quote(str, *str);
-		}
 		else
 		{
 			n++;
-			str = eoa_str(str);
+			if (is_ope(str))
+				str = end_ope(str);
+			else if (*str == '\"' || *str == '\'')
+				str = eoa_quote(str, *str);
+			else
+				str = eoa_str(str);
 		}
 	}
 	return (n);
 }
 
-int arg_len(char *str)
+int	arg_len(char *str)
 {
-	int     i;
+	int	i;
 
 	i = 0;
 	if (*str == '\'' || *str == '\"')
@@ -96,7 +91,7 @@ char	**split_args(char *str)
 	{
 		while (*str == ' ')
 			str++;
-		if(*str == '\"' || *str == '\'')
+		if (*str == '\"' || *str == '\'')
 		{
 			tab[i] = get_arg(str);
 			str = eoa_quote(str, *str);

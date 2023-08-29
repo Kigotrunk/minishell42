@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:46:16 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 00:17:14 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:07:57 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*replace_quote(char *arg, t_env env, int err_code)
 			i++;
 		else if (arg[i] == '\"' && is_in_quote(arg, i) != 1)
 			i++;
-		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '\'' && arg[i + 1] != '\"' && arg[i + 1] != ' ' && is_in_quote(arg, i) != 1)
+		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '\'' && 
+			arg[i + 1] != '\"' && arg[i + 1] != ' ' && is_in_quote(arg, i) != 1)
 		{
 			i++;
 			new = ft_strjoin_free1(new, get_var(arg + i, env, err_code));
@@ -53,7 +54,7 @@ char	*replace_quote(char *arg, t_env env, int err_code)
 	return (new);
 }
 
-int var_size(char *str)
+int	var_size(char *str)
 {
 	int	i;
 
@@ -67,14 +68,15 @@ int var_size(char *str)
 
 char	*get_var(char *str, t_env env, int err_code)
 {
-	t_env *ptr;
-	
+	t_env	*ptr;
+
 	ptr = &env;
 	if (*str == '?')
 		return (ft_itoa(err_code));
 	while (ptr)
 	{
-		if (ft_strncmp(ptr->name, str, var_size(str)) == 0 && ptr->name[var_size(str)] == '\0')
+		if (ft_strncmp(ptr->name, str, var_size(str)) == 0 
+			&& ptr->name[var_size(str)] == '\0')
 			return (ptr->value);
 		ptr = ptr->next;
 	}

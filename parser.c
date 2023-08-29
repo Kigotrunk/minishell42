@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/28 23:30:29 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 09:05:34 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ int	syntax_error(char **argv)
 	while (argv[i + 1])
 	{
 		if (is_ope(argv[i]) && is_ope(argv[i + 1]))
+		{
+			ft_printf("Syntax error\n");
 			return (1);
+		}
 		i++;
 	}
 	if (is_ope(argv[i]))
+	{
+		ft_printf("Syntax error\n");
 		return (1);
+	}
 	return (0);
 }
 
@@ -137,8 +143,9 @@ char	***get_cmd_tab(char **tab, t_env env, int err_code)
 	return (cmd_tab);
 }
 
-int	get_io(char **argv, int **heredoc, t_env **env)
+int	get_io(char **argv, int **heredoc, t_env env, int err_code)
 {
+	char	*filename;
 	int		code;
 	int		i;
 
@@ -148,7 +155,9 @@ int	get_io(char **argv, int **heredoc, t_env **env)
 	{
 		if (is_ope(argv[i]) && argv[i][0] != '|')
 		{
-			code = replace_io(argv[i], ft_str_replace(argv[i + 1], env), heredoc);
+			filename = replace_quote(argv[i + 1], env, err_code);
+			code = replace_io(argv[i], filename, heredoc);
+			free(filename);
 			if (code)
 				return (code);
 			i++;

@@ -1,0 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pathfinder.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/29 10:44:10 by kallegre          #+#    #+#             */
+/*   Updated: 2023/08/29 10:44:20 by kallegre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+char	*pathfinder(char *str, char **envp)
+{
+	char	**split;
+	char	*temp;
+	int		i;
+
+	if (access(str, F_OK | X_OK) == 0 && open(str, O_DIRECTORY) == -1)
+		return (str);
+	i = 0;
+	while (!ft_strnstr(envp[i], "PATH=", 5))
+		i++;
+	split = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (split[i])
+	{
+		temp = ft_strjoin_path(split[i], str);
+		if (access(temp, F_OK | X_OK) == 0)
+		{
+			free_tab(split);
+			return (temp);
+		}
+		free(temp);
+		i++;
+	}
+	free_tab(split);
+	path_error(str);
+	exit(127);
+}
+
+void	path_error(char *str)
+{
+	int	i;
+
+	dup2(2, 1);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '/')
+		{
+			if (access(str, F_OK | X_OK) == 0)
+			{
+				printf("minishell: %s: Is a directory\n", str);
+				exit(126);
+			}
+			if (access(str, F_OK) == 0)
+			{
+				printf("minishell: %s: Permission denied\n", str);
+				exit(126);
+			}
+			ft_printf("minishell: %s: No such file or directory\n", str);
+			exit(127);
+		}
+		i++;
+	}
+	ft_printf("%s: command not found\n", str);
+}
+
+char	*ft_strjoin_path(char const *s1, char const *s2)
+{
+	char	*s;
+	int		i;
+
+	s = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
+	if (s == NULL)
+		return (NULL);
+	i = 0;
+	while (*s1)
+	{
+		s[i] = *s1;
+		s1++;
+		i++;
+	}
+	s[i] = '/';
+	i++;
+	while (*s2 && *s2 != ' ')
+	{
+		s[i] = *s2;
+		s2++;
+		i++;
+	}
+	s[i] = '\0';
+	return (s);
+}
