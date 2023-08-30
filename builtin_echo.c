@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 01:34:54 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/29 10:58:12 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 10:35:09 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	builtin_echo(char **argv)
 {
 	int	i;
 	
+	if (argv[1] == NULL)
+		return ;
 	i = 1;
 	if (argv[1][0] == '-' && argv[1][1] == 'n')
 		i++;

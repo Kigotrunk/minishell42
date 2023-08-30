@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:35:32 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 10:31:48 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 int	only_builtin(t_vars *va, t_env **env)
 {
-	int	code;
-	int	fd[3];
+	char	**argv;
+	int		code;
+	int		fd[3];
 
 	fd[0] = dup(0);
 	fd[1] = dup(1);
 	fd[2] = dup(2);
 	va->envp = get_tab_env(*env);
-	code = do_builtin(va->argv[0], env, va->envp);
+	argv = remove_wrg_arg(va->argv[0]);
+	code = do_builtin(argv, env, va->envp);
 	free_tab(va->envp);
+	free_tab(argv);
 	dup2(fd[0], 0);
 	dup2(fd[1], 1);
 	dup2(fd[2], 2);
@@ -85,8 +88,10 @@ void	cmd(t_env **env, t_vars va, int k)
 	char	*path;
 
 	argv = remove_wrg_arg(va.argv[k]);
-	if (!is_builtin(va.argv[k][0]))
-		path = pathfinder(va.argv[k][0], va.envp);
+	if (argv == NULL)
+		exit(0);
+	if (!is_builtin(argv[0]))
+		path = pathfinder(argv[0], va.envp);
 	if (va.heredoc)
 	{
 		dup2(va.heredoc[0], 0);
@@ -97,7 +102,7 @@ void	cmd(t_env **env, t_vars va, int k)
 	if (k != va.n - 1)
 		dup2(va.fd[k][1], 1);
 	close_all(va.n, va.fd);
-	if (is_builtin(va.argv[k][0]))
+	if (is_builtin(argv[0]))
 	{
 		code = do_builtin(argv, env, va.envp);
 		free_tab(argv);

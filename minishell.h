@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/29 11:23:08 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:02:56 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_var(char *str, t_env env, int err_code);
 int		is_in_quote(char *str, int index);
 
 void	fd_back(int fd[]);
-void	print_err(char *name, char *str);
+void	print_err(char *str, char *var);
 void	free_tab(char **tab);
 void	free_tab_tab(char ***tab);
 int		tab_size(char ***tab);
@@ -96,6 +96,7 @@ int		redir_err(char *ope, char *filename);
 int		redir_out(char *ope, char *filename);
 int		redir_in(char *ope, char *filename, int **heredoc);
 char	**remove_wrg_arg(char **argv);
+int		is_space_str(char *str);
 
 //new_var
 char	**get_new_var(char **argv, t_env *env);
@@ -143,7 +144,7 @@ void	ft_change_pwd(t_env *env);
 char	*get_home_dir(t_env *env);
 
 //builtin_export
-void	ft_builtin_export(char **argv, t_env **env);
+int		ft_builtin_export(char **argv, t_env **env);
 void	ft_change_var(t_env **env, char *name, char *value);
 void	print_export(t_env *env);
 int		is_var(t_env *env, char *str);

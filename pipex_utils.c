@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:44:05 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:04:27 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,34 @@ char	**remove_wrg_arg(char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && argv[i][0] != ' ')
+		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
 			j++;
 		i++;
 	}
+	if (j == 0)
+		return (NULL);
 	new_argv = (char **)malloc(sizeof(char *) * (j + 1));
 	i = 0;
 	j = -1;
 	while (argv[i])
 	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && argv[i][0] != ' ')
+		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
 			new_argv[++j] = ft_strdup(argv[i]);
 		i++;
 	}
 	new_argv[++j] = NULL;
 	return (new_argv);
+}
+
+int	is_space_str(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 int	check_errors(int *pid, int n)

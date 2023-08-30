@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 15:01:50 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/28 23:53:49 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 09:40:35 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    ft_sig(int code)
 {
     if (code == SIGINT)
     {
-        ft_printf("\r\e[0;34mminishell$\e[0m            \n");
+        ft_printf("\r\e[0;34mminishell$\e[0m\n");
         rl_on_new_line();
         rl_replace_line("", 0);
         rl_redisplay();

@@ -16,7 +16,7 @@ int	builtin_cd(char **argv, t_env *env)
 {
 	if (argv[1] && argv[2])
 	{
-		print_err("cd", "too many arguments\n");
+		print_err("cd: too many arguments\n", NULL);
 		return (1);
 	}
 	if (argv[1] == NULL || ft_strncmp(argv[1], "~", 2) == 0)

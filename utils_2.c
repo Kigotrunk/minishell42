@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 09:29:47 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 11:05:43 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:00:37 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ char	*ft_str_add(char *str, char c)
 	return (new);
 }
 
-void	print_err(char *name, char *str)
+void	print_err(char *str, char *var)
 {
-	int	save_fd;
-
-	save_fd = dup(1);
-	dup2(2, 1);
-	printf("minishell: %s: %s\n", name, str);
-	dup2(save_fd, 1);
-	close(save_fd);
+	while (*str)
+	{
+		if (*str == '?')
+			write(2, var, ft_strlen(var));
+		else
+			write(2, str, 1);
+		str++;
+	}
+	write(2, "\n", 1);
 }
 
 char	*ft_itoa(int n)

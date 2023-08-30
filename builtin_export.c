@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void    ft_builtin_export(char **argv, t_env **env)
+int	ft_builtin_export(char **argv, t_env **env)
 {
-	int     i;
-	char    **split;
+	char	**split;
+	int		code;
+	int		i;
 
+	code = 0;
 	i = 1;
-	if(!argv || argv == NULL)
-		return ;
-	if(!argv[1])
+	if (!argv[1])
 		print_export(*env);
 	else
 	{
@@ -16,38 +16,42 @@ void    ft_builtin_export(char **argv, t_env **env)
 		{
 			split = ft_split(argv[i], '=');
 			if (split[0] == NULL)
-				return ;
-			if(!is_var(*env, split[0]))
 			{
-				if(split[1] && var_name(split[0]))
+				print_err("minishell: export: '=': not a valid identifier", NULL);
+				code = 1;
+			}
+			else if (!is_var(*env, split[0]))
+			{
+				if (split[1] && split[1][0] != '\n' && var_name(split[0]))
 					ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
-				else if(var_name(split[0]))
+				else if (var_name(split[0]))
 					ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
 				else
-				ft_printf("invalid var Name\n");
+				{
+					print_err("minishell: export: '?': not a valid identifier", split[1]);
+					code = 1;
+				}
 			}
 			else
 			{
-				if(split[1] && var_name(split[0]))
+				if (split[1])
 					ft_change_var(env, split[0], split[1]);
-				else if (var_name(split[0]))
+				else
 					ft_change_var(env, split[0], NULL);
-				else 
-				ft_printf("invalid var Name\n");
 			}
 			i++;
 			free_tab(split);
 		}
 	}
-	return ;
+	return (code);
 }
 
-void    ft_change_var(t_env **env, char *name, char *value)
+void	ft_change_var(t_env **env, char *name, char *value)
 {
-	t_env   *ptr;
+	t_env	*ptr;
 
 	ptr = *env;
-	while((ptr))
+	while (ptr)
 	{
 		if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
 		{
@@ -63,7 +67,7 @@ void    ft_change_var(t_env **env, char *name, char *value)
 	}
 }
 
-void    print_export(t_env *env)
+void	print_export(t_env *env)
 {
 	//t_env   *ptr;
 

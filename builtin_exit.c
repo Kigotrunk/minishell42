@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 12:02:00 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 11:01:35 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 09:28:47 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ int	builtin_exit(char **argv)
 
 	if (!argv[1])
 		exit(0);
-	if (argv[2])
-	{
-		print_err("exit", "too many arguments");
-		return (1);
-	}
 	if (!is_number(argv[1]) || check_longl(argv[1]))
 	{
-		print_err("exit", "numeric argument required");
+		print_err("exit\nminishell: exit: ?: numeric argument required", argv[1]);
 		exit(2);
+	}
+	if (argv[2])
+	{
+		print_err("exit\nminishell: exit: too many arguments", NULL);
+		return (1);
 	}
 	var_exit = ft_atoi(argv[1]);
 	if (var_exit > 255)
-		var_exit = var_exit % 255;
+		var_exit = var_exit % 256;
 	exit(var_exit);
 }
 
