@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/30 11:04:27 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:40:28 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**remove_wrg_arg(char **argv)
 		i++;
 	}
 	new_argv[++j] = NULL;
+	free_tab(argv);
 	return (new_argv);
 }
 
@@ -61,15 +62,10 @@ int	check_errors(int *pid, int n)
 	while (i < n)
 	{
 		waitpid(pid[i], &status, 0);
-		if (WEXITSTATUS(status) != 0)
-		{
-			free(pid);
-			return (WEXITSTATUS(status));
-		}
 		i++;
 	}
 	free(pid);
-	return (0);
+	return (WEXITSTATUS(status));
 }
 
 void	close_all(int n, int **fd)
@@ -96,5 +92,4 @@ void	free_fd(t_vars va)
 		i++;
 	}
 	free(va.fd);
-	free(va.heredoc);
 }

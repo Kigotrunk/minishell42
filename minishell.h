@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/30 11:02:56 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:56:52 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 typedef struct s_vars
 {
 	int		n;
-	int		*heredoc;
+	int		err_code;
 	int		**fd;
 	int		*pid;
 	char	**envp;
@@ -63,14 +63,21 @@ char	*eoa_str(char *str);
 int		arg_len(char *str);
 char	*get_arg(char *str);
 char	**split_args(char *str);
-char	***get_cmd_tab(char **tab, t_env env, int err_code);
-char	**get_argv(char **tab, t_env env, int err_code);
+
 int		get_io(char **argv, int **heredoc, t_env env, int err_code);
 int		replace_io(char *ope, char *filename, int **heredoc);
+char	**io_init(void);
+
+char	***get_cmd_tab(char **tab, t_env env, int err_code);
+char	**get_argv(char **tab, t_env env, int err_code);
 int		pipe_count(char **argv);
 int		redir_count(char **argv);
 char	***cmd_tab_init(int n);
-char	**io_init(void);
+
+int		pipe_len(char **tab);
+char	**get_pipe(char **tab);
+char	***get_pipe_tab(char **tab);
+
 char	*ft_strjoin_free1(char *s1, char *s2);
 int		syntax_error(char **argv);
 int		minishell(t_env **env, char **argv, int err_code);
@@ -78,8 +85,9 @@ void	rl_replace_line(const char *text, int clear_undo);
 void	ft_sig(int code);
 
 //pipex
-int		only_builtin(t_vars *va, t_env **env);
-int		pipex(t_env **env, char ***argv, int *heredoc);
+int		only_builtin(t_vars va, t_env **env);
+char	*find_cmd_name(char **argv);
+int		pipex(t_env **env, char ***argv, int err_code);
 char	*pathfinder(char *str, char **envp);
 void	path_error(char *str);
 char	*ft_strjoin_path(char const *s1, char const *s2);

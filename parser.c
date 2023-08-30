@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:01:12 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 09:05:34 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:16:51 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	syntax_error(char **argv)
 		return (1);
 	while (argv[i + 1])
 	{
-		if (is_ope(argv[i]) && is_ope(argv[i + 1]))
+		if (is_ope(argv[i]) && is_ope(argv[i + 1]) && argv[i][0] != '|')
 		{
 			ft_printf("Syntax error\n");
 			return (1);
@@ -114,7 +114,35 @@ char	**get_argv(char **tab, t_env env, int err_code)
 	return (argv);
 }
 
-char	***get_cmd_tab(char **tab, t_env env, int err_code)
+int	pipe_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] && tab[i][0] != '|')
+		i++;
+	return (i);
+}
+
+char	**get_pipe(char **tab)
+{
+	char	**argv;
+	int		ac;
+	int		i;
+
+	ac = pipe_len(tab);
+	argv = (char **)malloc((ac + 1) * sizeof(char *));
+	i = 0;
+	while (i < ac)
+	{
+		argv[i] = ft_strdup(tab[i]);
+		i++;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
+char	***get_pipe_tab(char **tab)
 {
 	char	***cmd_tab;
 	int		i;
@@ -130,11 +158,9 @@ char	***get_cmd_tab(char **tab, t_env env, int err_code)
 			i++;
 			k++;
 		}
-		else if (is_ope(tab[i]))
-			i += 2;
 		else
 		{
-			cmd_tab[k] = get_argv(tab + i, env, err_code);
+			cmd_tab[k] = get_pipe(tab + i);
 			while (tab[i] && tab[i][0] != '|')
 				i++;
 		}

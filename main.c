@@ -6,11 +6,13 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/30 11:03:44 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:30:41 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	sig;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -24,10 +26,12 @@ int	main(int argc, char **argv, char **envp)
 	env = cpy_env(envp);
 	err_code = 0;
 	signal(SIGINT, ft_sig);
-	signal(SIGQUIT, ft_sig);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		sig = 0;
 		input = readline("\e[0;34mminishell$ \e[0m");
+		sig = 1;
 		if (input == NULL)
 			break ;
 		add_history(input);
@@ -43,10 +47,8 @@ int	main(int argc, char **argv, char **envp)
 
 int	minishell(t_env **env, char **argv, int err_code)
 {
-	char	***cmd_tab;
+	char	***pipe_tab;
 	int		fd_save[3];
-	int		*heredoc;
-	int		new_code;
 
 	if (argv == NULL)
 		return (0);
@@ -55,13 +57,23 @@ int	minishell(t_env **env, char **argv, int err_code)
 	fd_save[0] = dup(0);
 	fd_save[1] = dup(1);
 	fd_save[2] = dup(2);
-	heredoc = NULL;
-	new_code = 0;
-	new_code = get_io(argv, &heredoc, **env, err_code);
-	cmd_tab = get_cmd_tab(argv, **env, err_code);
-	if (new_code == 0)
-		new_code = pipex(env, cmd_tab, heredoc);
+	pipe_tab = get_pipe_tab(argv);
+	err_code = pipex(env, pipe_tab, err_code);
 	fd_back(fd_save);
-	free_tab_tab(cmd_tab);
-	return (new_code);
+	free_tab_tab(pipe_tab);
+	return (err_code);
+}
+
+void    ft_sig(int code)
+{
+    if (code == SIGINT)
+    {
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		if (sig == 0)
+			rl_redisplay();
+    }
+	if (code == SIGQUIT)
+		ft_printf("Quit\n");
 }

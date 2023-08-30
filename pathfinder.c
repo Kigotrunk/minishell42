@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:44:10 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:44:20 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:35:55 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ void	path_error(char *str)
 		{
 			if (access(str, F_OK | X_OK) == 0)
 			{
-				printf("minishell: %s: Is a directory\n", str);
+				print_err("minishell: ?: Is a directory", str);
 				exit(126);
 			}
 			if (access(str, F_OK) == 0)
 			{
-				printf("minishell: %s: Permission denied\n", str);
+				print_err("minishell: ?: Permission denied", str);
 				exit(126);
 			}
-			ft_printf("minishell: %s: No such file or directory\n", str);
+			print_err("minishell: ?: No such file or directory", str);
 			exit(127);
 		}
 		i++;
 	}
-	ft_printf("%s: command not found\n", str);
+	print_err("?: command not found", str);
 }
 
 char	*ft_strjoin_path(char const *s1, char const *s2)

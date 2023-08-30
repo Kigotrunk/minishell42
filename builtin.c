@@ -18,6 +18,8 @@ int	is_builtin(char *cmd)
 	char	**tab_cmd;
 	int		i;
 
+	if (cmd == NULL)
+		return (0);
 	i = 0;
 	all_cmd = ft_strdup("export unset cd exit env pwd echo");
 	tab_cmd = ft_split(all_cmd, ' ');
@@ -27,10 +29,7 @@ int	is_builtin(char *cmd)
 		{
 			free(all_cmd);
 			free_tab(tab_cmd);
-			if (i < 3)
-				return (2);
-			else
-				return (1);
+			return (1);
 		}
 		i++;
 	}

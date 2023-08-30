@@ -6,7 +6,7 @@
 #    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/08/29 11:16:00 by kallegre         ###   ########.fr        #
+#    Updated: 2023/08/30 14:15:33 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRCS     =  main.c \
 			builtin_cd.c \
 			builtin_export.c \
 			builtin_env.c \
-			signal.c \
 			new_var.c \
 			replace_quote.c \
 											
