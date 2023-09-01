@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/31 11:40:37 by kallegre          #+#    #+#             */
+/*   Updated: 2023/08/31 12:19:03 by kallegre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_builtin_export(char **argv, t_env **env)
@@ -16,29 +28,11 @@ int	ft_builtin_export(char **argv, t_env **env)
 		{
 			split = ft_split(argv[i], '=');
 			if (split[0] == NULL)
-			{
-				print_err("minishell: export: '=': not a valid identifier", NULL);
-				code = 1;
-			}
+				code = print_export_error(code, 0, split);
 			else if (!is_var(*env, split[0]))
-			{
-				if (split[1] && split[1][0] != '\n' && var_name(split[0]))
-					ft_lstadd_back(env, ft_lstnew(split[0], split[1], 1));
-				else if (var_name(split[0]))
-					ft_lstadd_back(env, ft_lstnew(split[0], NULL, 1));
-				else
-				{
-					print_err("minishell: export: '?': not a valid identifier", split[1]);
-					code = 1;
-				}
-			}
+				code = ft_builtin_export_1(split, env, code);
 			else
-			{
-				if (split[1])
-					ft_change_var(env, split[0], split[1]);
-				else
-					ft_change_var(env, split[0], NULL);
-			}
+				ft_builtin_export_2(split, env);
 			i++;
 			free_tab(split);
 		}
@@ -53,11 +47,11 @@ void	ft_change_var(t_env **env, char *name, char *value)
 	ptr = *env;
 	while (ptr)
 	{
-		if(ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
+		if (ft_strncmp(ptr->name, name, ft_strlen(name) + 1) == 0)
 		{
 			if (ptr->print == 0)
 				ptr->print = 1;
-			if(value == NULL)
+			if (value == NULL)
 				return ;
 			free(ptr->value);
 			ptr->value = ft_strdup(value);
@@ -69,14 +63,9 @@ void	ft_change_var(t_env **env, char *name, char *value)
 
 void	print_export(t_env *env)
 {
-	//t_env   *ptr;
-
-	if (!env)
-		perror("env");
-	//ptr = env;
 	while (env)
 	{
-		if(env->print == 1)
+		if (env->print == 1)
 		{
 			ft_printf("declare -x ");
 			ft_printf("%s", env->name);
@@ -89,25 +78,23 @@ void	print_export(t_env *env)
 	}
 }
 
-int is_var(t_env *env, char *str)
+int	is_var(t_env *env, char *str)
 {
-	int i;
-	char    *tmp;
-	//t_env   *ptr;
+	int		i;
+	char	*tmp;
 
-	//ptr = env;
 	if (str == NULL)
 		return (0);
 	i = 0;
 	tmp = ft_strdup("");
-	while(str[i] != '=' && str[i])
+	while (str[i] != '=' && str[i])
 	{
 		tmp = ft_str_add(tmp, str[i]);
 		i++;
 	}
-	while(env)
+	while (env)
 	{
-		if(!ft_strncmp(env->name, tmp, ft_strlen(tmp)))
+		if (!ft_strncmp(env->name, tmp, ft_strlen(tmp)))
 		{
 			free(tmp);
 			return (1);
@@ -118,17 +105,17 @@ int is_var(t_env *env, char *str)
 	return (0);
 }
 
-int var_name(char *str)
+int	var_name(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!ft_isalpha(str[i]) && str[i] != '_')
+	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (0);
 	i++;
 	while (str[i])
 	{
-		if(!ft_isalnum(str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}

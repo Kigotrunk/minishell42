@@ -79,7 +79,7 @@ void	builtin_pwd(void)
 	pwd = (char *)malloc(2048 * sizeof(char));
 	pwd = getcwd(pwd, 2048);
 	if (pwd == NULL)
-		perror("path");
+		perror("pwd");
 	else
 		printf("%s\n", pwd);
 }

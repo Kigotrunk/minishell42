@@ -56,7 +56,5 @@ int	do_builtin(char **cmd, t_env **env, char **envp)
 		return (ft_builtin_export(cmd, env));
 	if (ft_strncmp(cmd[0], "exit", ft_strlen(cmd[0]) + 1) == 0)
 		return (builtin_exit(cmd));
-	// return(ft_builtin_export(cmd, env));
-	// ...
 	return (0);
 }

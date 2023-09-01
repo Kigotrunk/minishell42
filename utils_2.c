@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 09:29:47 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 23:00:37 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:58:59 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,15 @@ void	fd_back(int fd[])
 	close(fd[0]);
 	close(fd[1]);
 	close(fd[2]);
+}
+
+int	is_space_str(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
 }

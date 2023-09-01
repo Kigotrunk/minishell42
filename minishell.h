@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/30 13:56:52 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:08:54 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@ int		arg_c(char *str);
 char	*eoa_quote(char *str, char c);
 char	*eoa_str(char *str);
 int		arg_len(char *str);
-char	*get_arg(char *str);
+char	*cpy_arg(char *str);
+char	*get_arg(char **ptr, char *str);
 char	**split_args(char *str);
 
 int		get_io(char **argv, int **heredoc, t_env env, int err_code);
 int		replace_io(char *ope, char *filename, int **heredoc);
-char	**io_init(void);
 
 char	***get_cmd_tab(char **tab, t_env env, int err_code);
 char	**get_argv(char **tab, t_env env, int err_code);
 int		pipe_count(char **argv);
-int		redir_count(char **argv);
 char	***cmd_tab_init(int n);
 
 int		pipe_len(char **tab);
@@ -80,8 +79,7 @@ char	***get_pipe_tab(char **tab);
 
 char	*ft_strjoin_free1(char *s1, char *s2);
 int		syntax_error(char **argv);
-int		minishell(t_env **env, char **argv, int err_code);
-void	rl_replace_line(const char *text, int clear_undo);
+int		minishell(t_env **env, char *input, int err_code);
 void	ft_sig(int code);
 
 //pipex
@@ -96,21 +94,17 @@ void	close_all(int n, int **fd);
 int		check_errors(int *pid, int n);
 char	**get_tab_env(t_env *lst);
 int		exec_cmd(t_env **env, t_vars va);
-void	get_doc(char *argv[], t_vars va);
 int		get_heredoc(int *heredoc, char *delimiter);
-int		exec_cmd_b(char *argv[], char *envp[], t_vars va);
 void	free_fd(t_vars va);
 int		redir_err(char *ope, char *filename);
 int		redir_out(char *ope, char *filename);
 int		redir_in(char *ope, char *filename, int **heredoc);
 char	**remove_wrg_arg(char **argv);
 int		is_space_str(char *str);
+void	make_redir(t_env env, t_vars va, int k);
 
-//new_var
-char	**get_new_var(char **argv, t_env *env);
 char	*get_value(char *str);
 char	*get_name(char *str);
-int		is_new_var(char *arg);
 
 //lst
 int		ft_lstsize(t_env *lst);
@@ -128,7 +122,6 @@ int		do_builtin(char **cmd, t_env **env, char **envp);
 int		builtin_cd(char	**cmd, t_env *env);
 void	builtin_pwd(void);
 void	builtin_env(t_env *env);
-char	*ft_str_lower(char *cmd);
 
 //ft_builtin_unset
 void	builtin_unset(char **argv, t_env **env);
@@ -136,18 +129,9 @@ void	remove_env_var(t_env **env, char *var);
 
 //ft_builtin_echo
 void	builtin_echo(char **argv);
-int		parsing_echo(char **argv, int index);
-void	echo_d_quote(int *in);
-void	echo_s_quote(int *in);
-void	number_quote (char **argv, int index, int *count_s_quote, int *count_d_quote);
-int		option_n(char *argv);
-int		ft_print_echo(char **argv, int index);
-
-int		var_with_value(char *str);
 
 //ft_utils
 t_env	*cpy_env(char **envp);
-void	ft_unset_utils(t_env **env, char *var, int index);
 void	ft_change_pwd(t_env *env);
 char	*get_home_dir(t_env *env);
 
@@ -157,21 +141,16 @@ void	ft_change_var(t_env **env, char *name, char *value);
 void	print_export(t_env *env);
 int		is_var(t_env *env, char *str);
 int		var_name(char *str);
+int		ft_builtin_export_1(char **split, t_env **env, int code);
+int		print_export_error(int code, int id, char **split);
+void	ft_builtin_export_2(char **split, t_env **env);
 
 int		builtin_exit(char **argv);
 int		is_number(char *arg);
 int		check_longl(char *str);
 
 //parsing without quote and $
-char	**ft_fix_args(char **args, t_env **env);
-char	*ft_str_replace(char *arg, t_env **env);
-char	*ft_is_dollars(char *arg, int in_quote, int i, t_env **env);
-char	*ft_dollars(int *n, char *arg, int i, t_env *env);
-int		ft_is_space(char c);
 char	*ft_str_add(char *str, char c);
-int		ft_is_quote(char c);
 void	print_tab(char **argv);
-char	*ft_size_var(int *n, t_env *env);
-int		var_with_value(char *str);
 
 #endif

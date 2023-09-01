@@ -6,7 +6,7 @@
 #    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/08/30 14:15:33 by kallegre         ###   ########.fr        #
+#    Updated: 2023/08/31 12:28:00 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ SRCS     =  main.c \
 			lexer_utils.c \
 			utils.c \
 			utils_2.c \
+			utils_3.c \
+			get_cmd_io.c \
 			pipex.c \
 			pathfinder.c \
 			redirection.c \
@@ -36,8 +38,8 @@ SRCS     =  main.c \
 			builtin_exit.c \
 			builtin_cd.c \
 			builtin_export.c \
+			builtin_export_2.c \
 			builtin_env.c \
-			new_var.c \
 			replace_quote.c \
 											
 

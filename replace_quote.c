@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:46:16 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 11:07:57 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/01 13:14:27 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*replace_quote(char *arg, t_env env, int err_code)
 			i++;
 		else if (arg[i] == '\"' && is_in_quote(arg, i) != 1)
 			i++;
-		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '\'' && 
-			arg[i + 1] != '\"' && arg[i + 1] != ' ' && is_in_quote(arg, i) != 1)
+		else if (arg[i] == '$' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'
+				|| arg[i + 1] == '?') && is_in_quote(arg, i) != 1)
 		{
 			i++;
 			new = ft_strjoin_free1(new, get_var(arg + i, env, err_code));

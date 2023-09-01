@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/30 13:57:29 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:05:41 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,6 @@ int	only_builtin(t_vars va, t_env **env)
 	free_tab(argv);
 	fd_back(fd);
 	return (code);
-}
-
-char	*find_cmd_name(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
-			return (argv[i]);
-		i++;
-	}
-	return (NULL);
 }
 
 int	pipex(t_env **env, char ***argv, int err_code)
@@ -103,25 +89,11 @@ int	exec_cmd(t_env **env, t_vars va)
 
 void	cmd(t_env **env, t_vars va, int k)
 {
-	int		*heredoc;
 	int		code;
 	char	**argv;
 	char	*path;
 
-	if (k != 0)
-		dup2(va.fd[k - 1][0], 0);
-	if (k != va.n - 1)
-		dup2(va.fd[k][1], 1);
-	heredoc = NULL;
-	code = get_io(va.argv[k], &heredoc, **env, va.err_code);
-	if (code)
-		exit(code);
-	if (heredoc != NULL)
-	{
-		dup2(heredoc[0], 0);
-		close(heredoc[0]);
-	}
-	close_all(va.n, va.fd);
+	make_redir(**env, va, k);
 	argv = get_argv(va.argv[k], **env, va.err_code);
 	argv = remove_wrg_arg(argv);
 	if (argv == NULL)
@@ -136,4 +108,25 @@ void	cmd(t_env **env, t_vars va, int k)
 	}
 	else
 		execve(path, argv, va.envp);
+}
+
+void	make_redir(t_env env, t_vars va, int k)
+{
+	int		*heredoc;
+	int		code;
+
+	if (k != 0)
+		dup2(va.fd[k - 1][0], 0);
+	if (k != va.n - 1)
+		dup2(va.fd[k][1], 1);
+	heredoc = NULL;
+	code = get_io(va.argv[k], &heredoc, env, va.err_code);
+	if (code)
+		exit(code);
+	if (heredoc != NULL)
+	{
+		dup2(heredoc[0], 0);
+		close(heredoc[0]);
+	}
+	close_all(va.n, va.fd);
 }

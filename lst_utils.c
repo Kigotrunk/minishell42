@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:50:22 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:51:13 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:54:12 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 
 void	ft_lstdelone(t_env *lst, void (*del)(void*))
 {
-	if (!lst)
+	if (lst == NULL)
 		return ;
 	del(lst->name);
 	del(lst->value);

@@ -1,22 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_var.c                                          :+:      :+:    :+:   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/09 13:49:45 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 11:18:34 by kallegre         ###   ########.fr       */
+/*   Created: 2023/08/31 12:12:57 by kallegre          #+#    #+#             */
+/*   Updated: 2023/08/31 12:18:00 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	syntax_error(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv[0][0] == '|')
+		return (1);
+	while (argv[i + 1])
+	{
+		if (is_ope(argv[i]) && is_ope(argv[i + 1]) && argv[i][0] != '|')
+		{
+			ft_printf("Syntax error\n");
+			return (1);
+		}
+		i++;
+	}
+	if (is_ope(argv[i]))
+	{
+		ft_printf("Syntax error\n");
+		return (1);
+	}
+	return (0);
+}
+
 char	*get_name(char *str)
 {
 	char	*name;
 	int		i;
-	
 
 	i = 0;
 	while (str[i] != '=')
@@ -54,43 +77,13 @@ char	*get_value(char *str)
 	return (value);
 }
 
-char	**get_new_var(char **argv, t_env *env)
+char	*ft_strjoin_free1(char *s1, char *s2)
 {
-	char	*name;
-	char	*value;
-	int		i;
-	
-	i = 0;
-	while (is_new_var(argv[i]))
-	{
-		name = get_name(argv[i]);
-		/*if(!var_name(name))
-		{
-			ft_printf("command not found\n");
-			free(name);
-			return NULL;
-		}*/
-		value = get_value(argv[i]);
-		ft_lstadd_back(&env, ft_lstnew(name, value, 0));
-		free(name);
-		free(value);
-		i++;
-	}
-	return (argv + i);
-}
+	char	*new;
 
-int	is_new_var(char *arg)
-{
-	int	i;
-
-	i = 0;
-	if (arg == NULL)
-		return (0);
-	while (arg[i])
-	{
-		if (arg[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
+	if (s1 == NULL || s2 == NULL)
+		return (s1);
+	new = ft_strjoin(s1, s2);
+	free(s1);
+	return (new);
 }

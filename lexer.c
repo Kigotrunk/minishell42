@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:55:47 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 11:13:36 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:28:38 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,10 @@ int	arg_len(char *str)
 		i = end_ope(str) - str;
 	else
 		i = eoa_str(str) - str;
-	//readline?
-	if (str[i - 1] == '\n')
-		i--;
 	return (i);
 }
 
-char	*get_arg(char *str)
+char	*cpy_arg(char *str)
 {
 	int		i;
 	int		len;
@@ -91,25 +88,29 @@ char	**split_args(char *str)
 	{
 		while (*str == ' ')
 			str++;
-		if (*str == '\"' || *str == '\'')
-		{
-			tab[i] = get_arg(str);
-			str = eoa_quote(str, *str);
-			i++;
-		}
-		else if (is_ope(str))
-		{
-			tab[i] = get_arg(str);
-			str = end_ope(str);
-			i++;
-		}
-		else
-		{
-			tab[i] = get_arg(str);
-			str = eoa_str(str);
-			i++;
-		}
+		str = get_arg(&tab[i], str);
+		i++;
 	}
 	tab[i] = NULL;
 	return (tab);
+}
+
+char	*get_arg(char **ptr, char *str)
+{
+	if (*str == '\"' || *str == '\'')
+	{
+		*ptr = cpy_arg(str);
+		str = eoa_quote(str, *str);
+	}
+	else if (is_ope(str))
+	{
+		*ptr = cpy_arg(str);
+		str = end_ope(str);
+	}
+	else
+	{
+		*ptr = cpy_arg(str);
+		str = eoa_str(str);
+	}
+	return (str);
 }
