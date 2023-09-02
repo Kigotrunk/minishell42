@@ -6,7 +6,7 @@
 #    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/09/01 20:08:24 by kallegre         ###   ########.fr        #
+#    Updated: 2023/09/02 13:11:20 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ NAME = minishell
 all:    $(NAME)
 
 $(NAME):    $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -o $(NAME) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME) $(LIBFT)
 
 $(LIBFT):
 	make -C ft_printf
@@ -66,7 +66,6 @@ fclean: clean
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "\033[1mcompiling\033[0m: $<                     \r"
-#	@say "compiling file $<, please stand by"
 
 re: fclean all
 
