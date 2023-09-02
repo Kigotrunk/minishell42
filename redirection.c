@@ -6,13 +6,13 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:42:00 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:47:11 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:49:12 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_heredoc(int *heredoc, char *delimiter)
+int	get_heredoc(int *heredoc, char *delimiter, int fd_0)
 {
 	char	*line;
 
@@ -21,7 +21,7 @@ int	get_heredoc(int *heredoc, char *delimiter)
 	while (1)
 	{
 		write(1, "> ", 2);
-		line = get_next_line(0);
+		line = get_next_line(fd_0);
 		if (ft_strncmp(delimiter, line, ft_strlen(delimiter)) == 0
 			&& line[ft_strlen(delimiter)] == '\n')
 			break ;
@@ -51,14 +51,14 @@ int	redir_err(char *ope, char *filename)
 	return (0);
 }
 
-int	redir_in(char *ope, char *filename, int **heredoc)
+int	redir_in(char *ope, char *filename, int **heredoc, int fd_0)
 {
 	int	filein;
 
 	if (ope[1] == '<')
 	{
 		*heredoc = (int *)malloc(2 * sizeof(int));
-		if (get_heredoc(*heredoc, filename))
+		if (get_heredoc(*heredoc, filename, fd_0))
 			return (1);
 	}
 	else

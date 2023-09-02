@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 09:18:39 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:54:36 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ int	only_builtin(t_vars va, t_env **env)
 	fd[1] = dup(1);
 	fd[2] = dup(2);
 	heredoc = NULL;
-	code = get_io(va.argv[0], &heredoc, **env, va.err_code);
+	va.fd_0 = fd[0];
+	code = get_io(va.argv[0], &heredoc, **env, va);
 	if (code)
-		exit(code);
+		return (code);
 	if (heredoc != NULL)
 	{
 		dup2(heredoc[0], 0);
@@ -117,12 +118,13 @@ void	make_redir(t_env env, t_vars va, int k)
 	int		*heredoc;
 	int		code;
 
+	va.fd_0 = dup(0);
 	if (k != 0)
 		dup2(va.fd[k - 1][0], 0);
 	if (k != va.n - 1)
 		dup2(va.fd[k][1], 1);
 	heredoc = NULL;
-	code = get_io(va.argv[k], &heredoc, env, va.err_code);
+	code = get_io(va.argv[k], &heredoc, env, va);
 	if (code)
 		exit(code);
 	if (heredoc != NULL)
@@ -130,5 +132,6 @@ void	make_redir(t_env env, t_vars va, int k)
 		dup2(heredoc[0], 0);
 		close(heredoc[0]);
 	}
+	close(va.fd_0);
 	close_all(va.n, va.fd);
 }

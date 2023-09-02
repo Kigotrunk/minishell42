@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/09/02 09:19:57 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:53:30 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_vars
 {
 	int		n;
 	int		err_code;
+	int		fd_0;
 	int		**fd;
 	int		*pid;
 	char	**envp;
@@ -65,8 +66,8 @@ char	*cpy_arg(char *str);
 char	*get_arg(char **ptr, char *str);
 char	**split_args(char *str);
 
-int		get_io(char **argv, int **heredoc, t_env env, int err_code);
-int		replace_io(char *ope, char *filename, int **heredoc);
+int		get_io(char **argv, int **heredoc, t_env env, t_vars va);
+int		replace_io(char *ope, char *filename, int **heredoc, int fd_0);
 
 char	***get_cmd_tab(char **tab, t_env env, int err_code);
 char	**get_argv(char **tab, t_env env, int err_code);
@@ -94,11 +95,11 @@ void	close_all(int n, int **fd);
 int		check_errors(int *pid, int n);
 char	**get_tab_env(t_env *lst);
 int		exec_cmd(t_env **env, t_vars va);
-int		get_heredoc(int *heredoc, char *delimiter);
+int		get_heredoc(int *heredoc, char *delimiter, int fd_0);
 void	free_fd(t_vars va);
 int		redir_err(char *ope, char *filename);
 int		redir_out(char *ope, char *filename);
-int		redir_in(char *ope, char *filename, int **heredoc);
+int		redir_in(char *ope, char *filename, int **heredoc, int fd_0);
 char	**remove_wrg_arg(char **argv);
 int		is_space_str(char *str);
 void	make_redir(t_env env, t_vars va, int k);

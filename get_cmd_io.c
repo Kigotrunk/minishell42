@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:16:17 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 12:17:42 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 10:53:08 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**get_argv(char **tab, t_env env, int err_code)
 	return (argv);
 }
 
-int	get_io(char **argv, int **heredoc, t_env env, int err_code)
+int	get_io(char **argv, int **heredoc, t_env env, t_vars va)
 {
 	char	*filename;
 	int		code;
@@ -70,8 +70,8 @@ int	get_io(char **argv, int **heredoc, t_env env, int err_code)
 	{
 		if (is_ope(argv[i]) && argv[i][0] != '|')
 		{
-			filename = replace_quote(argv[i + 1], env, err_code);
-			code = replace_io(argv[i], filename, heredoc);
+			filename = replace_quote(argv[i + 1], env, va.err_code);
+			code = replace_io(argv[i], filename, heredoc, va.fd_0);
 			free(filename);
 			if (code)
 				return (code);
@@ -82,14 +82,14 @@ int	get_io(char **argv, int **heredoc, t_env env, int err_code)
 	return (0);
 }
 
-int	replace_io(char *ope, char *filename, int **heredoc)
+int	replace_io(char *ope, char *filename, int **heredoc, int fd_0)
 {
 	int	code;
 
 	code = 0;
 	if (ope[0] == '<')
 	{
-		code = redir_in(ope, filename, heredoc);
+		code = redir_in(ope, filename, heredoc, fd_0);
 		if (code)
 			return (code);
 	}
