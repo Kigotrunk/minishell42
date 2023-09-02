@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 12:18:07 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:05:48 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	minishell(t_env **env, char *input, int err_code)
 {
 	char	**args;
 	char	***pipe_tab;
-	int		fd_save[3];
+	int		fd[3];
 
 	if (quote_check(input) != 0)
 		return (1);
@@ -53,12 +53,10 @@ int	minishell(t_env **env, char *input, int err_code)
 		return (0);
 	if (syntax_error(args))
 		return (258);
-	fd_save[0] = dup(0);
-	fd_save[1] = dup(1);
-	fd_save[2] = dup(2);
+	fd_save(fd);
 	pipe_tab = get_pipe_tab(args);
 	err_code = pipex(env, pipe_tab, err_code);
-	fd_back(fd_save);
+	fd_back(fd);
 	free_tab(args);
 	free_tab_tab(pipe_tab);
 	return (err_code);

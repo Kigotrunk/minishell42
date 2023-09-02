@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 10:54:36 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:04:31 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int	only_builtin(t_vars va, t_env **env)
 	int		code;
 	int		fd[3];
 
-	fd[0] = dup(0);
-	fd[1] = dup(1);
-	fd[2] = dup(2);
+	fd_save(fd);
 	heredoc = NULL;
 	va.fd_0 = fd[0];
 	code = get_io(va.argv[0], &heredoc, **env, va);

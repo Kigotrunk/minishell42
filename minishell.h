@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/09/02 10:53:30 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:12:43 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,13 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
+//quote
 char	**replace_quote_argv(char **argv, t_env env, int err_code);
 char	*replace_quote(char *arg, t_env env, int err_code);
 int		var_size(char *str);
 char	*get_var(char *str, t_env env, int err_code);
 int		is_in_quote(char *str, int index);
 
-void	fd_back(int fd[]);
-void	print_err(char *str, char *var);
-void	free_tab(char **tab);
-void	free_tab_tab(char ***tab);
 int		cmd_count(char ***tab);
 int		quote_check(char *str);
 int		is_ope(char *str);
@@ -66,21 +63,15 @@ char	*cpy_arg(char *str);
 char	*get_arg(char **ptr, char *str);
 char	**split_args(char *str);
 
-int		get_io(char **argv, int **heredoc, t_env env, t_vars va);
-int		replace_io(char *ope, char *filename, int **heredoc, int fd_0);
-
-char	***get_cmd_tab(char **tab, t_env env, int err_code);
 char	**get_argv(char **tab, t_env env, int err_code);
 int		pipe_count(char **argv);
 char	***cmd_tab_init(int n);
-
 int		pipe_len(char **tab);
 char	**get_pipe(char **tab);
 char	***get_pipe_tab(char **tab);
 
-char	*ft_strjoin_free1(char *s1, char *s2);
-int		syntax_error(char **argv);
 int		minishell(t_env **env, char *input, int err_code);
+int		syntax_error(char **argv);
 void	ft_sig(int code);
 
 //pipex
@@ -101,9 +92,11 @@ int		redir_err(char *ope, char *filename);
 int		redir_out(char *ope, char *filename);
 int		redir_in(char *ope, char *filename, int **heredoc, int fd_0);
 char	**remove_wrg_arg(char **argv);
-int		is_space_str(char *str);
 void	make_redir(t_env env, t_vars va, int k);
+int		get_io(char **argv, int **heredoc, t_env env, t_vars va);
+int		replace_io(char *ope, char *filename, int **heredoc, int fd_0);
 
+//new var
 int		is_new_var_cmd(char	**argv);
 int		get_new_var(char **argv, t_env *env);
 void	modif_var_value(t_env *env, char *arg);
@@ -113,6 +106,7 @@ char	*get_name(char *str);
 int		tab_size(char **tab);
 
 //lst
+t_env	*cpy_env(char **envp);
 int		ft_lstsize(t_env *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstdelone(t_env *lst, void (*del)(void*));
@@ -120,26 +114,17 @@ int		ft_lstclear(t_env **lst, void (*del)(void*));
 void	ft_lstadd_back(t_env **lst, t_env *new);
 t_env	*ft_lstnew(char *name, char *value, int print);
 
-//is_builtin && called ft_builtins
+//builtin
 int		is_builtin(char *cmd);
 int		do_builtin(char **cmd, t_env **env, char **envp);
-
-//ft_builtin
 int		builtin_cd(char	**cmd, t_env *env);
 void	builtin_pwd(void);
-void	builtin_env(t_env *env);
-
-//ft_builtin_unset
-void	builtin_unset(char **argv, t_env **env);
-void	remove_env_var(t_env **env, char *var);
-
-//ft_builtin_echo
-void	builtin_echo(char **argv);
-
-//ft_utils
-t_env	*cpy_env(char **envp);
 void	ft_change_pwd(t_env *env);
 char	*get_home_dir(t_env *env);
+void	builtin_env(t_env *env);
+void	builtin_unset(char **argv, t_env **env);
+void	remove_env_var(t_env **env, char *var);
+void	builtin_echo(char **argv);
 
 //builtin_export
 int		ft_builtin_export(char **argv, t_env **env);
@@ -151,12 +136,18 @@ int		ft_builtin_export_1(char **split, t_env **env, int code);
 int		print_export_error(int code, int id, char **split);
 void	ft_builtin_export_2(char **split, t_env **env);
 
+//builtin_exit
 int		builtin_exit(char **argv);
 int		is_number(char *arg);
 int		check_longl(char *str);
 
-//parsing without quote and $
 char	*ft_str_add(char *str, char c);
+char	*ft_strjoin_free1(char *s1, char *s2);
 void	print_tab(char **argv);
+void	fd_back(int fd[]);
+void	fd_save(int fd[]);
+void	print_err(char *str, char *var);
+void	free_tab(char **tab);
+void	free_tab_tab(char ***tab);
 
 #endif
