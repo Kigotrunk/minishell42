@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:44:10 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/30 11:35:55 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/01 23:14:47 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_strjoin_path(char const *s1, char const *s2)
 	}
 	s[i] = '/';
 	i++;
-	while (*s2 && *s2 != ' ')
+	while (*s2)
 	{
 		s[i] = *s2;
 		s2++;

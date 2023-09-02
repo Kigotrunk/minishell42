@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 17:26:25 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 11:59:22 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 09:35:22 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char	*find_cmd_name(char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
+		if (argv[i] != NULL && argv[i][0] != '\0' && !is_new_var(argv[i]))
 			return (argv[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char	**remove_wrg_arg(char **argv)
+/*char	**remove_wrg_arg(char **argv)
 {
 	char	**new_argv;
 	int		i;
@@ -36,7 +36,7 @@ char	**remove_wrg_arg(char **argv)
 	i = -1;
 	while (argv[++i])
 	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
+		if (argv[i] != NULL && argv[i][0] != '\0' && !is_new_var(argv[i]))
 			j++;
 	}
 	if (j == 0)
@@ -46,10 +46,39 @@ char	**remove_wrg_arg(char **argv)
 	j = -1;
 	while (argv[++i])
 	{
-		if (argv[i] != NULL && argv[i][0] != '\0' && !is_space_str(argv[i]))
+		if (argv[i] != NULL && argv[i][0] != '\0' && !is_new_var(argv[i]))
 			new_argv[++j] = ft_strdup(argv[i]);
 	}
 	new_argv[++j] = NULL;
+	free_tab(argv);
+	return (new_argv);
+}*/
+
+char	**remove_wrg_arg(char **argv)
+{
+	char	**new_argv;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (is_new_var(argv[i]))
+		i++;
+	if (argv[i] == NULL)
+	{
+		free_tab(argv);
+		return (NULL);
+	}
+	if (i == 0)
+		return (argv);
+	new_argv = (char **)malloc(sizeof(char *) * (tab_size(argv) - i + 1));
+	j = 0;
+	while (argv[i])
+	{
+		new_argv[j] = ft_strdup(argv[i]);
+		i++;
+		j++;
+	}
+	new_argv[j] = NULL;
 	free_tab(argv);
 	return (new_argv);
 }

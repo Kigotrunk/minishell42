@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 12:05:41 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 09:18:39 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ int	pipex(t_env **env, char ***argv, int err_code)
 
 	va.err_code = err_code;
 	va.argv = argv;
-	va.n = tab_size(argv);
+	va.n = cmd_count(argv);
 	if (va.n == 0)
 		return (0);
 	if (va.n == 1 && is_builtin(find_cmd_name(argv[0])))
 		return (only_builtin(va, env));
+	if (va.n == 1 && is_new_var_cmd(argv[0]))
+		return (get_new_var(argv[0], *env));
 	va.fd = (int **)malloc(sizeof(int *) * (va.n - 1));
 	i = 0;
 	while (i < va.n - 1)

@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 13:58:39 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/29 10:34:28 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 09:18:39 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	free_tab_tab(char ***tab)
 	free(tab);
 }
 
-int	tab_size(char ***tab)
+int	cmd_count(char ***tab)
 {
 	int	i;
 

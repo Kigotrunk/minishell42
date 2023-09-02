@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/09/01 13:08:54 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 09:19:57 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	fd_back(int fd[]);
 void	print_err(char *str, char *var);
 void	free_tab(char **tab);
 void	free_tab_tab(char ***tab);
-int		tab_size(char ***tab);
+int		cmd_count(char ***tab);
 int		quote_check(char *str);
 int		is_ope(char *str);
 char	*end_ope(char *str);
@@ -103,8 +103,13 @@ char	**remove_wrg_arg(char **argv);
 int		is_space_str(char *str);
 void	make_redir(t_env env, t_vars va, int k);
 
+int		is_new_var_cmd(char	**argv);
+int		get_new_var(char **argv, t_env *env);
+void	modif_var_value(t_env *env, char *arg);
+int		is_new_var(char *arg);
 char	*get_value(char *str);
 char	*get_name(char *str);
+int		tab_size(char **tab);
 
 //lst
 int		ft_lstsize(t_env *lst);

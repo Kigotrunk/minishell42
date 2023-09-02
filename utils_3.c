@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:12:57 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 12:18:00 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 09:35:17 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,14 @@ char	*ft_strjoin_free1(char *s1, char *s2)
 	new = ft_strjoin(s1, s2);
 	free(s1);
 	return (new);
+}
+
+int	tab_size(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
 }

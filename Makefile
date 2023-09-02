@@ -6,7 +6,7 @@
 #    By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/19 12:03:07 by kortolan          #+#    #+#              #
-#    Updated: 2023/08/31 12:28:00 by kallegre         ###   ########.fr        #
+#    Updated: 2023/09/01 20:08:24 by kallegre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS     =  main.c \
 			builtin_export_2.c \
 			builtin_env.c \
 			replace_quote.c \
-											
+			new_var.c \
 
 OBJS    = $(SRCS:.c=.o)
             
