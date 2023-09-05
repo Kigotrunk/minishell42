@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kallegre <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:59:11 by kallegre          #+#    #+#             */
-/*   Updated: 2022/11/16 16:11:21 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:32:59 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,4 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 		f(i, s + i);
 		i++;
 	}
-}	
+}

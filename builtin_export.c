@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:40:37 by kallegre          #+#    #+#             */
-/*   Updated: 2023/08/31 12:19:03 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:36:24 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,33 @@
 
 int	ft_builtin_export(char **argv, t_env **env)
 {
-	char	**split;
+	char	*name;
+	char	*value;
 	int		code;
 	int		i;
 
 	code = 0;
 	i = 1;
 	if (!argv[1])
-		print_export(*env);
-	else
+		return (print_export(*env));
+	while (argv[i])
 	{
-		while (argv[i])
-		{
-			split = ft_split(argv[i], '=');
-			if (split[0] == NULL)
-				code = print_export_error(code, 0, split);
-			else if (!is_var(*env, split[0]))
-				code = ft_builtin_export_1(split, env, code);
-			else
-				ft_builtin_export_2(split, env);
-			i++;
-			free_tab(split);
-		}
+		name = get_name(argv[i]);
+		value = get_value(argv[i]);
+		if (name == NULL)
+			code = print_export_error(code, 0, value);
+		else if (!is_var(*env, name))
+			code = ft_builtin_export_1(name, value, env, code);
+		else
+			ft_builtin_export_2(name, value, env);
+		i++;
+		free(name);
+		free(value);
 	}
 	return (code);
 }
 
-void	ft_change_var(t_env **env, char *name, char *value)
+int	ft_change_var(t_env **env, char *name, char *value)
 {
 	t_env	*ptr;
 
@@ -52,16 +52,17 @@ void	ft_change_var(t_env **env, char *name, char *value)
 			if (ptr->print == 0)
 				ptr->print = 1;
 			if (value == NULL)
-				return ;
+				return (1);
 			free(ptr->value);
 			ptr->value = ft_strdup(value);
-			return ;
+			return (1);
 		}
 		ptr = ptr->next;
 	}
+	return (0);
 }
 
-void	print_export(t_env *env)
+int	print_export(t_env *env)
 {
 	while (env)
 	{
@@ -76,6 +77,7 @@ void	print_export(t_env *env)
 		}
 		env = env->next;
 	}
+	return (0);
 }
 
 int	is_var(t_env *env, char *str)

@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 10:00:37 by kortolan          #+#    #+#             */
-/*   Updated: 2023/08/29 10:59:53 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:48:39 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	builtin_env(t_env *env)
 
 	ptr = env;
 	if (!ptr)
-		perror("env");
+		return ;
 	while (ptr)
 	{
 		if (ptr->print == 1 && ptr->value)

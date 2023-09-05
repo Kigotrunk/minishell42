@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 11:05:48 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:15:55 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		err_code = minishell(&env, input, err_code);
 		free(input);
 	}
+	printf("exit\n");
 	return (ft_lstclear(&env, &free));
 }
 
@@ -72,6 +73,4 @@ void	ft_sig(int code)
 		if (g_sig == 0)
 			rl_redisplay();
 	}
-	if (code == SIGQUIT)
-		ft_printf("Quit\n");
 }

@@ -38,12 +38,10 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	do_builtin(char **cmd, t_env **env, char **envp)
+int	do_builtin(char **cmd, t_env **env)
 {
-	if (!envp)
-		return (0);
 	if (ft_strncmp(cmd[0], "cd", ft_strlen("cd") + 1) == 0)
-		return (builtin_cd(cmd, *env));
+		return (builtin_cd(cmd, env));
 	if (ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0]) + 1) == 0)
 		builtin_pwd();
 	if (ft_strncmp(cmd[0], "env", ft_strlen("env") + 1) == 0)

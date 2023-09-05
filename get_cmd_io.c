@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:16:17 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 10:53:08 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:43:12 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	args_count(char **tab)
 	return (count);
 }
 
-char	**get_argv(char **tab, t_env env, int err_code)
+char	**get_argv(char **tab, t_env **env, int err_code)
 {
 	char	**argv;
 	int		ac;
@@ -58,7 +58,7 @@ char	**get_argv(char **tab, t_env env, int err_code)
 	return (argv);
 }
 
-int	get_io(char **argv, int **heredoc, t_env env, t_vars va)
+int	get_io(char **argv, int **heredoc, t_env **env, t_vars va)
 {
 	char	*filename;
 	int		code;

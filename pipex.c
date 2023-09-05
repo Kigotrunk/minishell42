@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 11:04:31 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:10:38 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	only_builtin(t_vars va, t_env **env)
 	fd_save(fd);
 	heredoc = NULL;
 	va.fd_0 = fd[0];
-	code = get_io(va.argv[0], &heredoc, **env, va);
+	code = get_io(va.argv[0], &heredoc, env, va);
 	if (code)
 		return (code);
 	if (heredoc != NULL)
@@ -30,11 +30,9 @@ int	only_builtin(t_vars va, t_env **env)
 		dup2(heredoc[0], 0);
 		close(heredoc[0]);
 	}
-	va.envp = get_tab_env(*env);
-	argv = get_argv(va.argv[0], **env, va.err_code);
+	argv = get_argv(va.argv[0], env, va.err_code);
 	argv = remove_wrg_arg(argv);
-	code = do_builtin(argv, env, va.envp);
-	free_tab(va.envp);
+	code = do_builtin(argv, env);
 	free_tab(argv);
 	fd_back(fd);
 	return (code);
@@ -94,16 +92,19 @@ void	cmd(t_env **env, t_vars va, int k)
 	char	**argv;
 	char	*path;
 
-	make_redir(**env, va, k);
-	argv = get_argv(va.argv[k], **env, va.err_code);
+	make_redir(env, va, k);
+	argv = get_argv(va.argv[k], env, va.err_code);
 	argv = remove_wrg_arg(argv);
 	if (argv == NULL)
 		exit(0);
 	if (!is_builtin(argv[0]))
 		path = pathfinder(argv[0], va.envp);
+	if (ft_strncmp(argv[0], "grep", 5) == 0 
+		|| ft_strncmp(argv[0], "cat", 4) == 0)
+		signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(argv[0]))
 	{
-		code = do_builtin(argv, env, va.envp);
+		code = do_builtin(argv, env);
 		free_tab(argv);
 		exit(code);
 	}
@@ -111,7 +112,7 @@ void	cmd(t_env **env, t_vars va, int k)
 		execve(path, argv, va.envp);
 }
 
-void	make_redir(t_env env, t_vars va, int k)
+void	make_redir(t_env **env, t_vars va, int k)
 {
 	int		*heredoc;
 	int		code;

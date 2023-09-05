@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 01:34:54 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/02 11:20:16 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:29:45 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	builtin_echo(char **argv)
 		return ;
 	}
 	i = 1;
-	if (argv[1][0] == '-' && argv[1][1] == 'n')
+	while (is_n_option(argv[i]))
 		i++;
 	while (argv[i])
 	{
@@ -31,6 +31,20 @@ void	builtin_echo(char **argv)
 		if (argv[i])
 			ft_printf(" ");
 	}
-	if (argv[1][0] != '-' || argv[1][0] != 'n')
+	if (!is_n_option(argv[1]))
 		ft_printf("\n");
+}
+
+int	is_n_option(char *arg)
+{
+	int	i;
+
+	if (arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	i = 2;
+	while (arg[i] && arg[i] == 'n')
+		i++;
+	if (arg[i] == '\0')
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:12:57 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/02 09:35:17 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:34:20 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ char	*get_name(char *str)
 	int		i;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
+	if (i == 0)
+		return (NULL);
 	name = (char *)malloc(i + 1);
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 	{
 		name[i] = str[i];
 		i++;
@@ -60,9 +62,13 @@ char	*get_value(char *str)
 	char	*value;
 	int		i;
 
-	while (*str != '=')
+	while (*str && *str != '=')
 		str++;
+	if (*str == '\0')
+		return (NULL);
 	str++;
+	if (*str == '\0')
+		return (ft_strdup(""));
 	i = 0;
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;

@@ -6,26 +6,13 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 11:46:16 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/01 13:14:27 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:42:08 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**replace_quote_argv(char **argv, t_env env, int err_code)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		argv[i] = replace_quote(argv[i], env, err_code);
-		i++;
-	}
-	return (argv);
-}
-
-char	*replace_quote(char *arg, t_env env, int err_code)
+char	*replace_quote(char *arg, t_env **env, int err_code)
 {
 	char	*new;
 	int		i;
@@ -66,11 +53,13 @@ int	var_size(char *str)
 	return (i);
 }
 
-char	*get_var(char *str, t_env env, int err_code)
+char	*get_var(char *str, t_env **env, int err_code)
 {
 	t_env	*ptr;
 
-	ptr = &env;
+	if (env == NULL)
+		return (NULL);
+	ptr = *env;
 	if (*str == '?')
 		return (ft_itoa(err_code));
 	while (ptr)

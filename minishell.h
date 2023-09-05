@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 17:58:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/09/02 11:12:43 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:36:29 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ typedef struct s_env
 }		t_env;
 
 //quote
-char	**replace_quote_argv(char **argv, t_env env, int err_code);
-char	*replace_quote(char *arg, t_env env, int err_code);
+char	*replace_quote(char *arg, t_env **env, int err_code);
 int		var_size(char *str);
-char	*get_var(char *str, t_env env, int err_code);
+char	*get_var(char *str, t_env **env, int err_code);
 int		is_in_quote(char *str, int index);
 
 int		cmd_count(char ***tab);
@@ -63,7 +62,7 @@ char	*cpy_arg(char *str);
 char	*get_arg(char **ptr, char *str);
 char	**split_args(char *str);
 
-char	**get_argv(char **tab, t_env env, int err_code);
+char	**get_argv(char **tab, t_env **env, int err_code);
 int		pipe_count(char **argv);
 char	***cmd_tab_init(int n);
 int		pipe_len(char **tab);
@@ -79,6 +78,7 @@ int		only_builtin(t_vars va, t_env **env);
 char	*find_cmd_name(char **argv);
 int		pipex(t_env **env, char ***argv, int err_code);
 char	*pathfinder(char *str, char **envp);
+int		check_path(char *cmd, char **envp);
 void	path_error(char *str);
 char	*ft_strjoin_path(char const *s1, char const *s2);
 void	cmd(t_env **env, t_vars va, int k);
@@ -92,8 +92,8 @@ int		redir_err(char *ope, char *filename);
 int		redir_out(char *ope, char *filename);
 int		redir_in(char *ope, char *filename, int **heredoc, int fd_0);
 char	**remove_wrg_arg(char **argv);
-void	make_redir(t_env env, t_vars va, int k);
-int		get_io(char **argv, int **heredoc, t_env env, t_vars va);
+void	make_redir(t_env **env, t_vars va, int k);
+int		get_io(char **argv, int **heredoc, t_env **env, t_vars va);
 int		replace_io(char *ope, char *filename, int **heredoc, int fd_0);
 
 //new var
@@ -116,25 +116,26 @@ t_env	*ft_lstnew(char *name, char *value, int print);
 
 //builtin
 int		is_builtin(char *cmd);
-int		do_builtin(char **cmd, t_env **env, char **envp);
-int		builtin_cd(char	**cmd, t_env *env);
+int		do_builtin(char **cmd, t_env **env);
+int		builtin_cd(char	**cmd, t_env **env);
 void	builtin_pwd(void);
-void	ft_change_pwd(t_env *env);
+void	ft_change_pwd(t_env **env);
 char	*get_home_dir(t_env *env);
 void	builtin_env(t_env *env);
 void	builtin_unset(char **argv, t_env **env);
 void	remove_env_var(t_env **env, char *var);
 void	builtin_echo(char **argv);
+int		is_n_option(char *arg);
 
 //builtin_export
 int		ft_builtin_export(char **argv, t_env **env);
-void	ft_change_var(t_env **env, char *name, char *value);
-void	print_export(t_env *env);
+int		ft_change_var(t_env **env, char *name, char *value);
+int		print_export(t_env *env);
 int		is_var(t_env *env, char *str);
 int		var_name(char *str);
-int		ft_builtin_export_1(char **split, t_env **env, int code);
-int		print_export_error(int code, int id, char **split);
-void	ft_builtin_export_2(char **split, t_env **env);
+int		ft_builtin_export_1(char *name, char *value, t_env **env, int code);
+int		print_export_error(int code, int id, char *value);
+void	ft_builtin_export_2(char *name, char *value, t_env **env);
 
 //builtin_exit
 int		builtin_exit(char **argv);

@@ -17,25 +17,19 @@ t_env	*cpy_env(char **envp)
 	t_env	*new_env;
 	char	*tmp_name;
 	char	*tmp_value;
-	int		path;
 	int		i;
 
-	path = 0;
 	i = 0;
 	new_env = NULL;
 	while (envp[i])
 	{
 		tmp_name = get_name(envp[i]);
-		if (ft_strncmp(tmp_name, "PATH", 5) == 0)
-			path = 1;
 		tmp_value = get_value(envp[i]);
 		ft_lstadd_back(&new_env, ft_lstnew(tmp_name, tmp_value, 1));
 		free(tmp_name);
 		free(tmp_value);
 		i++;
 	}
-	if (path == 0)
-		exit(1);
 	return (new_env);
 }
 

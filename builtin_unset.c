@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:13:04 by kortolan          #+#    #+#             */
-/*   Updated: 2023/09/01 13:05:38 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 10:57:01 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	builtin_unset(char **argv, t_env **env)
 {
 	int	i;
 
-	if (env == NULL || argv == NULL || argv[0] == NULL)
+	if (env == NULL || *env == NULL)
 		return ;
 	i = 1;
 	while (argv[i])

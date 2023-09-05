@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:44:10 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/01 23:14:47 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:11:48 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ char	*pathfinder(char *str, char **envp)
 
 	if (access(str, F_OK | X_OK) == 0 && open(str, O_DIRECTORY) == -1)
 		return (str);
-	i = 0;
-	while (!ft_strnstr(envp[i], "PATH=", 5))
-		i++;
+	i = check_path(str, envp);
 	split = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (split[i])
@@ -67,6 +65,21 @@ void	path_error(char *str)
 		i++;
 	}
 	print_err("?: command not found", str);
+}
+
+int	check_path(char *str, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (i);
+		i++;
+	}
+	print_err("minishell: ?: No such file or directory", str);
+	exit(127);
 }
 
 char	*ft_strjoin_path(char const *s1, char const *s2)
