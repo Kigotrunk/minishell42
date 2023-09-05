@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 15:04:14 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/05 11:15:55 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:54:38 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	env = cpy_env(envp);
 	err_code = 0;
 	signal(SIGINT, ft_sig);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_sig);
 	while (1)
 	{
 		g_sig = 0;
@@ -73,4 +73,6 @@ void	ft_sig(int code)
 		if (g_sig == 0)
 			rl_redisplay();
 	}
+	if (code == SIGQUIT)
+		printf("Quit\n");
 }

@@ -6,7 +6,7 @@
 /*   By: kallegre <kallegre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:58:03 by kallegre          #+#    #+#             */
-/*   Updated: 2023/09/05 11:10:38 by kallegre         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:54:42 by kallegre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ void	cmd(t_env **env, t_vars va, int k)
 		path = pathfinder(argv[0], va.envp);
 	if (ft_strncmp(argv[0], "grep", 5) == 0 
 		|| ft_strncmp(argv[0], "cat", 4) == 0)
+	{
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, ft_sig);
+	}
 	if (is_builtin(argv[0]))
 	{
 		code = do_builtin(argv, env);
